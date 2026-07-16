@@ -1,0 +1,1008 @@
+// Generated from unequal_tee_dimensions_C_M.json. Keep both files together for the public app.
+globalThis.UNEQUAL_TEE_DIMENSIONS = {
+  "dataset": "Unequal Butt-Welding Tee Dimensions",
+  "size_unit": "inch",
+  "dimension_unit": "mm",
+  "nomenclature": {
+    "C_mm": "Centre-to-end dimension along the run",
+    "M_mm": "Centre-to-end dimension along the branch"
+  },
+  "record_count": 142,
+  "source_note": "Values transcribed from the user-provided unequal tee dimension tables. Apparent source anomalies are preserved exactly.",
+  "records": [
+    {
+      "run_size_in": 1,
+      "branch_size_in": 0.5,
+      "size_label": "1 x 1/2",
+      "C_mm": 38.1,
+      "M_mm": 38.1
+    },
+    {
+      "run_size_in": 1.5,
+      "branch_size_in": 0.5,
+      "size_label": "1 1/2 x 1/2",
+      "C_mm": 57.2,
+      "M_mm": 57.2
+    },
+    {
+      "run_size_in": 1.5,
+      "branch_size_in": 1,
+      "size_label": "1 1/2 x 1",
+      "C_mm": 57.2,
+      "M_mm": 57.2
+    },
+    {
+      "run_size_in": 2,
+      "branch_size_in": 0.75,
+      "size_label": "2 x 3/4",
+      "C_mm": 63.5,
+      "M_mm": 44.4
+    },
+    {
+      "run_size_in": 2,
+      "branch_size_in": 1,
+      "size_label": "2 x 1",
+      "C_mm": 63.5,
+      "M_mm": 50.8
+    },
+    {
+      "run_size_in": 2,
+      "branch_size_in": 1.5,
+      "size_label": "2 x 1 1/2",
+      "C_mm": 63.5,
+      "M_mm": 60.5
+    },
+    {
+      "run_size_in": 2.5,
+      "branch_size_in": 1,
+      "size_label": "2 1/2 x 1",
+      "C_mm": 76.2,
+      "M_mm": 57.2
+    },
+    {
+      "run_size_in": 2.5,
+      "branch_size_in": 1.5,
+      "size_label": "2 1/2 x 1 1/2",
+      "C_mm": 76.2,
+      "M_mm": 66.5
+    },
+    {
+      "run_size_in": 3,
+      "branch_size_in": 1.5,
+      "size_label": "3 x 1 1/2",
+      "C_mm": 85.9,
+      "M_mm": 73.2
+    },
+    {
+      "run_size_in": 3,
+      "branch_size_in": 2,
+      "size_label": "3 x 2",
+      "C_mm": 85.9,
+      "M_mm": 76.2
+    },
+    {
+      "run_size_in": 4,
+      "branch_size_in": 1.5,
+      "size_label": "4 x 1 1/2",
+      "C_mm": 104.6,
+      "M_mm": 85.9
+    },
+    {
+      "run_size_in": 4,
+      "branch_size_in": 2,
+      "size_label": "4 x 2",
+      "C_mm": 104.6,
+      "M_mm": 88.9
+    },
+    {
+      "run_size_in": 4,
+      "branch_size_in": 3,
+      "size_label": "4 x 3",
+      "C_mm": 104.6,
+      "M_mm": 98.6
+    },
+    {
+      "run_size_in": 6,
+      "branch_size_in": 3,
+      "size_label": "6 x 3",
+      "C_mm": 142.7,
+      "M_mm": 124
+    },
+    {
+      "run_size_in": 6,
+      "branch_size_in": 4,
+      "size_label": "6 x 4",
+      "C_mm": 142.7,
+      "M_mm": 130
+    },
+    {
+      "run_size_in": 8,
+      "branch_size_in": 4,
+      "size_label": "8 x 4",
+      "C_mm": 177.8,
+      "M_mm": 155.4
+    },
+    {
+      "run_size_in": 8,
+      "branch_size_in": 6,
+      "size_label": "8 x 6",
+      "C_mm": 177.4,
+      "M_mm": 168.1
+    },
+    {
+      "run_size_in": 10,
+      "branch_size_in": 4,
+      "size_label": "10 x 4",
+      "C_mm": 215.9,
+      "M_mm": 184.1
+    },
+    {
+      "run_size_in": 10,
+      "branch_size_in": 6,
+      "size_label": "10 x 6",
+      "C_mm": 215.9,
+      "M_mm": 193.5
+    },
+    {
+      "run_size_in": 10,
+      "branch_size_in": 8,
+      "size_label": "10 x 8",
+      "C_mm": 215.9,
+      "M_mm": 203.2
+    },
+    {
+      "run_size_in": 12,
+      "branch_size_in": 6,
+      "size_label": "12 x 6",
+      "C_mm": 254,
+      "M_mm": 218.9
+    },
+    {
+      "run_size_in": 12,
+      "branch_size_in": 8,
+      "size_label": "12 x 8",
+      "C_mm": 254,
+      "M_mm": 228.6
+    },
+    {
+      "run_size_in": 12,
+      "branch_size_in": 10,
+      "size_label": "12 x 10",
+      "C_mm": 254,
+      "M_mm": 241.3
+    },
+    {
+      "run_size_in": 14,
+      "branch_size_in": 6,
+      "size_label": "14 x 6",
+      "C_mm": 279.4,
+      "M_mm": 238.3
+    },
+    {
+      "run_size_in": 14,
+      "branch_size_in": 8,
+      "size_label": "14 x 8",
+      "C_mm": 279.4,
+      "M_mm": 247.6
+    },
+    {
+      "run_size_in": 14,
+      "branch_size_in": 10,
+      "size_label": "14 x 10",
+      "C_mm": 279.4,
+      "M_mm": 257
+    },
+    {
+      "run_size_in": 14,
+      "branch_size_in": 12,
+      "size_label": "14 x 12",
+      "C_mm": 279.4,
+      "M_mm": 269.7
+    },
+    {
+      "run_size_in": 16,
+      "branch_size_in": 6,
+      "size_label": "16 x 6",
+      "C_mm": 304.8,
+      "M_mm": 263.7
+    },
+    {
+      "run_size_in": 16,
+      "branch_size_in": 8,
+      "size_label": "16 x 8",
+      "C_mm": 304.8,
+      "M_mm": 273
+    },
+    {
+      "run_size_in": 16,
+      "branch_size_in": 10,
+      "size_label": "16 x 10",
+      "C_mm": 304.8,
+      "M_mm": 282.4
+    },
+    {
+      "run_size_in": 16,
+      "branch_size_in": 12,
+      "size_label": "16 x 12",
+      "C_mm": 304.8,
+      "M_mm": 295.1
+    },
+    {
+      "run_size_in": 16,
+      "branch_size_in": 14,
+      "size_label": "16 x 14",
+      "C_mm": 304.8,
+      "M_mm": 304.8
+    },
+    {
+      "run_size_in": 18,
+      "branch_size_in": 8,
+      "size_label": "18 x 8",
+      "C_mm": 330.2,
+      "M_mm": 298.4
+    },
+    {
+      "run_size_in": 18,
+      "branch_size_in": 10,
+      "size_label": "18 x 10",
+      "C_mm": 330.2,
+      "M_mm": 307.8
+    },
+    {
+      "run_size_in": 18,
+      "branch_size_in": 12,
+      "size_label": "18 x 12",
+      "C_mm": 330.2,
+      "M_mm": 320.5
+    },
+    {
+      "run_size_in": 18,
+      "branch_size_in": 14,
+      "size_label": "18 x 14",
+      "C_mm": 330.2,
+      "M_mm": 330.2
+    },
+    {
+      "run_size_in": 18,
+      "branch_size_in": 16,
+      "size_label": "18 x 16",
+      "C_mm": 330.2,
+      "M_mm": 330.2
+    },
+    {
+      "run_size_in": 20,
+      "branch_size_in": 8,
+      "size_label": "20 x 8",
+      "C_mm": 381,
+      "M_mm": 323.8
+    },
+    {
+      "run_size_in": 20,
+      "branch_size_in": 10,
+      "size_label": "20 x 10",
+      "C_mm": 381,
+      "M_mm": 333.2
+    },
+    {
+      "run_size_in": 20,
+      "branch_size_in": 12,
+      "size_label": "20 x 12",
+      "C_mm": 381,
+      "M_mm": 345.9
+    },
+    {
+      "run_size_in": 20,
+      "branch_size_in": 14,
+      "size_label": "20 x 14",
+      "C_mm": 381,
+      "M_mm": 355.6
+    },
+    {
+      "run_size_in": 20,
+      "branch_size_in": 16,
+      "size_label": "20 x 16",
+      "C_mm": 381,
+      "M_mm": 355.6
+    },
+    {
+      "run_size_in": 20,
+      "branch_size_in": 18,
+      "size_label": "20 x 18",
+      "C_mm": 381,
+      "M_mm": 368.3
+    },
+    {
+      "run_size_in": 22,
+      "branch_size_in": 10,
+      "size_label": "22 x 10",
+      "C_mm": 419,
+      "M_mm": 358.6
+    },
+    {
+      "run_size_in": 22,
+      "branch_size_in": 12,
+      "size_label": "22 x 12",
+      "C_mm": 419,
+      "M_mm": 371.3
+    },
+    {
+      "run_size_in": 22,
+      "branch_size_in": 14,
+      "size_label": "22 x 14",
+      "C_mm": 419,
+      "M_mm": 381
+    },
+    {
+      "run_size_in": 22,
+      "branch_size_in": 16,
+      "size_label": "22 x 16",
+      "C_mm": 419,
+      "M_mm": 381
+    },
+    {
+      "run_size_in": 22,
+      "branch_size_in": 18,
+      "size_label": "22 x 18",
+      "C_mm": 419,
+      "M_mm": 393.7
+    },
+    {
+      "run_size_in": 22,
+      "branch_size_in": 20,
+      "size_label": "22 x 20",
+      "C_mm": 419,
+      "M_mm": 406.4
+    },
+    {
+      "run_size_in": 24,
+      "branch_size_in": 10,
+      "size_label": "24 x 10",
+      "C_mm": 431.8,
+      "M_mm": 384
+    },
+    {
+      "run_size_in": 24,
+      "branch_size_in": 12,
+      "size_label": "24 x 12",
+      "C_mm": 431.8,
+      "M_mm": 396.7
+    },
+    {
+      "run_size_in": 24,
+      "branch_size_in": 14,
+      "size_label": "24 x 14",
+      "C_mm": 431.8,
+      "M_mm": 406.4
+    },
+    {
+      "run_size_in": 24,
+      "branch_size_in": 16,
+      "size_label": "24 x 16",
+      "C_mm": 431.8,
+      "M_mm": 406.4
+    },
+    {
+      "run_size_in": 24,
+      "branch_size_in": 18,
+      "size_label": "24 x 18",
+      "C_mm": 431.8,
+      "M_mm": 419.1
+    },
+    {
+      "run_size_in": 24,
+      "branch_size_in": 22,
+      "size_label": "24 x 22",
+      "C_mm": 431.8,
+      "M_mm": 431.8
+    },
+    {
+      "run_size_in": 26,
+      "branch_size_in": 12,
+      "size_label": "26 x 12",
+      "C_mm": 495.3,
+      "M_mm": 422.1
+    },
+    {
+      "run_size_in": 26,
+      "branch_size_in": 14,
+      "size_label": "26 x 14",
+      "C_mm": 495.3,
+      "M_mm": 431.8
+    },
+    {
+      "run_size_in": 26,
+      "branch_size_in": 16,
+      "size_label": "26 x 16",
+      "C_mm": 495.3,
+      "M_mm": 431.8
+    },
+    {
+      "run_size_in": 26,
+      "branch_size_in": 18,
+      "size_label": "26 x 18",
+      "C_mm": 495.3,
+      "M_mm": 444.5
+    },
+    {
+      "run_size_in": 26,
+      "branch_size_in": 20,
+      "size_label": "26 x 20",
+      "C_mm": 495.3,
+      "M_mm": 457.2
+    },
+    {
+      "run_size_in": 26,
+      "branch_size_in": 22,
+      "size_label": "26 x 22",
+      "C_mm": 495.3,
+      "M_mm": 469.9
+    },
+    {
+      "run_size_in": 26,
+      "branch_size_in": 24,
+      "size_label": "26 x 24",
+      "C_mm": 495.3,
+      "M_mm": 482.6
+    },
+    {
+      "run_size_in": 28,
+      "branch_size_in": 14,
+      "size_label": "28 x 14",
+      "C_mm": 520.7,
+      "M_mm": 457.2
+    },
+    {
+      "run_size_in": 28,
+      "branch_size_in": 16,
+      "size_label": "28 x 16",
+      "C_mm": 520.7,
+      "M_mm": 457.2
+    },
+    {
+      "run_size_in": 28,
+      "branch_size_in": 18,
+      "size_label": "28 x 18",
+      "C_mm": 520.7,
+      "M_mm": 469.9
+    },
+    {
+      "run_size_in": 28,
+      "branch_size_in": 20,
+      "size_label": "28 x 20",
+      "C_mm": 520.7,
+      "M_mm": 482.6
+    },
+    {
+      "run_size_in": 28,
+      "branch_size_in": 22,
+      "size_label": "28 x 22",
+      "C_mm": 520.7,
+      "M_mm": 495.3
+    },
+    {
+      "run_size_in": 28,
+      "branch_size_in": 24,
+      "size_label": "28 x 24",
+      "C_mm": 520.7,
+      "M_mm": 508
+    },
+    {
+      "run_size_in": 28,
+      "branch_size_in": 26,
+      "size_label": "28 x 26",
+      "C_mm": 520.7,
+      "M_mm": 520.7
+    },
+    {
+      "run_size_in": 30,
+      "branch_size_in": 10,
+      "size_label": "30 x 10",
+      "C_mm": 558.8,
+      "M_mm": 460.2
+    },
+    {
+      "run_size_in": 30,
+      "branch_size_in": 12,
+      "size_label": "30 x 12",
+      "C_mm": 558.8,
+      "M_mm": 472.9
+    },
+    {
+      "run_size_in": 30,
+      "branch_size_in": 14,
+      "size_label": "30 x 14",
+      "C_mm": 558.8,
+      "M_mm": 482.6
+    },
+    {
+      "run_size_in": 30,
+      "branch_size_in": 16,
+      "size_label": "30 x 16",
+      "C_mm": 558.8,
+      "M_mm": 482.6
+    },
+    {
+      "run_size_in": 30,
+      "branch_size_in": 18,
+      "size_label": "30 x 18",
+      "C_mm": 558.8,
+      "M_mm": 495.3
+    },
+    {
+      "run_size_in": 30,
+      "branch_size_in": 20,
+      "size_label": "30 x 20",
+      "C_mm": 558.8,
+      "M_mm": 508
+    },
+    {
+      "run_size_in": 30,
+      "branch_size_in": 22,
+      "size_label": "30 x 22",
+      "C_mm": 558.8,
+      "M_mm": 520.7
+    },
+    {
+      "run_size_in": 30,
+      "branch_size_in": 24,
+      "size_label": "30 x 24",
+      "C_mm": 558.8,
+      "M_mm": 533.4
+    },
+    {
+      "run_size_in": 30,
+      "branch_size_in": 26,
+      "size_label": "30 x 26",
+      "C_mm": 558.8,
+      "M_mm": 546.1
+    },
+    {
+      "run_size_in": 30,
+      "branch_size_in": 28,
+      "size_label": "30 x 28",
+      "C_mm": 558.8,
+      "M_mm": 546.1
+    },
+    {
+      "run_size_in": 32,
+      "branch_size_in": 14,
+      "size_label": "32 x 14",
+      "C_mm": 596.9,
+      "M_mm": 508
+    },
+    {
+      "run_size_in": 32,
+      "branch_size_in": 16,
+      "size_label": "32 x 16",
+      "C_mm": 596.9,
+      "M_mm": 508
+    },
+    {
+      "run_size_in": 32,
+      "branch_size_in": 18,
+      "size_label": "32 x 18",
+      "C_mm": 596.9,
+      "M_mm": 520.7
+    },
+    {
+      "run_size_in": 32,
+      "branch_size_in": 20,
+      "size_label": "32 x 20",
+      "C_mm": 596.9,
+      "M_mm": 533.4
+    },
+    {
+      "run_size_in": 32,
+      "branch_size_in": 22,
+      "size_label": "32 x 22",
+      "C_mm": 596.9,
+      "M_mm": 546.1
+    },
+    {
+      "run_size_in": 32,
+      "branch_size_in": 24,
+      "size_label": "32 x 24",
+      "C_mm": 596.9,
+      "M_mm": 558.8
+    },
+    {
+      "run_size_in": 32,
+      "branch_size_in": 26,
+      "size_label": "32 x 26",
+      "C_mm": 596.9,
+      "M_mm": 571.5
+    },
+    {
+      "run_size_in": 32,
+      "branch_size_in": 28,
+      "size_label": "32 x 28",
+      "C_mm": 596.9,
+      "M_mm": 571.5
+    },
+    {
+      "run_size_in": 32,
+      "branch_size_in": 30,
+      "size_label": "32 x 30",
+      "C_mm": 596.9,
+      "M_mm": 584.2
+    },
+    {
+      "run_size_in": 34,
+      "branch_size_in": 16,
+      "size_label": "34 x 16",
+      "C_mm": 635,
+      "M_mm": 533.4
+    },
+    {
+      "run_size_in": 34,
+      "branch_size_in": 18,
+      "size_label": "34 x 18",
+      "C_mm": 635,
+      "M_mm": 546.1
+    },
+    {
+      "run_size_in": 34,
+      "branch_size_in": 20,
+      "size_label": "34 x 20",
+      "C_mm": 635,
+      "M_mm": 558.8
+    },
+    {
+      "run_size_in": 34,
+      "branch_size_in": 22,
+      "size_label": "34 x 22",
+      "C_mm": 635,
+      "M_mm": 571.5
+    },
+    {
+      "run_size_in": 34,
+      "branch_size_in": 24,
+      "size_label": "34 x 24",
+      "C_mm": 635,
+      "M_mm": 584.2
+    },
+    {
+      "run_size_in": 34,
+      "branch_size_in": 26,
+      "size_label": "34 x 26",
+      "C_mm": 635,
+      "M_mm": 596.9
+    },
+    {
+      "run_size_in": 34,
+      "branch_size_in": 28,
+      "size_label": "34 x 28",
+      "C_mm": 635,
+      "M_mm": 596.9
+    },
+    {
+      "run_size_in": 34,
+      "branch_size_in": 30,
+      "size_label": "34 x 30",
+      "C_mm": 635,
+      "M_mm": 609.6
+    },
+    {
+      "run_size_in": 34,
+      "branch_size_in": 32,
+      "size_label": "34 x 32",
+      "C_mm": 635,
+      "M_mm": 622.3
+    },
+    {
+      "run_size_in": 36,
+      "branch_size_in": 16,
+      "size_label": "36 x 16",
+      "C_mm": 673.1,
+      "M_mm": 558.8
+    },
+    {
+      "run_size_in": 36,
+      "branch_size_in": 18,
+      "size_label": "36 x 18",
+      "C_mm": 673.1,
+      "M_mm": 571.5
+    },
+    {
+      "run_size_in": 36,
+      "branch_size_in": 20,
+      "size_label": "36 x 20",
+      "C_mm": 673.1,
+      "M_mm": 584.2
+    },
+    {
+      "run_size_in": 36,
+      "branch_size_in": 22,
+      "size_label": "36 x 22",
+      "C_mm": 673.1,
+      "M_mm": 596.9
+    },
+    {
+      "run_size_in": 36,
+      "branch_size_in": 24,
+      "size_label": "36 x 24",
+      "C_mm": 673.1,
+      "M_mm": 609.6
+    },
+    {
+      "run_size_in": 36,
+      "branch_size_in": 26,
+      "size_label": "36 x 26",
+      "C_mm": 673.1,
+      "M_mm": 622.3
+    },
+    {
+      "run_size_in": 36,
+      "branch_size_in": 28,
+      "size_label": "36 x 28",
+      "C_mm": 673.1,
+      "M_mm": 622.3
+    },
+    {
+      "run_size_in": 36,
+      "branch_size_in": 30,
+      "size_label": "36 x 30",
+      "C_mm": 673.1,
+      "M_mm": 635
+    },
+    {
+      "run_size_in": 36,
+      "branch_size_in": 32,
+      "size_label": "36 x 32",
+      "C_mm": 673.1,
+      "M_mm": 647.7
+    },
+    {
+      "run_size_in": 36,
+      "branch_size_in": 34,
+      "size_label": "36 x 34",
+      "C_mm": 673.1,
+      "M_mm": 660.4
+    },
+    {
+      "run_size_in": 40,
+      "branch_size_in": 18,
+      "size_label": "40 x 18",
+      "C_mm": 749.3,
+      "M_mm": 622.3
+    },
+    {
+      "run_size_in": 40,
+      "branch_size_in": 20,
+      "size_label": "40 x 20",
+      "C_mm": 749.3,
+      "M_mm": 635
+    },
+    {
+      "run_size_in": 40,
+      "branch_size_in": 22,
+      "size_label": "40 x 22",
+      "C_mm": 749.3,
+      "M_mm": 647.7
+    },
+    {
+      "run_size_in": 40,
+      "branch_size_in": 24,
+      "size_label": "40 x 24",
+      "C_mm": 749.3,
+      "M_mm": 660.4
+    },
+    {
+      "run_size_in": 40,
+      "branch_size_in": 26,
+      "size_label": "40 x 26",
+      "C_mm": 749.3,
+      "M_mm": 673.1
+    },
+    {
+      "run_size_in": 40,
+      "branch_size_in": 28,
+      "size_label": "40 x 28",
+      "C_mm": 749.3,
+      "M_mm": 698.5
+    },
+    {
+      "run_size_in": 40,
+      "branch_size_in": 30,
+      "size_label": "40 x 30",
+      "C_mm": 749.3,
+      "M_mm": 698.5
+    },
+    {
+      "run_size_in": 40,
+      "branch_size_in": 32,
+      "size_label": "40 x 32",
+      "C_mm": 749.3,
+      "M_mm": 711.2
+    },
+    {
+      "run_size_in": 40,
+      "branch_size_in": 34,
+      "size_label": "40 x 34",
+      "C_mm": 749.3,
+      "M_mm": 723.9
+    },
+    {
+      "run_size_in": 40,
+      "branch_size_in": 36,
+      "size_label": "40 x 36",
+      "C_mm": 749.3,
+      "M_mm": 736.6
+    },
+    {
+      "run_size_in": 40,
+      "branch_size_in": 38,
+      "size_label": "40 x 38",
+      "C_mm": 749.3,
+      "M_mm": 749.3
+    },
+    {
+      "run_size_in": 42,
+      "branch_size_in": 16,
+      "size_label": "42 x 16",
+      "C_mm": 762,
+      "M_mm": 635
+    },
+    {
+      "run_size_in": 42,
+      "branch_size_in": 18,
+      "size_label": "42 x 18",
+      "C_mm": 762,
+      "M_mm": 647.7
+    },
+    {
+      "run_size_in": 42,
+      "branch_size_in": 20,
+      "size_label": "42 x 20",
+      "C_mm": 762,
+      "M_mm": 660.4
+    },
+    {
+      "run_size_in": 42,
+      "branch_size_in": 22,
+      "size_label": "42 x 22",
+      "C_mm": 762,
+      "M_mm": 660.4
+    },
+    {
+      "run_size_in": 42,
+      "branch_size_in": 24,
+      "size_label": "42 x 24",
+      "C_mm": 762,
+      "M_mm": 660.4
+    },
+    {
+      "run_size_in": 42,
+      "branch_size_in": 26,
+      "size_label": "42 x 26",
+      "C_mm": 762,
+      "M_mm": 698.4
+    },
+    {
+      "run_size_in": 42,
+      "branch_size_in": 28,
+      "size_label": "42 x 28",
+      "C_mm": 762,
+      "M_mm": 698.5
+    },
+    {
+      "run_size_in": 42,
+      "branch_size_in": 30,
+      "size_label": "42 x 30",
+      "C_mm": 762,
+      "M_mm": 711.2
+    },
+    {
+      "run_size_in": 42,
+      "branch_size_in": 32,
+      "size_label": "42 x 32",
+      "C_mm": 762,
+      "M_mm": 711.2
+    },
+    {
+      "run_size_in": 42,
+      "branch_size_in": 34,
+      "size_label": "42 x 34",
+      "C_mm": 762,
+      "M_mm": 711.2
+    },
+    {
+      "run_size_in": 42,
+      "branch_size_in": 36,
+      "size_label": "42 x 36",
+      "C_mm": 762,
+      "M_mm": 711.2
+    },
+    {
+      "run_size_in": 48,
+      "branch_size_in": 22,
+      "size_label": "48 x 22",
+      "C_mm": 889,
+      "M_mm": 736.6
+    },
+    {
+      "run_size_in": 48,
+      "branch_size_in": 24,
+      "size_label": "48 x 24",
+      "C_mm": 889,
+      "M_mm": 736.6
+    },
+    {
+      "run_size_in": 48,
+      "branch_size_in": 26,
+      "size_label": "48 x 26",
+      "C_mm": 889,
+      "M_mm": 762
+    },
+    {
+      "run_size_in": 48,
+      "branch_size_in": 28,
+      "size_label": "48 x 28",
+      "C_mm": 889,
+      "M_mm": 762
+    },
+    {
+      "run_size_in": 48,
+      "branch_size_in": 30,
+      "size_label": "48 x 30",
+      "C_mm": 889,
+      "M_mm": 762
+    },
+    {
+      "run_size_in": 48,
+      "branch_size_in": 32,
+      "size_label": "48 x 32",
+      "C_mm": 889,
+      "M_mm": 787.4
+    },
+    {
+      "run_size_in": 48,
+      "branch_size_in": 34,
+      "size_label": "48 x 34",
+      "C_mm": 889,
+      "M_mm": 787.4
+    },
+    {
+      "run_size_in": 48,
+      "branch_size_in": 36,
+      "size_label": "48 x 36",
+      "C_mm": 889,
+      "M_mm": 787.4
+    },
+    {
+      "run_size_in": 48,
+      "branch_size_in": 38,
+      "size_label": "48 x 38",
+      "C_mm": 889,
+      "M_mm": 812.8
+    },
+    {
+      "run_size_in": 48,
+      "branch_size_in": 40,
+      "size_label": "48 x 40",
+      "C_mm": 889,
+      "M_mm": 812.8
+    },
+    {
+      "run_size_in": 48,
+      "branch_size_in": 42,
+      "size_label": "48 x 42",
+      "C_mm": 889,
+      "M_mm": 812.8
+    },
+    {
+      "run_size_in": 48,
+      "branch_size_in": 44,
+      "size_label": "48 x 44",
+      "C_mm": 889,
+      "M_mm": 838.2
+    },
+    {
+      "run_size_in": 48,
+      "branch_size_in": 46,
+      "size_label": "48 x 46",
+      "C_mm": 889,
+      "M_mm": 838.2
+    }
+  ]
+};
