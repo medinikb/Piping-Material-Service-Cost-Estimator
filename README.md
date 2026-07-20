@@ -1,6 +1,6 @@
 # Piping Material & Service Cost Estimator
 
-Live tool: https://medinikb.github.io/Piping-Material-Service-Cost-Estimator/
+Live tool: https://medinikb.github.io/Pipe-Price-Predictor/
 
 Piping Material & Service Cost Estimator is a free public BOM-based tool for two separate budgetary views: **Part A - Piping Material Cost** and **Part B - Piping Service Cost**. It estimates pipes, fittings, flanges, valves, bolts, gaskets, and strainers from manual inputs or uploaded BOM files.
 
@@ -21,8 +21,8 @@ The tool is designed for refinery, oil and gas, piping, procurement, and project
 - Imports one or more Excel BOM files in `.xlsx`, `.xls`, or `.csv` format.
 - Budget-prices recognised BOM components as Pipe, Fitting, Flange, Valves, Bolt, Gasket, Trap/Strainer, or Other.
 - Groups pipe rows by material category and shows category-wise estimate totals.
-- Provides printable / Save as PDF report.
-- Provides Excel-openable CSV export for audit and procurement rate validation.
+- Provides an on-screen report preview, printable / Save as PDF report, and editable Excel report workbook.
+- Provides an Ask Estimator prompt for direct rate questions, multi-item checks, BOM upload, template download, and report access.
 
 ## Who Can Use It
 
@@ -55,6 +55,18 @@ The business benefit is simple: it helps users quickly check whether pipe and co
 - Use Piping Component Cost Review to inspect priced pipes, fittings, flanges, valves, bolts, gaskets, traps/strainers, and other items.
 - Use Piping Service Cost Estimate to prepare a separate preliminary Part B direct-service estimate for pipe erection, fitting/flange welding, valve weight-based service, pipe supports, painting, insulation, and PWHT where the approved basis supports it.
 - Select a suggested raw material rate by Basic Mat. Of Const. and pipe material standard.
+
+## Ask Estimator
+
+The **Ask Estimator** bar at the top of the page provides a quick, browser-local way to query the same calculation basis without navigating through every panel.
+
+- Ask one or more questions, for example `6 IN STD pipe price, 10 IN 90 degree elbow price`.
+- Ask for supported rate information such as raw material prices, erection, welding, supports, painting, insulation, PWHT, fittings, flanges, valves, bolts, gaskets, and strainers.
+- Upload a recognised BOM from the prompt bar and open the same PDF or Excel report used by the component review.
+- Type `Give me Excel BOM template file` to download the recognised BOM template.
+- The public tool reports only in INR. Requests for USD, Yen, or another currency receive a clear alert because no exchange-rate conversion basis is included.
+
+The prompt bar is a guided calculator, not an external AI service. It uses only the rate libraries and formulas included in this static GitHub Pages project.
 
 ## Excel BOM Upload
 
@@ -92,9 +104,9 @@ The public page includes a **Download Example BOM Template** button linked to `P
 - Pipe-length rows are added to Pipe Material Estimate Summary. Recognised fittings, flanges, valves, bolts, gaskets, traps/strainers, and other BOM items are retained and budget-priced in Piping Component Cost Review.
 - Schedule text is converted to mm using the built-in pipe schedule lookup table before weight and price are calculated.
 
-## Material Category Review
+## Pipe Material Category Review
 
-The app includes a collapsed **Material Category Review** section. It helps users see how uploaded pipe rows are grouped for review and shows a **Material Category Estimate Summary**.
+The app includes a collapsed **Pipe Material Category Review** section. It helps users see how uploaded pipe rows are grouped for review and shows a **Pipe Material Category Estimate Summary**.
 
 Examples:
 
@@ -135,7 +147,7 @@ The reference data is stored in `raw_material_price_library.json` and includes y
 
 ## Piping Component Cost Review
 
-The app includes a collapsed **Piping Component Cost Review** section after What-if Analysis. It groups and budget-prices uploaded BOM rows based on the item description using the group list from `Group.docx`.
+The app includes a collapsed **Piping Component Cost Review** section before Scenario Playground (What-if Analysis). It groups and budget-prices uploaded BOM rows based on the item description using the group list from `Group.docx`.
 
 Supported groups:
 
@@ -175,17 +187,17 @@ The collapsed **Piping Service Cost Estimate** section appears below Piping Comp
 - Carbon Steel uses the CS rate library. Austenitic Stainless Steel uses the SS rate library. Alloy Steel uses the AS rate library.
 - Unclassified pipe, fitting, and flange rows use the Carbon Steel rate as a visible fallback. Unsupported categories, including duplex and non-ferrous materials where no matching approved library exists, are marked Review and excluded.
 - Every eligible pipe BOM row measured in metres is treated as one pipe run.
-- Pipe base straight joints use a transparent 6 m stock-length planning proxy: `ceiling(length / 6)`. The result is multiplied by `1.70` for associated piping/components and always rounded upward. Fittings use a connection-end proxy: Tee = 3, Cap/Weldolet = 1, and other fittings = 2 per No. Each flange No. equals one estimated joint.
+- Pipe base straight joints use a transparent 6 m stock-length planning proxy: `ceiling(length / 6)`. The result is multiplied by `1.60` for associated piping/components and always rounded upward. Fittings use a connection-end proxy: Tee = 3, Cap/Weldolet = 1, and other fittings = 2 per No. Each flange No. equals one estimated joint.
 - Erection quantity is `NPS x length in metres` in inch-metre (IM); welding quantity is estimated joints x NPS in inch-diameter (ID).
 - Valve service cost uses the valve weight already calculated for material cost x BOM quantity x IOCL-ME-SOR rate: `Rs 30.53/kg` for valves other than RTJ and `Rs 36.64/kg` for RTJ valves.
 - Rework/modification allowance uses `15% x total eligible project welding ID`; its cost is `15% x matched welding cost` so the original CS, SS, and alloy welding-rate mix is retained.
-- Pipe support structural cost uses `pipe_support_calculator_MT.js` for budgetary structural-steel quantity and `Rs 1,50,000/MT` based on NRL LPP/WO references 4300080842, 4300083138, 4300083970 and 4300088266. The adopted rate includes contractor-supplied structural steel, fabrication, welding, surface preparation, primer/painting, transportation, erection, bolting and alignment, measured on net fabricated weight.
+- Pipe support structural cost uses `pipe_support_calculator_MT.js`. Each support uses 500 mm of matching pipe-weight basis, with the support count derived from the configured pipe-span table. The calculated structural quantity is reported in MT and priced at `Rs 1,50,000/MT` based on NRL LPP/WO references 4300080842, 4300083138, 4300083970 and 4300088266. The adopted rate includes contractor-supplied structural steel, fabrication, welding, surface preparation, primer/painting, transportation, erection, bolting and alignment, measured on net fabricated weight.
 - Civil cost for each 300 mm above-ground pipe support uses the calculated number of individual supports multiplied by a size-based civil cost per support: 3 IN = Rs 6,000, 20 IN = Rs 17,000 and 48 IN = Rs 26,000. Intermediate sizes are linearly interpolated and rounded upward to the next Rs 500. Inside Unit Battery Limit is the default and applies 30% of this cost; Outside Unit Battery Limit applies 100%.
 - Pipe insulation cost is calculated only for valid pipe rows as `pi x OD (m) x length (m) x provisional P50 Rs/m2`. The P50 insulation-rate table is `100C = Rs 4,578/m2`, `200C = Rs 4,881/m2`, `300C = Rs 5,082/m2`, `400C = Rs 5,587/m2`, and `500C = Rs 6,118/m2`. A temperature between listed points uses straight-line interpolation; a blank temperature or one outside `100C to 500C` is shown as Review and excluded from the insulation total.
 - Pipe painting cost uses the same outside surface area for CS, LTCS, and alloy-steel pipes. A blank Design Temperature uses **Uninsulated CS/LTCS/AS piping** at the 65C default P50 rate of `Rs 1,010/m2`; an entered temperature automatically uses **Painting under insulation (CUI)**. The CUI P50 rate is `Rs 885/m2` for `65C to 200C` using epoxy phenolic, two coats, and `Rs 2,220/m2` for `300C to 500C` using the high-temperature CUI system. Temperatures from `above 200C to below 300C` use linear interpolation between these two P50 rates. SS, duplex, non-ferrous, and unclassified materials are visibly excluded until their approved painting system is supplied.
 - PWHT is calculated only for Pipe Group rows where the BOM includes a `Pipe Class`, `Piping Class`, `PMS Class`, `Line Class`, `Material Class`, or `Class` column that matches `nrl_pwht_rules`, together with the required material and wall-thickness condition. PWHT uses the existing eligible welding inch-diameter quantity. Rates are `Rs 408/ID` for CS/LTCS, `Rs 559/ID` for P11/P12/P22 and Austenitic Stainless Steel, `Rs 613/ID` for P5/P9, and `Rs 715/ID` for P91/P92. Missing class information stays visibly marked Review.
 - Rates match location, IBR status, pipe size and wall thickness. Unsupported combinations stay marked **Review** and are excluded from the service total.
-- No escalation, contingency, PWHT, commissioning, taxes or commercial terms are included unless separately stated.
+- No escalation, contingency, taxes, freight, commissioning, or commercial terms are included unless separately stated. PWHT is included only when the documented rule conditions are met.
 
 The Part B direct-service total remains separate from the Part A material total to prevent an implied installed-project cost.
 
@@ -266,23 +278,24 @@ Coating definition used in the app:
 
 If `Estimate Factor Override` is entered, it replaces the normal / median estimate factor. The P90 factor is recalculated using the default P90-to-median relationship so the conservative estimate moves consistently with the user's override.
 
-## Material What-if Analysis
+## Scenario Playground (What-if Analysis)
 
-The app includes a collapsed **Material What-if Lab** section. It helps users understand how the material estimate changes when:
+The app includes a collapsed **Scenario Playground (What-if Analysis)** section. It helps users understand how the Part A material estimate and grouped component estimate change when:
 
 - Raw steel rate changes by +/-10% and +/-20%
-- Estimate factor changes by +/-10% and +/-20%
+- Pipe factor changes by +/-10% and +/-20%
+- Component factor changes by +/-10% and +/-20%
 - Coating assumption changes between Yes and No
-- Manual raw steel adjustment is moved using the slider
+- Manual raw-material, pipe-factor, and component-factor sliders are moved
 
-The lab changes material assumptions only. Direct service rates remain unchanged, which keeps the scenario result clear and auditable.
+Direct service rates remain unchanged. This keeps the scenario result clear: it tests commercial material assumptions without implying that schedule-of-rates service costs have also changed.
 
 ## Reports And Audit Trail
 
 The tool includes:
 
-- Printable report / Save as PDF
-- Excel CSV export
+- On-screen report preview, printable report / Save as PDF
+- Editable Excel report workbook with Executive Summary, Part A group sheets, Part B service-cost detail, and Method and Audit sheets
 - Excel BOM import status
 - Raw steel Rs/kg basis
 - Factor basis
@@ -291,6 +304,7 @@ The tool includes:
 - Coating definition
 - Material category review
 - Piping component cost review
+- Piping service-cost basis, quantities, rate sources, and review rows
 - Calculation disclaimer
 
 The report is intended to help users defend the calculation trail during internal review.
@@ -309,12 +323,53 @@ Files normally required for GitHub upload:
 | `Piping BOM Example Template.xlsx` | Downloadable example BOM template |
 | `astm_piping_material_specification_webapp.json` | Material category reference data |
 | `raw_material_price_library.json` | Suggested raw material price mapping for dropdown autofill |
+| `flange-weight-3-input-model-v2.json` | Flange type, size, rating, and weight reference data |
+| `Piping Service Cost for Web App/` | CS, SS, and AS service libraries, PWHT rules, support logic, and fitting-dimension references |
+| `assets/` | Icons and local visual assets used by the static page |
 | `README.md` | GitHub project explanation |
 | `sitemap.xml` | Search indexing support |
 | `AGENTS.md` | Future Codex project instructions |
 | `DESIGN_SYSTEM.md` | Reusable style guidance |
 
 No backend server is required for normal use.
+
+## What's Next
+
+> **Vision:** evolve Piping Material & Service Cost Estimator from a piping calculator into an AI-enabled project cost-estimation and knowledge-management platform.
+
+### 1. Support All AACE Estimate Classes
+
+Extend from **Class 5 conceptual estimates** to **Class 1 definitive estimates**, with suitable scope definition, accuracy range, contingency, documentation, and approval review.
+
+### 2. Introduce Natural-Language Estimating
+
+Let users create, change, and query estimate items in plain language, for example: `Add 15 m2 of insulation to Section B` or `Show the impact of a 10% stainless-steel increase`.
+
+### 3. Extract Quantities From Documents
+
+Read engineering drawings, PDFs, datasheets, and scanned documents using OCR and structured parsing. Users will still review, correct, and approve extracted quantities before they affect an estimate.
+
+### 4. Reduce Estimation Cycle Time by 50%
+
+Target at least a **50% reduction** in median time from initial draft to final review through reusable libraries, standard workflows, automation, and faster revisions.
+
+### 5. Expand to Full Project Disciplines
+
+Extend beyond piping to civil and structural, mechanical, electrical, instrumentation and control, process and utilities, safety and firefighting, and project-management indirect costs.
+
+### 6. Strengthen In-House Capability
+
+Convert internal engineering knowledge, historical cost data, and calculation methods into maintainable in-house software, reducing dependence on external consultants.
+
+### 7. Accelerate Learning for New Joiners
+
+Use the platform to explain formulas, assumptions, cost drivers, exclusions, and review requirements so new engineers and estimators become productive faster.
+
+### 8. Preserve Domain Expertise
+
+Capture the working knowledge of engineers, estimators, procurement professionals, and project managers as reusable rules, validated libraries, and decision logic that remains available when people change roles or retire.
+
+> **Roadmap principle:** these are future goals, not current functions. Each future module will retain transparent calculations, visible assumptions, review-required handling for incomplete data, and an auditable report trail.
 
 ## Limitations
 

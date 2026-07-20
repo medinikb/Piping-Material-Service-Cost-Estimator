@@ -608,6 +608,16 @@ const bomColumnAliases = {
 };
 
 const elements = {
+  estimatorQueryForm: document.querySelector("#estimator-query-form"),
+  estimatorQueryInput: document.querySelector("#estimator-query"),
+  estimatorQueryExamples: document.querySelector("#estimator-query-examples"),
+  estimatorQueryResult: document.querySelector("#estimator-query-result"),
+  estimatorBomUpload: document.querySelector("#estimator-bom-upload"),
+  estimatorBomFile: document.querySelector("#estimator-bom-file"),
+  estimatorReportPreview: document.querySelector("#estimator-report-preview"),
+  estimatorReportFrame: document.querySelector("#estimator-report-frame"),
+  estimatorReportPrint: document.querySelector("#estimator-report-print-button"),
+  estimatorReportClose: document.querySelector("#estimator-report-close-button"),
   projectDescription: document.querySelector("#project-description"),
   projectNumber: document.querySelector("#project-number"),
   designTemperature: document.querySelector("#design-temperature"),
@@ -658,6 +668,13 @@ const elements = {
   exportCsv: document.querySelector("#export-csv-button"),
   bomReport: document.querySelector("#bom-report-button"),
   bomExcelReport: document.querySelector("#bom-excel-report-button"),
+  bomUploadReportActions: document.querySelector("#bom-upload-report-actions"),
+  bomUploadReport: document.querySelector("#bom-upload-report-button"),
+  bomUploadExcelReport: document.querySelector("#bom-upload-excel-report-button"),
+  bomUploadReportPreview: document.querySelector("#bom-upload-report-preview"),
+  bomUploadReportFrame: document.querySelector("#bom-upload-report-frame"),
+  bomUploadReportPrint: document.querySelector("#bom-upload-report-print-button"),
+  bomUploadReportClose: document.querySelector("#bom-upload-report-close-button"),
   bomReportPreview: document.querySelector("#bom-report-preview"),
   bomReportFrame: document.querySelector("#bom-report-frame"),
   bomReportPrint: document.querySelector("#bom-report-print-button"),
@@ -676,6 +693,12 @@ const elements = {
   bomProgressTitle: document.querySelector("#bom-progress-title"),
   bomProgressDetail: document.querySelector("#bom-progress-detail"),
   bomProgressPercent: document.querySelector("#bom-progress-percent"),
+  mainBomProgress: document.querySelector("#main-bom-progress"),
+  mainBomProgressRing: document.querySelector("#main-bom-progress-ring"),
+  mainBomProgressCount: document.querySelector("#main-bom-progress-count"),
+  mainBomProgressTitle: document.querySelector("#main-bom-progress-title"),
+  mainBomProgressDetail: document.querySelector("#main-bom-progress-detail"),
+  mainBomProgressPercent: document.querySelector("#main-bom-progress-percent"),
   successMessage: document.querySelector("#success-message"),
   reportGenerated: document.querySelector("#report-generated"),
   overrideReviewCard: document.querySelector("#override-review-card"),
@@ -824,8 +847,9 @@ function setSideNavCollapsed(isCollapsed) {
   elements.sideNavToggle.setAttribute("aria-expanded", String(!isCollapsed));
   elements.sideNavToggle.setAttribute(
     "aria-label",
-    isCollapsed ? "Expand section navigation" : "Collapse section navigation"
+    isCollapsed ? "Open sidebar" : "Close sidebar"
   );
+  elements.sideNavToggle.dataset.tooltip = isCollapsed ? "Open sidebar" : "Close sidebar";
 }
 
 function setActiveSideNavLink(hash) {
@@ -5128,6 +5152,8 @@ function getRawMaterialPriceMapping(specText, year = elements.year.value) {
 
   return {
     recommended,
+    low: Number(rate.low),
+    high: Number(rate.high),
     basis,
     range,
     factorWrtCs: rate.factorWrtCs,
@@ -5483,6 +5509,1721 @@ function getCurrentEstimate() {
     rawSteelSource: elements.rawOverride.dataset.sourceType,
     factorOverride: elements.factorOverride.value,
   });
+}
+
+// The prompt bar is intentionally local and rule-based. It reuses the same
+// material, schedule and service-rate engines as the visible estimator panels.
+function getEstimatorQueryComponentDescriptor(query) {
+  const text = String(query || "").toUpperCase();
+  if (/\b(?:WN|WELD\s*NECK)\s*(?:FLANGE|FLG)?\b|\bFLANGE\b/.test(text)) {
+    return {
+      group: "Flange Group",
+      component: /\b(?:BLIND|BL\.?\s*FLANGE)\b/.test(text)
+        ? "Blind Flange"
+        : /\b(?:SO|SLIP\s*ON)\b/.test(text)
+          ? "SO Flange"
+          : "WN Flange",
+      uom: "NOS",
+    };
+  }
+  if (/\b(?:GATE|GLOBE|BALL|CHECK|CONTROL|PLUG|BUTTERFLY)?\s*VALVE\b/.test(text)) {
+    const component = /\bGATE\b/.test(text)
+      ? "Gate Valve"
+      : /\bGLOBE\b/.test(text)
+        ? "Globe Valve"
+        : /\bBALL\b/.test(text)
+          ? "Ball Valve"
+          : /\bCHECK\b/.test(text)
+            ? "Check Valve"
+            : /\bCONTROL\b/.test(text)
+              ? "Control Valve"
+              : "Valve";
+    return { group: "Valves Group", component, uom: "NOS" };
+  }
+  if (/\b(?:ELBOW|ELB)\b/.test(text)) {
+    return {
+      group: "Fitting Group",
+      component: /\b45(?:\s*(?:D|DEG|DEGREE))?\b/.test(text) ? "45 Degree Elbow" : "90 Degree Elbow",
+      uom: "NOS",
+    };
+  }
+  if (/\b(?:RED(?:UCING)?\.?\s*T(?:EE)?|T\.\s*RED|REDUCING\s+TEE)\b/.test(text)) {
+    return { group: "Fitting Group", component: "Reducing Tee", uom: "NOS" };
+  }
+  if (/\b(?:EQUAL\s*T(?:EE)?|T\.\s*EQUAL|TEE)\b/.test(text)) {
+    return { group: "Fitting Group", component: "Equal Tee", uom: "NOS" };
+  }
+  if (/\b(?:CONCENTRIC|CON\.?\s*RED|REDUCER)\b/.test(text)) {
+    return { group: "Fitting Group", component: "Concentric Reducer", uom: "NOS" };
+  }
+  if (/\b(?:NIPPLE|COUPLING|CAP|WELDOLET|OLET)\b/.test(text)) {
+    const component = /\bNIPPLE\b/.test(text)
+      ? "Nipple"
+      : /\bCOUPLING\b/.test(text)
+        ? "Full Coupling"
+        : /\bCAP\b/.test(text)
+          ? "Cap"
+          : "Weldolet";
+    return { group: "Fitting Group", component, uom: "NOS" };
+  }
+  if (/\b(?:GASKET|SPIRAL\s*WOUND)\b/.test(text)) {
+    return { group: "Gasket Group", component: "Gasket", uom: "NOS" };
+  }
+  if (/\b(?:STUD|BOLT|NUT)\b/.test(text)) {
+    return { group: "Bolt Group", component: "Stud Bolt", uom: "SET" };
+  }
+  return null;
+}
+
+function getEstimatorQuerySchedule(query) {
+  const text = String(query || "").toUpperCase();
+  const match = text.match(/\b(S[-\s]?(?:STD|HVY|XS|XXS|\d{1,3}S?)|SCH(?:EDULE)?\s*[-\s]?(?:STD|HVY|XS|XXS|\d{1,3}S?)|(?:STD|HVY|XS|XXS))\b/);
+  return match ? normalizeSchedule(match[1]) : "";
+}
+
+function getEstimatorQueryMaterial(query) {
+  const text = String(query || "");
+  const year = Number(elements.year.value) || 2026;
+  const mapped = getRawMaterialPriceMapping(text, year);
+  if (mapped?.standard) return mapped.standard;
+
+  if (/\b(?:SS|STAINLESS)\s*316L\b/i.test(text)) return "ASTM A312 TP316L";
+  if (/\b(?:SS|STAINLESS)\s*316\b/i.test(text)) return "ASTM A312 TP316";
+  if (/\b(?:SS|STAINLESS)\s*304L\b/i.test(text)) return "ASTM A312 TP304L";
+  if (/\b(?:SS|STAINLESS)\s*304\b/i.test(text)) return "ASTM A312 TP304";
+  // A prompt that says only "SS" still needs a stainless reference, not the
+  // active Carbon Steel selection. TP304 is the standard default reference;
+  // users can request SS316, SS316L, SS304L, etc. for a specific grade.
+  if (/\b(?:SS|STAINLESS(?:\s+STEEL)?)\b/i.test(text)) return "ASTM A312 TP304";
+  if (/\b(?:A335\s*)?(?:GR\.?\s*)?P(?:5|9|11|12|22|91)\b/i.test(text)) {
+    const grade = text.match(/\bP(5|9|11|12|22|91)\b/i)?.[1] || "5";
+    return `ASTM A335 Gr.P${grade}`;
+  }
+  if (/\bA106\b/i.test(text)) return "ASTM A106 Gr.B";
+  if (/\bA53\b/i.test(text)) return "ASTM A53 Gr.B";
+  if (/\bAPI\s*5L\b/i.test(text)) return "API 5L Gr.B";
+  if (/\bA234\b/i.test(text)) return "ASTM A234 WPB";
+  if (/\bA105\b/i.test(text)) return "ASTM A105";
+
+  const currentSpec = String(elements.spec?.value || "").trim();
+  if (currentSpec) return currentSpec;
+  const currentStandard = String(elements.materialStandardOutput?.textContent || "").trim();
+  if (currentStandard && !/^(-|select|library)/i.test(currentStandard)) return currentStandard;
+  return "ASTM A106 Gr.B";
+}
+
+function hasExplicitEstimatorQueryMaterial(query) {
+  const text = String(query || "");
+  return /\b(?:CS|CARBON\s+STEEL|SS|STAINLESS(?:\s+STEEL)?|AUSTENITIC|304L?|316L?|A312|A335|A106|A53|API\s*5L|P(?:5|9|11|12|22|91))\b/i.test(text);
+}
+
+function getEstimatorQueryMaterialComparisons({ year, size, thickness, length, coating }) {
+  const references = [
+    { label: "Carbon Steel", spec: "ASTM A106 Gr.B" },
+    { label: "Austenitic SS 304L", spec: "ASTM A312 TP304L" },
+    { label: "Alloy Steel P11", spec: "ASTM A335 Gr.P11" },
+  ];
+
+  return references
+    .map((reference) => {
+      const rawMapping = getRawMaterialPriceMapping(reference.spec, year);
+      if (!rawMapping?.recommended) return null;
+      const estimate = buildEstimate({
+        year,
+        size,
+        thickness,
+        length,
+        spec: reference.spec,
+        coating,
+        rawOverride: rawMapping.recommended,
+        rawSteelSource: "materialLibrary",
+        rawBasisNote: rawMapping.note,
+        factorOverride: elements.factorOverride.value,
+      });
+      if (estimate.error) return null;
+      const service = getEstimatorQueryService(
+        {
+          group: "Pipe Group",
+          item: "Pipe",
+          standardName: "Pipe",
+          size: `${formatPipeSize(size)} IN`,
+          thickness: `${thickness} mm`,
+          material: reference.spec,
+          materialCategory: estimate.materialCategory,
+          quantity: String(length),
+          uom: "M",
+          componentCost: { thickness },
+        },
+        false
+      );
+      return { ...reference, rawMapping, estimate, service };
+    })
+    .filter(Boolean);
+}
+
+function getEstimatorQueryLength(query) {
+  const text = String(query || "");
+  const match = text.match(/(?:\b(?:FOR|LENGTH|LEN)\s*)?(\d+(?:\.\d+)?)\s*(?:M|METRE(?:S)?|METER(?:S)?)\b/i);
+  return match ? Number(match[1]) : NaN;
+}
+
+function getEstimatorQueryDesignTemperature(query) {
+  const text = String(query || "");
+  const match = text.match(/\b(?:DESIGN\s*)?TEMP(?:ERATURE)?\s*[:=]?\s*(\d+(?:\.\d+)?)\s*(?:DEG(?:REE)?S?\s*)?(?:C|°C)\b/i)
+    || text.match(/\b(\d+(?:\.\d+)?)\s*(?:DEG(?:REE)?S?\s*)?(?:C|°C)\b/i);
+  return match ? Number(match[1]) : NaN;
+}
+
+function getEstimatorQueryQuantity(query) {
+  const text = String(query || "");
+  const labelledQuantity = text.match(/\b(?:QTY|QUANTITY|NOS?\.?|NO\.)\s*[:=]?\s*(\d+(?:\.\d+)?)/i);
+  if (labelledQuantity) return Number(labelledQuantity[1]);
+
+  // Accept normal estimator wording such as "2 nos 6 IN equal tee price".
+  // This must be read as quantity 2, not NPS 2.
+  const leadingQuantity = text.match(/(?:^|\s)(\d+(?:\.\d+)?)\s*(?:NOS?\.?|NO\.?)(?=\s|$)/i);
+  return leadingQuantity ? Number(leadingQuantity[1]) : 1;
+}
+
+function getEstimatorQueryCoating(query) {
+  const text = String(query || "").toLowerCase();
+  if (/\b(?:uncoated|bare|no coating|without coating)\b/.test(text)) return "No";
+  if (/\b(?:coated|coating|pe coated|fbe|epoxy lined|lined)\b/.test(text)) return "Yes";
+  return elements.coating.value === "Yes" ? "Yes" : "No";
+}
+
+function getEstimatorQueryRating(query, schedule) {
+  const pressureMatch = String(query || "").match(/\b(150|300|600|900|1500|2500|800|3000|6000)\s*#/i);
+  return pressureMatch ? `${pressureMatch[1]}#` : schedule || "STD";
+}
+
+function makeEstimatorQueryTable(headers, rows, numericColumns = []) {
+  const headerHtml = headers.map((header, index) =>
+    `<th class="${numericColumns.includes(index) ? "ask-result-table-number" : ""}">${escapeHtml(header)}</th>`
+  ).join("");
+  const bodyHtml = rows.map((row) => `<tr>${row.map((value, index) =>
+    `<td class="${numericColumns.includes(index) ? "ask-result-table-number" : ""}">${escapeHtml(value)}</td>`
+  ).join("")}</tr>`).join("");
+
+  return `
+    <div class="ask-result-table-wrap">
+      <table class="ask-result-table">
+        <thead><tr>${headerHtml}</tr></thead>
+        <tbody>${bodyHtml}</tbody>
+      </table>
+    </div>`;
+}
+
+function getEstimatorOutputHeading(showHeading = true) {
+  return showHeading ? '<h3 class="ask-result-output-heading">Output</h3>' : "";
+}
+
+function estimatorQueryRequestsSteps(query) {
+  return /\b(?:step\s*by\s*step|calculation\s+steps?|calculation\s+breakdown|show\s+the\s+calculation)\b/i.test(String(query || ""));
+}
+
+function makeEstimatorStep(number, label, formula, result) {
+  return `
+    <div class="ask-step-row">
+      <span class="ask-step-number">${number}</span>
+      <strong class="ask-step-label">${escapeHtml(label)}</strong>
+      <span class="ask-step-formula">${escapeHtml(formula)}</span>
+      <strong class="ask-step-result">${escapeHtml(result)}</strong>
+    </div>
+  `;
+}
+
+function makeEstimatorStepByStepMarkup(answer, query) {
+  if (!estimatorQueryRequestsSteps(query)) return "";
+  if (answer.kind !== "Pipe" || !answer.estimate) return "";
+
+  const estimate = answer.estimate;
+  const steps = [
+    makeEstimatorStep(1, "Outside diameter", "NPS converted to actual OD", `${formatNumber(estimate.od, 2)} mm`),
+    makeEstimatorStep(2, "Pipe mass", "W = 0.0246615 x (OD - t) x t", `${formatNumber(estimate.weightKgm, 2)} kg/m`),
+    makeEstimatorStep(3, "Total pipe weight", answer.hasLength ? `${formatNumber(estimate.weightKgm, 2)} kg/m x ${formatNumber(estimate.length, 2)} m` : "Length not entered", answer.hasLength ? `${formatNumber(estimate.totalWeight, 2)} kg` : "Enter length for total weight"),
+    makeEstimatorStep(4, "Finished normal rate", `${formatCurrency(estimate.rawSteel, 2)}/kg x factor ${formatNumber(estimate.factors.median, 2)}`, `${formatCurrency(estimate.medianRsKg, 2)}/kg`),
+    makeEstimatorStep(5, "Normal pipe rate", `${formatCurrency(estimate.medianRsKg, 2)}/kg x ${formatNumber(estimate.weightKgm, 2)} kg/m`, `${formatCurrency(estimate.medianRsM, 2)}/m`),
+    makeEstimatorStep(6, "P90 pipe rate", `${formatCurrency(estimate.rawSteel, 2)}/kg x factor ${formatNumber(estimate.factors.p90, 2)} x ${formatNumber(estimate.weightKgm, 2)} kg/m`, `${formatCurrency(estimate.p90RsM, 2)}/m`),
+  ];
+
+  if (answer.hasLength) {
+    steps.push(
+      makeEstimatorStep(7, "Normal material total", `${formatCurrency(estimate.medianRsM, 2)}/m x ${formatNumber(estimate.length, 2)} m`, formatCurrency(estimate.medianTotal, 2)),
+      makeEstimatorStep(8, "P90 material total", `${formatCurrency(estimate.p90RsM, 2)}/m x ${formatNumber(estimate.length, 2)} m`, formatCurrency(estimate.p90Total, 2)),
+    );
+    const service = answer.service || {};
+    if (service.status === "READY" && Number.isFinite(service.directServiceCost)) {
+      steps.push(makeEstimatorStep(9, "Direct pipe service", `${formatNumber(service.erectionQuantity, 2)} IM + ${formatNumber(service.weldingQuantity, 2)} ID`, formatCurrency(service.directServiceCost, 2)));
+    }
+  }
+
+  return `
+    <section class="ask-result-methodology" aria-label="Calculation steps">
+      <div class="ask-result-methodology-heading">
+        <h4>Calculation steps</h4>
+        <span>Formula and rate basis used for this request</span>
+      </div>
+      ${steps.join("")}
+    </section>
+  `;
+}
+
+function getEstimatorQueryService(item, hasLength) {
+  const componentInput = getServiceComponentInput(item);
+  const { scope, nps, thicknessMm, lengthM, jointCount, quantity } = componentInput || {};
+  if (!scope) return { status: "NOT_AVAILABLE", reason: "No direct service-rate method is available for this component group." };
+  if (scope === "Valve") {
+    const valve = buildValveServiceEstimate(item);
+    return valve.status === "READY"
+      ? {
+          status: "READY",
+          directServiceCost: valve.costs.directServiceCost,
+          rateLabel: `${formatCurrency(valve.valveServiceRateRsKg, 2)}/kg`,
+          quantityLabel: `${formatNumber(valve.valveWeightKg * valve.quantity, 2)} kg`,
+          source: valve.audit.valveServiceSource,
+        }
+      : valve;
+  }
+
+  const engine = globalThis.PipingServiceCost;
+  const rateLibrary = getServiceRateLibraryForMaterialCategory(item.materialCategory);
+  if (!engine || !rateLibrary.library) {
+    return { status: "NOT_AVAILABLE", reason: "Approved IM and ID service rates are not available for this material category." };
+  }
+  if (!Number.isFinite(nps) || nps <= 0 || !Number.isFinite(thicknessMm) || thicknessMm <= 0) {
+    return { status: "REVIEW_REQUIRED", reason: "Size or wall thickness is required for documented service-rate matching." };
+  }
+
+  const location = elements.serviceLocation?.value || "ABOVE_GROUND";
+  const regulatoryClass = elements.serviceRegulatoryClass?.value || "NON_IBR";
+  const erection = scope === "Pipe"
+    ? engine.findRate(rateLibrary.library, { location, regulatoryClass, activity: "ERECTION", weldType: "NA", nps, thicknessMm })
+    : null;
+  const welding = engine.findRate(rateLibrary.library, { location, regulatoryClass, activity: "FABRICATION", weldType: "BUTT_WELD", nps, thicknessMm });
+
+  if (scope === "Pipe" && !hasLength) {
+    return {
+      status: erection?.status === "READY" && welding.status === "READY" ? "RATE_ONLY" : "REVIEW_REQUIRED",
+      erectionRate: erection?.status === "READY" ? erection.rateRs : NaN,
+      weldingRate: welding.status === "READY" ? welding.rateRs : NaN,
+      source: `${rateLibrary.label} | ${String(location).replace(/_/g, " ")} / ${String(regulatoryClass).replace(/_/g, " ")}`,
+      reason: "Enter a pipe length in metres to calculate direct service cost.",
+    };
+  }
+
+  const serviceInput = {
+    nps,
+    thicknessMm,
+    lengthM: scope === "Pipe" ? lengthM : 0,
+    includeErection: scope === "Pipe",
+    location,
+    regulatoryClass,
+    fabricationMode: scope === "Pipe" ? "STOCK_LENGTH_PROXY" : "MANUAL_JOINT_COUNT",
+    stockLengthM: 6,
+    lineCount: 1,
+    jointAllowanceFactor: 1.6,
+    straightButtWeldJoints: jointCount,
+    escalationFactor: 1,
+    contingencyPercent: 0,
+  };
+  const estimate = engine.calculatePipeService(serviceInput, rateLibrary.library);
+  if (estimate.status !== "READY") return estimate;
+  return {
+    status: "READY",
+    erectionRate: estimate.rates.erectionRsPerIM,
+    weldingRate: estimate.rates.buttFabricationRsPerID,
+    erectionQuantity: estimate.quantities.erectionQuantityIM,
+    weldingQuantity: estimate.quantities.buttWeldDiameterInch,
+    directServiceCost: estimate.costs.directServiceCost,
+    source: `${rateLibrary.label} | ${String(location).replace(/_/g, " ")} / ${String(regulatoryClass).replace(/_/g, " ")}`,
+  };
+}
+
+function getEstimatorQueryRateLookup(query) {
+  const text = String(query || "");
+  const asksForPipeWeightMethod = /\b(?:pipe|piping)\b.*\b(?:weight|mass|kg\s*\/?\s*m)\b/i.test(text)
+    && /\b(?:how|calculate|calculation|formula|method|methodology|basis)\b/i.test(text);
+  if (asksForPipeWeightMethod) {
+    return { rateLookup: true, pipeWeightMethodLookup: true };
+  }
+
+  // Let users ask in plain language how each recognised component family is priced.
+  // Keep this separate from a price query so it explains the existing approved logic.
+  const asksForCalculationMethod = /\b(?:how|calculate|calculation|formula|method|methodology|basis)\b/i.test(text);
+  if (asksForCalculationMethod) {
+    let componentMethodLookup = "";
+    if (/\b(?:bolt|bolts|stud|studs|fastener|fasteners|nut|nuts)\b/i.test(text)) {
+      componentMethodLookup = "bolt";
+    } else if (/\b(?:flange|flanges|wn\s*flange|blind\s*flange|so\s*flange)\b/i.test(text)) {
+      componentMethodLookup = "flange";
+    } else if (/\b(?:valve|valves|gate\s*valve|globe\s*valve|ball\s*valve|check\s*valve)\b/i.test(text)) {
+      componentMethodLookup = "valve";
+    } else if (/\b(?:gasket|gaskets)\b/i.test(text)) {
+      componentMethodLookup = "gasket";
+    } else if (/\b(?:strainer|strainers|trap|traps)\b/i.test(text)) {
+      componentMethodLookup = "strainer";
+    } else if (/\b(?:fitting|fittings|elbow|elbows|tee|tees|reducer|reducers|coupling|couplings|nipple|nipples|cap|caps)\b/i.test(text)) {
+      componentMethodLookup = "fitting";
+    } else if (/\b(?:pipe|pipes|piping)\b/i.test(text)) {
+      componentMethodLookup = "pipe";
+    }
+    if (componentMethodLookup) {
+      return { rateLookup: true, componentMethodLookup };
+    }
+  }
+
+  const asksForMaterialMethodology = /\bpart\s*a\b.*\bmaterial\b.*\bmethod(?:ology)?\b/i.test(text)
+    || /\bmaterial\s+cost\s+method(?:ology)?\b/i.test(text)
+    || /\bmaterial\s+price(?:ing)?\s+method(?:ology)?\b/i.test(text);
+  if (asksForMaterialMethodology) {
+    return { rateLookup: true, materialMethodologyLookup: true };
+  }
+
+  const asksForServiceMethodology = /\bpart\s*b\b.*\bservice\b.*\bmethod(?:ology)?\b/i.test(text)
+    || /\bservice\s+cost\s+method(?:ology)?\b/i.test(text)
+    || /\bservice\s+price(?:ing)?\s+method(?:ology)?\b/i.test(text);
+  if (asksForServiceMethodology) {
+    return { rateLookup: true, serviceMethodologyLookup: true };
+  }
+
+  const asksForPaintingRate = /\bpaint(?:ing)?\b/i.test(text) && /\b(?:rate|price|unit|cost)\b/i.test(text);
+  if (asksForPaintingRate) {
+    return {
+      rateLookup: true,
+      paintingRateLookup: true,
+      uninsulatedRate: getPipePaintingRate(65, "UNINSULATED"),
+      cuiLowTemperatureRate: getPipePaintingRate(200, "UNDER_INSULATION"),
+      cuiHighTemperatureRate: getPipePaintingRate(300, "UNDER_INSULATION"),
+    };
+  }
+
+  const asksForServiceRateReference = /\b(?:all\s+)?(?:service|services)\s+(?:unit\s+)?(?:rate|rates|price|prices)\b/i.test(text)
+    || /\ball\s+unit\s+(?:rate|rates|price|prices)\b/i.test(text)
+    || /\b(?:service\s+)?rate\s+(?:list|library|reference)\b/i.test(text);
+  if (asksForServiceRateReference) {
+    return {
+      rateLookup: true,
+      serviceRateReferenceLookup: true,
+      insulationRates: [
+        "100C: Rs 4,578.00/m2",
+        "200C: Rs 4,881.00/m2",
+        "300C: Rs 5,082.00/m2",
+        "400C: Rs 5,587.00/m2",
+        "500C: Rs 6,118.00/m2",
+      ],
+    };
+  }
+
+  const asksForInsulationRate = /\binsulation\b/i.test(text) && /\b(?:rate|price|unit|cost)\b/i.test(text);
+  if (asksForInsulationRate) {
+    return {
+      rateLookup: true,
+      insulationRateLookup: true,
+      insulationRates: [
+        "100C: Rs 4,578.00/m2",
+        "200C: Rs 4,881.00/m2",
+        "300C: Rs 5,082.00/m2",
+        "400C: Rs 5,587.00/m2",
+        "500C: Rs 6,118.00/m2",
+      ],
+    };
+  }
+
+  const asksForPwhtRate = /\bPWHT\b|\bpost[\s-]*weld\s+heat\s+treat/i.test(text);
+  if (asksForPwhtRate && /\b(?:rate|price|unit|cost)\b/i.test(text)) {
+    return { rateLookup: true, pwhtRateLookup: true };
+  }
+
+  const asksForValveServiceRate = /\bvalve\b/i.test(text)
+    && /\b(?:service|installation|rate|price|unit|cost)\b/i.test(text);
+  if (asksForValveServiceRate) {
+    return { rateLookup: true, valveServiceRateLookup: true };
+  }
+
+  const asksForReworkRate = /\b(?:rework|modification)\b/i.test(text)
+    && /\b(?:rate|price|unit|cost|allowance)\b/i.test(text);
+  if (asksForReworkRate) {
+    return { rateLookup: true, reworkRateLookup: true };
+  }
+
+  // Civil support is a size-and-scope rate curve. Accept any natural wording
+  // that includes both terms, such as "rate for civil support".
+  const asksForCivilSupportRate = /\bcivil\b/i.test(text) && /\bsupport\b/i.test(text);
+  if (asksForCivilSupportRate) {
+    const civilScope = getCivilSupportScope();
+    const size = parseBomSize(text);
+    const baseRate = Number.isFinite(size) ? calculateCivilSupportCost(size) : NaN;
+    return {
+      rateLookup: true,
+      civilSupportRateLookup: true,
+      size,
+      baseRate,
+      civilScope,
+    };
+  }
+
+  // A support-rate question does not need an MT unit in the wording. The
+  // calculator always reports the approved structural-support rate in Rs/MT.
+  const asksForSupportRate = /\b(?:(?:PIPE\s+)?SUPPORTS?|STRUCTURAL\s+SUPPORTS?)\b/i.test(text)
+    && /\b(?:rate|rates|price|prices|unit|cost|costs|basis|MT|METRIC\s+TON(?:NE)?|TON(?:NE)?S?)\b/i.test(text);
+  if (asksForSupportRate) {
+    return {
+      rateLookup: true,
+      supportRateLookup: true,
+      rateRs: pipeSupportRateRsPerMt,
+      unit: "MT",
+      source: "NRL LPP/WO references 4300080842, 4300083138, 4300083970 and 4300088266",
+    };
+  }
+
+  // Treat fabrication as the approved butt-welding ID activity. This lets a
+  // broad query such as "Fabrication rate for CS" return the CS rate bands
+  // without requiring a pipe size.
+  const asksForIdRate = /\b(?:ID|INCH[\s-]*DIA|WELD(?:ING)?\s+(?:RATE|RATES|PRICE|COST)|BUTT[\s-]*WELD|FABRICATION(?:\s+(?:RATE|RATES|PRICE|COST))?)\b/i.test(text);
+  const asksForImRate = /\b(?:IM|INCH[\s-]*MET(?:RE|ER)|ERECTION(?:\s+(?:RATE|RATES|PRICE|COST))?)\b/i.test(text);
+  if (!asksForIdRate && !asksForImRate) return null;
+
+  // ID takes precedence when a user asks for both installation and weld information.
+  const activity = asksForIdRate ? "FABRICATION" : "ERECTION";
+  const weldType = activity === "FABRICATION" ? "BUTT_WELD" : "NA";
+  let materialCategory = "";
+  if (/\b(?:CS|CARBON\s+STEEL)\b/i.test(text)) materialCategory = "Carbon Steel";
+  else if (/\b(?:SS|STAINLESS(?:\s+STEEL)?)\b/i.test(text)) materialCategory = "Austenitic Stainless Steel";
+  else if (/\b(?:AS|ALLOY(?:\s+STEEL)?)\b/i.test(text)) materialCategory = "Low & Int. Alloy Steel for High temp Service";
+  else materialCategory = classifyMaterialSpec(getEstimatorQueryMaterial(text)).category;
+
+  const rateLibrary = getServiceRateLibraryForMaterialCategory(materialCategory);
+  if (!rateLibrary.library?.rateTable) {
+    return {
+      error: "Approved service rates are not available for that material category. Select a supported material or enter a full line item for review.",
+    };
+  }
+
+  const location = elements.serviceLocation?.value || "ABOVE_GROUND";
+  const regulatoryClass = elements.serviceRegulatoryClass?.value || "NON_IBR";
+  const rows = rateLibrary.library.rateTable
+    .filter((row) =>
+      (row.location === "ANY" || row.location === location) &&
+      row.regulatoryClass === regulatoryClass &&
+      row.activity === activity &&
+      row.weldType === weldType
+    )
+    .sort((left, right) =>
+      Number(left.npsMinIn) - Number(right.npsMinIn) ||
+      Number(left.thicknessMaxInclusiveMm) - Number(right.thicknessMaxInclusiveMm)
+    );
+
+  if (!rows.length) {
+    return {
+      error: `No approved ${activity === "FABRICATION" ? "welding ID" : "erection IM"} rate is available for ${String(location).replace(/_/g, " ")} / ${String(regulatoryClass).replace(/_/g, " ")}.`,
+    };
+  }
+
+  return {
+    rateLookup: true,
+    activity,
+    unit: activity === "FABRICATION" ? "ID" : "IM",
+    materialCategory,
+    rateLibrary,
+    location,
+    regulatoryClass,
+    rows,
+  };
+}
+
+function getEstimatorQueryRawMaterialLookup(query) {
+  const text = String(query || "");
+  if (!/\braw\s+(?:steel|material|rate)\b/i.test(text)) return null;
+
+  const year = Number(elements.year?.value) || 2026;
+  const asksForCatalogue = /\b(?:available|availability|database|all|list|library)\b/i.test(text);
+  if (asksForCatalogue) {
+    const entries = rawMaterialPriceLibrary.flatMap((group) =>
+      (group.children || []).map((item) => {
+        const rate = getRawMaterialYearRate(item, year);
+        return {
+          category: cleanDisplayText(group.basic_mat_of_const),
+          grade: getRawMaterialGradeLabel(item),
+          standard: cleanDisplayText((item.pipe_mat_std || [])[0] || "Material standard"),
+          recommended: rate.recommended,
+          low: rate.low,
+          high: rate.high,
+          factorWrtCs: rate.factorWrtCs,
+        };
+      })
+    ).filter((entry) => Number.isFinite(entry.recommended) && entry.recommended > 0);
+    return { rawMaterialCatalogue: true, year, entries };
+  }
+
+  const spec = getEstimatorQueryMaterial(text);
+  const mapping = getRawMaterialPriceMapping(spec, year);
+  if (mapping) return { rawMaterialLookup: true, spec, mapping };
+
+  const fallbackRate = rawSteelByYear[year] || rawSteelByYear[2026];
+  return {
+    rawMaterialLookup: true,
+    spec: "Carbon Steel reference",
+    mapping: {
+      recommended: fallbackRate,
+      range: `${formatCurrency(fallbackRate, 2)} reference`,
+      basis: "Carbon Steel raw steel reference",
+      groupName: "Carbon Steel",
+      gradeLabel: "C",
+      standard: "Carbon Steel reference",
+      factorWrtCs: 1,
+      year,
+      note: `Carbon Steel raw-material reference for ${year}.`,
+    },
+  };
+}
+
+function isEstimatorBomTemplateRequest(query) {
+  const text = String(query || "");
+  return (
+    /\b(?:excel\s*)?(?:piping\s*)?bom\s+(?:template|format)\b/i.test(text) ||
+    /\b(?:template|format)\b.*\b(?:bom|upload)\b/i.test(text)
+  );
+}
+
+// The estimator must never treat an unknown material or service as Carbon Steel.
+// These checks run before the default pricing fallback used for genuinely generic queries.
+function getUnsupportedEstimatorPromptMessage(query) {
+  const text = String(query || "");
+  const asksForPricing = /\b(?:price|prices|rate|rates|cost|costs|estimate|estimated|calculate|calculation)\b/i.test(text);
+  if (!asksForPricing) return "";
+
+  // The rate libraries are maintained only in INR. Catch common currency
+  // names, codes, symbols and country references before any INR estimate runs.
+  const unsupportedCurrency = /\b(?:usd|us\s*dollars?|dollars?|eur|euros?|gbp|pounds?|aed|dirhams?|sar|riyals?|jpy|yen|yuan|yan|renminbi|cny|krw|won|aud|cad|nzd|chf|francs?|sgd|myr|ringgit|idr|rupiah|thb|baht|zar|rand|rubles?|russia[n]?\s*rubles?|qar|kwd|omr|bhd|japan(?:ese)?\s*(?:currency|yen)?|china(?:\s*(?:currency|yuan))?|usa|united\s*states|uk|united\s*kingdom|europe(?:an)?|australia[n]?|canada|singapore|malaysia|indonesia|thailand|south\s*korea|korea|uae|dubai|saudi(?:\s*arabia)?|qatar|kuwait|oman|bahrain|switzerland|south\s*africa)\b|[$€£¥]/i.test(text);
+  if (unsupportedCurrency) {
+    return "This estimator provides INR (Rs) estimates only. A foreign-currency request cannot be calculated because no approved exchange-rate basis is included. Please ask in INR, or convert the final INR estimate using your approved project exchange rate.";
+  }
+
+  const unsupportedMaterial = [
+    { pattern: /\b(?:plastic|pvc|u-?pvc|cpvc)\b/i, label: "Plastic / PVC piping" },
+    { pattern: /\b(?:hdpe|ldpe|polyethylene)\b/i, label: "HDPE / polyethylene piping" },
+    { pattern: /\b(?:polypropylene|ppr|pp-?r)\b/i, label: "Polypropylene piping" },
+    { pattern: /\b(?:frp|grp|gre|pvdf|abs)\b/i, label: "Non-metallic composite piping" },
+  ].find((entry) => entry.pattern.test(text));
+
+  if (unsupportedMaterial) {
+    return `${unsupportedMaterial.label} is not supported in this estimator. It currently covers mapped metallic piping materials such as Carbon Steel, LTCS, alloy steel, stainless steel, duplex and supported non-ferrous metals. Plastic piping needs its own density, OD/thickness standards, joining method and price library, so no Carbon Steel fallback has been applied.`;
+  }
+
+  const unsupportedService = [
+    { pattern: /\b(?:freight|transportation\s+freight|delivery\s+charge)\b/i, label: "Freight and delivery" },
+    { pattern: /\b(?:gst|tax|taxes|duty)\b/i, label: "Taxes and duties" },
+    { pattern: /\b(?:commissioning|start-?up)\b/i, label: "Commissioning" },
+    { pattern: /\b(?:scaffold|scaffolding)\b/i, label: "Scaffolding" },
+    { pattern: /\b(?:standalone\s+)?(?:ndt|radiography|ultrasonic\s+testing|dye\s+penetrant)\b/i, label: "Standalone NDT / inspection" },
+    { pattern: /\b(?:excavation|backfill|concrete\s+foundation)\b/i, label: "Civil excavation or foundation work" },
+    { pattern: /\b(?:electrical|instrumentation|fireproofing)\b/i, label: "Electrical, instrumentation or fireproofing work" },
+  ].find((entry) => entry.pattern.test(text));
+
+  if (unsupportedService) {
+    return `${unsupportedService.label} is not available as a separate service estimate in this version. Available service estimates are pipe and fitting fabrication/erection, flange installation, valve installation, pipe supports, support civil work, painting, insulation, PWHT and rework/modification. No unsupported service rate has been assumed.`;
+  }
+
+  return "";
+}
+
+function buildEstimatorQueryAnswer(query) {
+  const promptText = String(query || "");
+  // Methodology questions do not need a pipe size. Resolve them before all
+  // pricing and material parsers so they never fall through to a blank result.
+  if (/\bpart\s*b\b/i.test(promptText) && /\b(?:service|sor|schedule[\s-]*of[\s-]*rates)\b/i.test(promptText)) {
+    return { rateLookup: true, serviceMethodologyLookup: true };
+  }
+  if (/\bpart\s*a\b/i.test(promptText) && /\b(?:material|component)\b/i.test(promptText)) {
+    return { rateLookup: true, materialMethodologyLookup: true };
+  }
+  if (isEstimatorBomTemplateRequest(promptText)) {
+    return { bomTemplate: true };
+  }
+  const unsupportedPromptMessage = getUnsupportedEstimatorPromptMessage(promptText);
+  if (unsupportedPromptMessage) {
+    return { error: unsupportedPromptMessage };
+  }
+  // Prioritize the specific missing-thickness message for prompts such as
+  // "48-inch x mm pipe cost" before generic size or schedule validation.
+  if (/(?:x|×)\s*mm\b/i.test(promptText)) {
+    return {
+      error:
+        "Wall thickness is missing. Enter a value such as \u201c48-inch x 10 mm pipe cost, including services?\u201d",
+    };
+  }
+  const rateLookup = getEstimatorQueryRateLookup(query);
+  if (rateLookup?.supportRateLookup || rateLookup?.civilSupportRateLookup) return rateLookup;
+  const rawMaterialLookup = getEstimatorQueryRawMaterialLookup(query);
+  if (rawMaterialLookup) return rawMaterialLookup;
+  const size = parseBomSize(query);
+  if (!Number.isFinite(size) || !odTable[size]) {
+    if (rateLookup) return rateLookup;
+    return { error: "Add a recognised pipe size, for example: 6 IN STD pipe price for 100 m." };
+  }
+
+  const descriptor = getEstimatorQueryComponentDescriptor(query);
+  // Do not silently substitute a schedule when the prompt explicitly asks for
+  // a thickness but leaves the millimetre value blank, e.g. "48-inch x mm".
+  if (/(?:x|×)\s*mm\b/i.test(String(query || ""))) {
+    return {
+      error:
+        "Wall thickness is missing. Enter a value such as \u201c48-inch x 10 mm pipe cost, including services?\u201d",
+    };
+  }
+  const schedule = getEstimatorQuerySchedule(query) || normalizeSchedule(elements.schedule.value || "STD") || "STD";
+  const directThickness = String(query || "").match(/\b(\d+(?:\.\d+)?)\s*MM\b/i);
+  const thickness = directThickness ? Number(directThickness[1]) : getScheduleThickness(size, schedule);
+  if (!Number.isFinite(thickness) || thickness <= 0) {
+    return { error: `Select valid schedule from B36.10 or B36.19 for ${formatPipeSize(size)} IN.` };
+  }
+
+  const length = getEstimatorQueryLength(query);
+  const hasLength = Number.isFinite(length) && length > 0;
+  const designTemperatureC = getEstimatorQueryDesignTemperature(query);
+  const quantity = getEstimatorQueryQuantity(query);
+  const spec = getEstimatorQueryMaterial(query);
+  const year = Number(elements.year.value) || 2026;
+  const coating = getEstimatorQueryCoating(query);
+  const rawMapping = getRawMaterialPriceMapping(spec, year);
+  const currentEstimate = getCurrentEstimate();
+  const rawSteel = rawMapping?.recommended || currentEstimate.rawSteel;
+
+  if (!descriptor) {
+    const estimate = buildEstimate({
+      year,
+      size,
+      thickness,
+      length: hasLength ? length : 1,
+      spec,
+      coating,
+      rawOverride: rawSteel,
+      rawSteelSource: rawMapping ? "materialLibrary" : currentEstimate.rawSteelSource,
+      rawBasisNote: rawMapping?.note || currentEstimate.rawSteelBasis,
+      factorOverride: elements.factorOverride.value,
+    });
+    if (estimate.error) return { error: estimate.error };
+    const item = {
+      group: "Pipe Group",
+      item: "Pipe",
+      standardName: "Pipe",
+      size: `${formatPipeSize(size)} IN`,
+      thickness: directThickness ? `${thickness} mm` : schedule,
+      material: spec,
+      materialCategory: estimate.materialCategory,
+      quantity: String(hasLength ? length : 0),
+      uom: "M",
+      componentCost: { thickness },
+    };
+    const materialComparisons = hasExplicitEstimatorQueryMaterial(query)
+      ? []
+      : getEstimatorQueryMaterialComparisons({
+          year,
+          size,
+          thickness,
+          length: hasLength ? length : 1,
+          coating,
+        });
+    return {
+      kind: "Pipe",
+      estimate,
+      service: getEstimatorQueryService(item, hasLength),
+      hasLength,
+      schedule,
+      spec,
+      rawMapping,
+      designTemperatureC,
+      materialComparisons,
+      isGenericMaterialQuery: materialComparisons.length > 0,
+    };
+  }
+
+  const rating = getEstimatorQueryRating(query, schedule);
+  const componentCost = buildComponentCostEstimate({
+    group: descriptor.group,
+    item: descriptor.component,
+    standardName: descriptor.component,
+    sizeText: `${formatPipeSize(size)} IN`,
+    thicknessText: rating,
+    materialText: spec,
+    quantityText: quantity,
+    uomText: descriptor.uom,
+    thicknessIsSchedule: true,
+  });
+  const materialMatch = classifyMaterialSpec(spec);
+  const item = {
+    group: descriptor.group,
+    item: descriptor.component,
+    standardName: descriptor.component,
+    size: `${formatPipeSize(size)} IN`,
+    thickness: rating,
+    material: spec,
+    materialCategory: materialMatch.category,
+    quantity: String(quantity),
+    uom: descriptor.uom,
+    componentCost,
+  };
+  return {
+    kind: descriptor.component,
+    componentCost,
+    service: getEstimatorQueryService(item, true),
+    quantity,
+    schedule: rating,
+    spec,
+    rawMapping,
+  };
+}
+
+function isServiceMethodologyPrompt(query) {
+  const text = String(query || "");
+  return /\bpart\s*b\b/i.test(text)
+    && /\b(?:service|sor|schedule[\s-]*of[\s-]*rates)\b/i.test(text);
+}
+
+function serviceMethodologyRequestsExample(query) {
+  return /\b(?:example|explain|show\s+(?:an?\s+)?example|worked\s+example)\b/i.test(String(query || ""));
+}
+
+function materialMethodologyRequestsExample(query) {
+  return /\b(?:example|explain|show\s+(?:an?\s+)?example|worked\s+example)\b/i.test(String(query || ""));
+}
+
+function renderServiceMethodologyPrompt(target = elements.estimatorQueryResult, showOutputHeading = true, includeExample = false) {
+  if (!target) return;
+  if (target === elements.estimatorQueryResult) {
+    if (elements.estimatorQueryExamples) elements.estimatorQueryExamples.hidden = true;
+    target.hidden = false;
+  }
+  target.innerHTML = `
+    ${getEstimatorOutputHeading(showOutputHeading)}
+    <div class="ask-result-header">
+      <h3>Part B - Service Cost Methodology</h3>
+      <span class="ask-result-status">Audit-trail basis</span>
+    </div>
+    ${makeEstimatorQueryTable(
+      ["Service area", "Calculation method / rate basis"],
+      [
+        ["Rate library", "Carbon Steel uses CS rates, Austenitic Stainless Steel uses SS rates, and Alloy Steel uses AS rates."],
+        ["Pipe erection", "Erection quantity = NPS x pipe length in metre x approved Rs/IM rate."],
+        ["Pipe welding", "Base joints = ceiling(length / 6 m); estimated joints = ceiling(base joints x 1.60); welding quantity = joints x NPS in ID."],
+        ["Fittings and flanges", "Fittings use connection ends for estimated joints; each flange No. equals one estimated joint."],
+        ["PWHT", "Applies only where pipe class, material and wall thickness meet NRL PWHT rules; Rs 408.00 to Rs 715.00/ID by material."],
+        ["Pipe structural supports", "Pipe kg/m x 0.50 m support height x support count, using suggested spans; structural rate Rs 1,50,000.00/MT."],
+        ["Civil pipe support", "300 mm support cost uses the size-based base curve; Inside Unit Battery Limit is 30%, Outside Unit Battery Limit is 100%."],
+        ["Painting", "Surface area = pi x OD x length; Rs 1,010.00/m2 default or CUI rate by Design Temperature."],
+        ["Insulation", "Surface area = pi x OD x length x provisional P50 Rs/m2 at Design Temperature."],
+        ["Valve service", "Calculated valve material weight x BOM quantity x Rs 30.53/kg non-RTJ or Rs 36.64/kg RTJ."],
+        ["Rework / modification", "15.00% of total project welding ID using applicable welding-rate basis."],
+        ["Review and exclusions", "Unclassified pipe uses CS as visible fallback; unsupported rows remain Review. Materials, commissioning, taxes, escalation and contingency are excluded."],
+      ]
+    )}
+    ${includeExample ? `
+      <div class="ask-result-header">
+        <h3>Worked example - 6 IN CS pipe, 60 m</h3>
+        <span class="ask-result-status">Above Ground / Non-IBR</span>
+      </div>
+      ${makeEstimatorQueryTable(
+        ["Step", "Calculation", "Result"],
+        [
+          ["Erection quantity", "6 IN x 60 m", "360.00 IM"],
+          ["Base joints", "ceiling(60 m / 6 m stock length)", "10 joints"],
+          ["Estimated joints", "ceiling(10 x 1.60 planning allowance)", "16 joints"],
+          ["Welding quantity", "16 joints x 6 IN", "96.00 ID"],
+          ["Erection cost", "360.00 IM x Rs 310.00/IM", "Rs 1,11,600.00"],
+          ["Welding cost", "96.00 ID x Rs 860.00/ID", "Rs 82,560.00"],
+          ["Direct service cost", "Erection cost + welding cost", "Rs 1,94,160.00"],
+        ],
+        [2]
+      )}
+    ` : ""}
+    <p class="ask-result-note">${escapeHtml("This is the same Part B methodology shown in Calculation Methodology & Audit Trail and the PDF/Excel reports.")}</p>
+  `;
+}
+
+function renderEstimatorQueryAnswer(answer, query, target = elements.estimatorQueryResult, showOutputHeading = true) {
+  if (!target) return;
+  if (target === elements.estimatorQueryResult) {
+    if (elements.estimatorQueryExamples) elements.estimatorQueryExamples.hidden = true;
+    target.hidden = false;
+  }
+  if (answer.error) {
+    target.innerHTML = `${getEstimatorOutputHeading(showOutputHeading)}<p class="ask-result-error">${escapeHtml(answer.error)}</p>`;
+    return;
+  }
+
+  if (answer.bomTemplate) {
+    target.innerHTML = `
+      ${getEstimatorOutputHeading(showOutputHeading)}
+      <div class="ask-result-header">
+        <h3>Excel BOM template</h3>
+        <span class="ask-result-status">Ready to download</span>
+      </div>
+      ${makeEstimatorQueryTable(
+        ["Template contents", "Included"],
+        [
+          ["Required BOM fields", "Item, Size, Sch/Thk/Rating, Material, Quantity and UOM"],
+          ["Sample data", "10 example piping-component rows for quick understanding"],
+          ["Use", "Complete the workbook, then upload it through this prompt bar or Upload Excel BOM"],
+        ]
+      )}
+      <a class="template-download ask-template-download" href="Piping%20BOM%20Example%20Template.xlsx" download>
+        <span>Download Excel BOM Template</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <path d="M12 3v12" />
+          <path d="m7 10 5 5 5-5" />
+          <path d="M5 21h14" />
+        </svg>
+      </a>
+    `;
+    return;
+  }
+
+  if (answer.rawMaterialCatalogue) {
+    const rows = answer.entries.map((entry) => `
+      <tr>
+        <td>${escapeHtml(`${entry.category} | ${entry.grade}`)}</td>
+        <td class="ask-rate-table-number">${formatNumber(entry.recommended, 2)}</td>
+        <td class="ask-rate-table-number">${formatNumber(entry.factorWrtCs || 1, 2)}</td>
+      </tr>`);
+    target.innerHTML = `
+      ${getEstimatorOutputHeading(showOutputHeading)}
+      <div class="ask-result-header">
+        <h3>Available raw material prices</h3>
+        <span class="ask-result-status">${answer.entries.length} material families</span>
+      </div>
+      <div class="ask-rate-table-wrap">
+        <table class="ask-rate-table">
+          <thead>
+            <tr>
+              <th>Material family / composition</th>
+              <th>Price (Rs/kg)</th>
+              <th>CS factor</th>
+            </tr>
+          </thead>
+          <tbody>${rows.join("")}</tbody>
+        </table>
+      </div>
+      <p class="ask-result-note">${escapeHtml(`Year basis: ${answer.year}. Prices are recommended raw-material rates. Ask for SS304 or P11 raw material price per kg to see one material's full range and basis.`)}</p>
+    `;
+    return;
+  }
+
+  if (answer.rawMaterialLookup) {
+    const { mapping } = answer;
+    target.innerHTML = `
+      ${getEstimatorOutputHeading(showOutputHeading)}
+      <div class="ask-result-header">
+        <h3>${escapeHtml(`${formatCategoryHeading(mapping.groupName)} raw material price`)}</h3>
+        <span class="ask-result-status">Reference rate</span>
+      </div>
+      ${makeEstimatorQueryTable(
+        ["Material information", "Value"],
+        [
+          ["Recommended raw price", `${formatCurrency(mapping.recommended, 2)}/kg`],
+          ["Material category", formatCategoryHeading(mapping.groupName)],
+          ["Pipe material standard", mapping.standard || answer.spec],
+          ["Raw material range", mapping.range || "Reference rate"],
+          ["Factor w.r.t. CS", formatNumber(mapping.factorWrtCs || 1, 2)],
+          ["Year basis", mapping.year || "Current year"],
+        ],
+        [1]
+      )}
+      <p class="ask-result-note">${escapeHtml(mapping.note || `Raw-material basis used for ${answer.spec}.`)}</p>
+    `;
+    return;
+  }
+
+  if (answer.rateLookup) {
+    if (answer.pipeWeightMethodLookup) {
+      target.innerHTML = `
+        ${getEstimatorOutputHeading(showOutputHeading)}
+        <div class="ask-result-header">
+          <h3>Pipe weight calculation</h3>
+          <span class="ask-result-status">ASME nominal basis</span>
+        </div>
+        ${makeEstimatorQueryTable(
+          ["Calculation item", "Formula / definition"],
+          [
+            ["Pipe mass formula", "W = 0.0246615 x (OD - t) x t"],
+            ["W", "Nominal plain-end pipe mass in kg/m"],
+            ["OD", "Actual outside diameter in mm, obtained from NPS or DN. Never use nominal size directly."],
+            ["t", "Wall thickness in mm, from the selected schedule or entered thickness."],
+            ["Total pipe weight", "Total kg = W x pipe length in m"],
+            ["Validation", "OD must be greater than 0, t must be greater than 0, and t must be less than OD / 2."],
+          ]
+        )}
+        <p class="ask-result-note">Example: a 6 IN pipe uses OD 168.3 mm, not 6 inches. For a 7.11 mm wall, W = 0.0246615 x (168.3 - 7.11) x 7.11 = 28.26 kg/m.</p>
+      `;
+      return;
+    }
+    if (answer.componentMethodLookup) {
+      const componentMethods = {
+        pipe: {
+          title: "Pipes calculation method",
+          status: "Weight and factor basis",
+          rows: [
+            ["Actual OD", "The app converts NPS or DN into actual outside diameter. Nominal size is never used directly as the diameter."],
+            ["Pipe mass", "W = 0.0246615 x (OD - t) x t, where W is kg/m and OD and t are in mm."],
+            ["Raw material", "The detected ASTM material selects its applicable raw Rs/kg from the year-based material library."],
+            ["Finished Rs/kg", "Raw material Rs/kg x pipe estimate factor. The pipe factor changes for coating and can be overridden by the user."],
+            ["Normal total", "Pipe kg/m x length in m x finished Rs/kg."],
+            ["P90 total", "Normal total x the active P90-to-normal ratio."],
+          ],
+        },
+        fitting: {
+          title: "Fittings calculation method",
+          status: "Weight and factor basis",
+          rows: [
+            ["Matching pipe basis", "The selected size and schedule/wall are converted to actual OD and thickness, then pipe kg/m = 0.0246615 x (OD - t) x t."],
+            ["90 degree LR elbow", "Developed length = 2.356 x actual OD. Elbow weight = matching-pipe kg/m x developed length. Unit Rs = weight x raw material Rs/kg x size-band elbow factor x material multiplier."],
+            ["45 degree elbow", "Uses the matching 90 degree elbow basis. Price = 65% of the 90 degree elbow for NPS 2 to 6 IN, or 60% for NPS 8 to 48 IN."],
+            ["Equal tee", "Developed length = 2C + M - 0.5 x OD. Tee weight = matching-pipe kg/m x developed length; the approved size-band Equal Tee factor is then applied."],
+            ["Reducing tee", "Uses approved unequal-tee run and branch C/M dimensions. If unavailable, the Equal Tee basis is used as a labelled fallback, not a Review row."],
+            ["Other fittings", "Matching-pipe rate x approved fitting factor x applicable pressure and material multipliers x quantity."],
+            ["P90", "Normal total x the active P90-to-normal ratio."],
+          ],
+        },
+        flange: {
+          title: "Flanges calculation method",
+          status: "JSON weight basis",
+          rows: [
+            ["Flange type", "The item description identifies WN, SO or Blind flange; the relevant small, medium or large size band is selected."],
+            ["Theoretical weight", "The approved flange-weight-3-input-model-v2 library supplies the flange weight for the type and size."],
+            ["Unit Rs", "Flange weight x material-specific raw Rs/kg x approved P50 base multiplier x applicable pressure/rating multiplier."],
+            ["Material", "The ASTM material is classified first, so the matching Carbon Steel, Stainless Steel or Alloy Steel raw-material rate is used."],
+            ["Fallback", "When a recognised flange type has no exact library record, the WN flange weight and factor fallback is used and shown in the source note."],
+            ["Total and P90", "Normal total = unit Rs x BOM quantity; P90 total = normal total x active P90-to-normal ratio."],
+          ],
+        },
+        valve: {
+          title: "Valves calculation method",
+          status: "Size and rating basis",
+          rows: [
+            ["Gate-valve weight", "The app uses the approved gate-valve size-band weight equation and conversion factor for the entered NPS."],
+            ["Gate-valve unit Rs", "Calculated valve weight x material-specific raw Rs/kg x the size-band conversion factor x pressure/rating multiplier."],
+            ["Other valve types", "The gate-valve 150# basis is adjusted using the approved relative factor for the detected valve type, then the pressure and material multipliers."],
+            ["Required inputs", "A recognised valve type, size, rating and material are required. A control valve without a size remains Review for management decision."],
+            ["Total and P90", "Normal total = unit Rs x BOM quantity; P90 total = normal total x active P90-to-normal ratio."],
+          ],
+        },
+        bolt: {
+          title: "Stud bolts and nuts calculation method",
+          status: "Complete-set mass basis",
+          rows: [
+            ["Readable metric designation", "For M30 x 200, the app extracts 30 mm diameter and 200 mm stud length, then selects the standard coarse thread pitch."],
+            ["Stud mass", "Uses the effective thread diameter: d - (0.649519 x pitch), then calculates the fully threaded stud mass at density 7,850 kg/m3."],
+            ["Two heavy-hex nuts", "Uses approved ASME B18.2.4.6M heavy-hex dimensions, 0.95 nut correction and two nuts per set."],
+            ["Unit Rs", "Complete set mass = stud + two nuts. Unit Rs = set mass x material-specific raw Rs/kg x commercial raw-to-finished factor 2.50."],
+            ["Fallback", "Only unreadable or non-metric bolt rows use the existing approved fallback method. Readable metric studs never use nearest-pipe pricing."],
+            ["Total and P90", "Normal total = unit Rs x BOM quantity; P90 total = normal total x active P90-to-normal ratio."],
+          ],
+        },
+        gasket: {
+          title: "Gaskets calculation method",
+          status: "Matching-pipe factor basis",
+          rows: [
+            ["Matching pipe rate", "The item size and schedule/wall establish the equivalent pipe rate using actual OD, thickness and material raw rate."],
+            ["Unit Rs", "Equivalent pipe rate x approved gasket factor x applicable pressure/rating and material multipliers."],
+            ["Material", "ASTM material classification selects the appropriate material raw-price mapping where one is available."],
+            ["Total and P90", "Normal total = unit Rs x BOM quantity; P90 total = normal total x active P90-to-normal ratio."],
+            ["Review rule", "Missing size, rating, material or an approved factor remains Review rather than receiving an invented value."],
+          ],
+        },
+        strainer: {
+          title: "Strainers and traps calculation method",
+          status: "Matching-pipe factor basis",
+          rows: [
+            ["Matching pipe rate", "The item size and schedule/wall establish the equivalent pipe rate using actual OD, thickness and material raw rate."],
+            ["Unit Rs", "Equivalent pipe rate x approved strainer or trap factor x applicable pressure/rating and material multipliers."],
+            ["Material", "ASTM material classification selects the appropriate material raw-price mapping where one is available."],
+            ["Total and P90", "Normal total = unit Rs x BOM quantity; P90 total = normal total x active P90-to-normal ratio."],
+            ["Review rule", "Missing size, rating, material or an approved factor remains Review rather than receiving an invented value."],
+          ],
+        },
+      };
+      const method = componentMethods[answer.componentMethodLookup];
+      const showComponentExample = /\b(?:example|worked|sample)\b/i.test(query);
+      const componentExamples = {
+        pipe: {
+          title: "Worked example - 6 IN CS STD pipe, 100 m",
+          status: "2026 Carbon Steel basis",
+          rows: [
+            ["OD and wall", "NPS 6 actual OD 168.3 mm; STD wall 7.11 mm", "168.3 mm / 7.11 mm"],
+            ["Pipe mass", "0.0246615 x (168.3 - 7.11) x 7.11", "28.26 kg/m"],
+            ["Finished Rs/kg", "Raw Rs 56.50/kg x non-coated normal factor 1.80", "Rs 101.70/kg"],
+            ["Pipe rate", "28.26 kg/m x Rs 101.70/kg", "Rs 2,874.41/m"],
+            ["Normal total", "100 m x Rs 2,874.41/m", "Rs 2,87,440.62"],
+          ],
+        },
+        fitting: {
+          title: "Worked example - 6 IN CS 90 degree LR elbow, STD",
+          status: "2026 Carbon Steel basis",
+          rows: [
+            ["Developed length", "2.356 x actual OD 168.3 mm", "0.397 m"],
+            ["Elbow weight", "28.26 kg/m matching-pipe mass x 0.397 m", "11.21 kg per elbow"],
+            ["Elbow factor", "Approved 90 degree elbow factor for NPS above 4 to 20 IN", "2.50"],
+            ["Normal unit price", "11.21 kg x Rs 56.50/kg x 2.50 x CS multiplier 1.00", "Rs 1,582.98 per No."],
+            ["P90 unit price", "Normal unit price x active P90-to-normal ratio 1.50", "Rs 2,374.47 per No."],
+          ],
+        },
+        flange: {
+          title: "Worked example - 6 IN CS WN flange, 150#",
+          status: "JSON flange-weight basis",
+          rows: [
+            ["Flange weight", "Approved WN flange library weight", "10.60 kg per No."],
+            ["Raw material", "2026 Carbon Steel raw material rate", "Rs 56.50/kg"],
+            ["WN multiplier", "Approved WN flange multiplier for this basis", "3.70"],
+            ["Normal unit price", "10.60 kg x Rs 56.50/kg x 3.70", "Rs 2,215.93 per No."],
+            ["P90 unit price", "Normal unit price x active P90-to-normal ratio 1.50", "Rs 3,323.90 per No."],
+          ],
+        },
+        valve: {
+          title: "Worked example - 6 IN CS gate valve, 150#",
+          status: "Gate-valve weight basis",
+          rows: [
+            ["Weight basis", "2.00 x NPS squared = 2.00 x 6 squared", "72.00 kg"],
+            ["Raw material", "2026 Carbon Steel raw material rate", "Rs 56.50/kg"],
+            ["Conversion factor", "Approved gate-valve factor for NPS 6 to 12 IN", "3.70"],
+            ["Normal unit price", "72.00 kg x Rs 56.50/kg x 3.70", "Rs 15,058.80 per No."],
+            ["P90 unit price", "Normal unit price x active P90-to-normal ratio 1.50", "Rs 22,588.20 per No."],
+          ],
+        },
+        bolt: {
+          title: "Worked example - M30 x 200 stud with two heavy-hex nuts",
+          status: "Complete-set mass basis",
+          rows: [
+            ["Complete set mass", "Calculated fully threaded stud plus two heavy-hex nuts", "1.66 kg per set"],
+            ["Raw material", "Material-specific raw rate is selected from ASTM A193 B7 / A194 2H mapping", "Applicable alloy-steel rate"],
+            ["Commercial factor", "Approved raw-to-finished factor", "2.50"],
+            ["Calculation", "Set mass x material-specific raw Rs/kg x 2.50", "Normal unit Rs"],
+            ["P90 unit price", "Normal unit price x active P90-to-normal ratio", "P90 unit Rs"],
+          ],
+        },
+        gasket: {
+          title: "Worked example - 6 IN gasket, 150#",
+          status: "Matching-pipe factor basis",
+          rows: [
+            ["Matching pipe rate", "6 IN CS STD pipe normal rate", "Rs 2,874.41/m"],
+            ["Gasket factor", "Approved gasket component factor", "0.06"],
+            ["Pressure and material multipliers", "150# x Carbon Steel", "1.00 x 1.00"],
+            ["Normal unit price", "Rs 2,874.41/m x 0.06 x 1.00 x 1.00", "Rs 172.46 per No."],
+            ["P90 unit price", "Normal unit price x active P90-to-normal ratio 1.50", "Rs 258.70 per No."],
+          ],
+        },
+        strainer: {
+          title: "Worked example - 6 IN CS strainer, 150#, STD",
+          status: "Generic strainer factor",
+          rows: [
+            ["Matching pipe", "6 IN STD Carbon Steel pipe: 28.26 kg/m x Rs 101.70/kg", "Rs 2,874.41/m"],
+            ["Strainer factor", "Approved generic strainer factor", "1.50"],
+            ["Pressure and material multipliers", "150# x Carbon Steel", "1.00 x 1.00"],
+            ["Normal unit price", "Rs 2,874.41/m x 1.50 x 1.00 x 1.00", "Rs 4,311.62 per No."],
+            ["P90 unit price", "Normal unit price x active P90-to-normal ratio 1.50", "Rs 6,467.43 per No."],
+          ],
+        },
+      };
+      const example = componentExamples[answer.componentMethodLookup];
+      target.innerHTML = `
+        ${getEstimatorOutputHeading(showOutputHeading)}
+        <div class="ask-result-header">
+          <h3>${method.title}</h3>
+          <span class="ask-result-status">${method.status}</span>
+        </div>
+        ${makeEstimatorQueryTable(["Calculation item", "Method / basis"], method.rows)}
+        ${showComponentExample && example ? `
+          <div class="ask-result-header">
+            <h3>${example.title}</h3>
+            <span class="ask-result-status">${example.status}</span>
+          </div>
+          ${makeEstimatorQueryTable(["Calculation item", "Calculation", "Result"], example.rows, [2])}
+          ${answer.componentMethodLookup === "strainer" ? `<p class="ask-result-note">The factor is a generic strainer factor. A specific temporary or permanent strainer can use its dedicated approved factor when the BOM description identifies it.</p>` : ""}
+        ` : ""}
+        <p class="ask-result-note">This answer describes the same approved calculation basis used in Piping Component Cost Review, the PDF report and the editable Excel report. Supplier quotation remains the final commercial validation.</p>
+      `;
+      return;
+    }
+    if (answer.materialMethodologyLookup) {
+      target.innerHTML = `
+        ${getEstimatorOutputHeading(showOutputHeading)}
+        <div class="ask-result-header">
+          <h3>Part A - Material Cost Methodology</h3>
+          <span class="ask-result-status">Audit-trail basis</span>
+        </div>
+        ${makeEstimatorQueryTable(
+          ["Calculation area", "Method / basis"],
+          [
+            ["Pipe pricing", "Pipe kg/m = 0.0246615 x (OD - t) x t; total = kg/m x length"],
+            ["Raw material and P90", "Material-library raw Rs/kg x factor; P90 uses the active P90-to-normal ratio"],
+            ["90 degree LR elbows", "2.356 x OD developed length x pipe kg/m x size-band factor"],
+            ["45 degree elbows", "50% physical weight; 65% of 90 degree price for 2-6 IN, 60% for 8-48 IN"],
+            ["Equal and reducing tees", "2C + M - 0.5 x OD; PO-derived tee factor; reducing tee uses run/branch dimensions or Equal Tee fallback"],
+            ["Flanges", "JSON flange weight x material Rs/kg x P50 base multiplier x quantity"],
+            ["Valves", "Gate-valve size-band weight basis; other valve types use approved relative factors"],
+            ["Stud and two nuts", "Calculated complete-set mass x material Rs/kg x commercial factor 2.50"],
+            ["Other components", "Approved matching-pipe and component-factor method x BOM quantity"],
+            ["Material classification", "ASTM material specification library determines category and material raw-price mapping"],
+            ["Coating", "Pipe-only factor: No 1.80 normal / 2.70 P90; Yes 2.30 normal / 3.80 P90"],
+            ["Commercial exclusions", "Taxes, freight, escalation, contingency, packing, wastage and contractor margin"],
+          ]
+        )}
+        ${materialMethodologyRequestsExample(query) ? `
+          <div class="ask-result-header">
+            <h3>Worked examples for all Part A calculation areas</h3>
+            <span class="ask-result-status">2026 Carbon Steel basis</span>
+          </div>
+          ${makeEstimatorQueryTable(
+            ["Example", "Calculation", "Result"],
+            [
+              ["6 IN CS pipe, 7.11 mm wall", "W = 0.0246615 x (168.3 - 7.11) x 7.11", "28.26 kg/m"],
+              ["Pipe material rate", "Rs 56.50/kg raw material x 1.80 normal pipe factor", "Rs 101.70/kg"],
+              ["Pipe rate per metre", "28.26 kg/m x Rs 101.70/kg", "Rs 2,874.41/m"],
+              ["100 m pipe quantity", "28.26 kg/m x 100 m", "2,826.00 kg"],
+              ["6 IN 90 degree LR elbow, STD", "Developed length = 2.356 x 168.3 mm = 0.3965 m; 28.26 kg/m x 0.3965 m", "11.21 kg per elbow"],
+              ["Elbow material rate", "11.21 kg x Rs 56.50/kg x 2.50 elbow factor", "Rs 1,582.98 per No."],
+              ["6 IN 45 degree elbow", "Matching 90 degree elbow price x 65% for NPS 2 to 6 IN", "Rs 1,028.94 per No."],
+              ["6 IN Equal Tee", "2C + M - 0.5 x OD; pipe kg/m x tee developed length x 3.86 tee factor", "PO-derived Equal Tee basis"],
+              ["Reducing Tee", "Approved unequal-tee run and branch C/M dimensions; use run-size Equal Tee factor", "Equal Tee fallback is labelled when used"],
+              ["6 IN WN flange, 150#, CS", "10.60 kg JSON weight x Rs 56.50/kg x 3.70 WN multiplier", "Rs 2,215.93 per No."],
+              ["6 IN gate valve, 150#, CS", "2.00 x 6 squared = 72.00 kg; 72.00 kg x Rs 56.50/kg x 3.70", "Rs 15,058.80 per No."],
+              ["M30 x 200 stud and two nuts", "1.66 kg/set x Rs 56.50/kg x 2.50 commercial factor", "Rs 234.88 per set"],
+              ["Other fittings, gaskets and strainers", "Matching-pipe rate x approved component factor x quantity", "Approved group pricing basis"],
+              ["Material classification", "ASTM A106 Gr.B is Carbon Steel; ASTM A335 Gr.P5 is Low and Intermediate Alloy Steel", "Raw material follows detected category"],
+              ["Pipe coating", "Non-coated factor 1.80 normal / 2.70 P90; coated factor 2.30 normal / 3.80 P90", "Applies to pipes only"],
+              ["Commercial exclusions", "Taxes, freight, escalation, contingency, packing, wastage and contractor margin", "Excluded unless separately stated"],
+            ],
+            [2]
+          )}
+        ` : ""}
+        <p class="ask-result-note">${escapeHtml("Rows with missing size, rating, material or approved factor remain Review. This is the same Part A methodology shown in Calculation Methodology & Audit Trail and the PDF/Excel reports.")}</p>
+      `;
+      return;
+    }
+    if (answer.serviceMethodologyLookup) {
+      renderServiceMethodologyPrompt(target, showOutputHeading, serviceMethodologyRequestsExample(query));
+      return;
+    }
+    if (answer.serviceRateReferenceLookup) {
+      target.innerHTML = `
+        ${getEstimatorOutputHeading(showOutputHeading)}
+        <div class="ask-result-header">
+          <h3>Service unit-rate reference</h3>
+          <span class="ask-result-status">Current approved basis</span>
+        </div>
+        ${makeEstimatorQueryTable(
+          ["Service item", "Rate / basis"],
+          [
+            ["Pipe erection and welding", "Ask material, size and wall thickness for IM and ID rate"],
+            ["Valve installation", "Rs 30.53/kg non-RTJ | Rs 36.64/kg RTJ"],
+            ["Pipe structural supports", "Rs 1,50,000.00/MT"],
+            ["Civil pipe support", "Rs 6,000.00 to Rs 26,000.00/No."],
+            ["Pipe painting", "Rs 1,010.00/m2 default | Rs 885.00 to Rs 2,220.00/m2 CUI"],
+            ["Pipe insulation", answer.insulationRates.join(" | ")],
+            ["PWHT", "Rs 408.00 to Rs 715.00/ID by material category"],
+            ["Rework / modification", "15.00% of total project welding ID"],
+          ]
+        )}
+        <p class="ask-result-note">${escapeHtml("Pipe, fitting and flange erection/welding rates are selected from the approved CS, SS or alloy-steel service library using material, size, wall thickness, location and IBR status. Ask a specific question such as: 6 IN STD CS pipe erection and welding rate.")}</p>
+      `;
+      return;
+    }
+    if (answer.insulationRateLookup) {
+      target.innerHTML = `
+        ${getEstimatorOutputHeading(showOutputHeading)}
+        <div class="ask-result-header">
+          <h3>Pipe insulation unit price</h3>
+          <span class="ask-result-status">Provisional P50 rate basis</span>
+        </div>
+        ${makeEstimatorQueryTable(
+          ["Design temperature", "Provisional P50 rate"],
+          answer.insulationRates.map((rate) => [rate.replace(/\s*\|.*$/, ""), rate.replace(/^.*\|\s*/, "")]),
+          [1]
+        )}
+        <p class="ask-result-note">${escapeHtml("Insulation cost uses outside pipe surface area: pi x OD (m) x length (m). A Design Temperature from 100C to 500C is required for the BOM estimate.")}</p>
+      `;
+      return;
+    }
+    if (answer.pwhtRateLookup) {
+      target.innerHTML = `
+        ${getEstimatorOutputHeading(showOutputHeading)}
+        <div class="ask-result-header">
+          <h3>PWHT unit price</h3>
+          <span class="ask-result-status">Rate per inch-diameter joint</span>
+        </div>
+        ${makeEstimatorQueryTable(
+          ["Material category", "Rate (Rs/ID)"],
+          [["Carbon steel / LTCS", "408.00"], ["P11 / P12 / P22 and austenitic SS", "559.00"], ["P5 / P9", "613.00"], ["P91 / P92", "715.00"]],
+          [1]
+        )}
+        <p class="ask-result-note">${escapeHtml("PWHT is applied only when the BOM pipe class, material and wall thickness meet the NRL PWHT rules. The selected rate is multiplied by eligible weld inch-diameter quantity.")}</p>
+      `;
+      return;
+    }
+    if (answer.valveServiceRateLookup) {
+      target.innerHTML = `
+        ${getEstimatorOutputHeading(showOutputHeading)}
+        <div class="ask-result-header">
+          <h3>Valve service unit price</h3>
+          <span class="ask-result-status">IOCL-ME-SOR basis</span>
+        </div>
+        ${makeEstimatorQueryTable("Valve type,Rate (Rs/kg)".split(","), [["Valve other than RTJ", "30.53"], ["RTJ valve", "36.64"]], [1])}
+        <p class="ask-result-note">${escapeHtml("Valve service cost is calculated from the valve weight already derived for the BOM, multiplied by the applicable per-kg service rate.")}</p>
+      `;
+      return;
+    }
+    if (answer.reworkRateLookup) {
+      target.innerHTML = `
+        ${getEstimatorOutputHeading(showOutputHeading)}
+        <div class="ask-result-header">
+          <h3>Rework / modification allowance</h3>
+          <span class="ask-result-status">Planning basis</span>
+        </div>
+        ${makeEstimatorQueryTable(["Calculation item", "Basis"], [["Allowance", "15.00% of total project welding ID"], ["Rate basis", "Applicable welding rate by material, size and thickness"]])}
+        <p class="ask-result-note">${escapeHtml("The app calculates this allowance from total project welding inch-diameter, then applies the weighted welding-rate basis from the priced service rows.")}</p>
+      `;
+      return;
+    }
+    if (answer.paintingRateLookup) {
+      target.innerHTML = `
+        ${getEstimatorOutputHeading(showOutputHeading)}
+        <div class="ask-result-header">
+          <h3>Pipe painting unit price</h3>
+          <span class="ask-result-status">P50 rate basis</span>
+        </div>
+        ${makeEstimatorQueryTable(
+          ["Painting condition", "Rate / basis"],
+          [["Uninsulated piping | 65C default", `${formatCurrency(answer.uninsulatedRate.rateRsPerM2, 2)}/m2`], ["Painting under insulation | 65C to 200C", `${formatCurrency(answer.cuiLowTemperatureRate.rateRsPerM2, 2)}/m2`], ["Painting under insulation | 300C to 500C", `${formatCurrency(answer.cuiHighTemperatureRate.rateRsPerM2, 2)}/m2`], ["200C to 300C", "Linear interpolation"]]
+        )}
+        <p class="ask-result-note">${escapeHtml(`Uninsulated CS/LTCS/alloy piping uses the ${formatCurrency(answer.uninsulatedRate.rateRsPerM2, 2)}/m2 65C default. When a Design Temperature is entered, the calculator uses the painting-under-insulation CUI rates. Painting surface area is calculated separately as pi x OD x length.`)}</p>
+      `;
+      return;
+    }
+    if (answer.civilSupportRateLookup) {
+      const scope = answer.civilScope;
+      const referenceRows = Number.isFinite(answer.size)
+        ? [
+            ["Civil base rate per support", formatCurrency(answer.baseRate, 2)],
+            ["App scope adjustment", `${scope.label} (${formatNumber(scope.factor * 100, 0)}%)`],
+            ["Applicable size", `${formatPipeSize(answer.size)} IN`],
+          ]
+        : [
+            ["3 IN base reference", formatCurrency(6000, 2)],
+            ["20 IN base reference", formatCurrency(17000, 2)],
+            ["48 IN base reference", formatCurrency(26000, 2)],
+          ];
+      target.innerHTML = `
+        ${getEstimatorOutputHeading(showOutputHeading)}
+        <div class="ask-result-header">
+          <h3>Civil works for pipe supports</h3>
+          <span class="ask-result-status">Approved basis</span>
+        </div>
+        ${makeEstimatorQueryTable(
+          ["Civil support item", "Value"],
+          [["Current app scope", `${scope.label} (${formatNumber(scope.factor * 100, 0)}%)`], ...referenceRows],
+          [1]
+        )}
+        <p class="ask-result-note">${escapeHtml(`Rate is per individual 300 mm above-ground pipe support. The displayed rates are the full base curve: Rs 6,000 at 3 IN, Rs 17,000 at 20 IN and Rs 26,000 at 48 IN. Intermediate sizes are linearly interpolated and rounded upward to the next Rs 500. The app's ${formatNumber(scope.factor * 100, 0)}% scope setting is used separately only when calculating the uploaded BOM total. ${Number.isFinite(answer.size) ? "The displayed amount is the full base rate for the requested size." : "Ask with a size, for example: 6 IN civil support rate, for the exact base rate."}`)}</p>
+      `;
+      return;
+    }
+    if (answer.supportRateLookup) {
+      target.innerHTML = `
+        ${getEstimatorOutputHeading(showOutputHeading)}
+        <div class="ask-result-header">
+          <h3>Pipe structural support work rate</h3>
+          <span class="ask-result-status">Approved basis</span>
+        </div>
+        ${makeEstimatorQueryTable(
+          ["Structural support item", "Value"],
+          [["Rate", `${formatCurrency(answer.rateRs, 2)}/${answer.unit}`], ["Measurement basis", "Net fabricated structural steel weight"], ["Support height basis", `${formatNumber(pipeSupportHeightM, 2)} m per support`]],
+          [1]
+        )}
+        <p class="ask-result-note">${escapeHtml(`Scope includes contractor-supplied structural steel, fabrication, welding, surface preparation, primer/painting, transportation, erection, bolting and alignment. Source: ${answer.source}.`)}</p>
+      `;
+      return;
+    }
+    const basis = `${String(answer.location).replace(/_/g, " ")} / ${String(answer.regulatoryClass).replace(/_/g, " ")}`;
+    const rows = answer.rows.map((row) => {
+      const sizeRange = `${formatPipeSize(row.npsMinIn)}-${formatPipeSize(row.npsMaxIn)} IN`;
+      const thicknessRange = `>${formatNumber(row.thicknessMinExclusiveMm, 2)} to ${formatNumber(row.thicknessMaxInclusiveMm, 2)} mm`;
+      return [sizeRange, thicknessRange, `${formatCurrency(row.rateRs, 2)}/${row.unit}`];
+    });
+    const activityLabel = answer.activity === "FABRICATION" ? "Butt-weld rate lookup" : "Erection rate lookup";
+    const uniqueSources = [...new Set(answer.rows.map((row) => row.source).filter(Boolean))].join(", ");
+    target.innerHTML = `
+      ${getEstimatorOutputHeading(showOutputHeading)}
+      <div class="ask-result-header">
+        <h3>${escapeHtml(`${formatCategoryHeading(answer.materialCategory)} ${activityLabel}`)}</h3>
+        <span class="ask-result-status">Approved rate bands</span>
+      </div>
+      ${makeEstimatorQueryTable(["Size range", "Wall thickness", "Rate"], rows, [2])}
+      <p class="ask-result-note">${escapeHtml(`Service basis: ${basis} | Material: ${formatCategoryHeading(answer.materialCategory)} | Unit: ${answer.unit} = inch-diameter. Select a pipe size and thickness to calculate an actual service cost. Source: ${uniqueSources || "approved service rate library"}.`)}</p>
+    `;
+    return;
+  }
+
+  const isPipe = answer.kind === "Pipe";
+  const materialReady = isPipe
+    ? true
+    : hasComponentUnitPrice(answer.componentCost) && hasComponentTotals(answer.componentCost);
+  const service = answer.service || {};
+  const serviceReady = service.status === "READY" || service.status === "RATE_ONLY";
+  const title = isPipe
+    ? `${formatPipeSize(answer.estimate.size)} IN ${answer.schedule} pipe estimate`
+    : `${formatPipeSize(answer.componentCost.size)} IN ${answer.kind} estimate`;
+
+  if (isPipe) {
+    target.innerHTML = renderEstimatorPipeSummary(answer, query, showOutputHeading);
+    return;
+  }
+
+  const isWeightOnlyQuery =
+    /\bweight\b/i.test(query) && !/\b(?:price|cost|rate|estimate)\b/i.test(query);
+  if (isWeightOnlyQuery) {
+    const componentWeight = Number.isFinite(answer.componentCost?.teeWeightKg)
+      ? answer.componentCost.teeWeightKg
+      : Number.isFinite(answer.componentCost?.unequalTeeWeightKg)
+      ? answer.componentCost.unequalTeeWeightKg
+      : Number.isFinite(answer.componentCost?.elbowWeightKg)
+      ? answer.componentCost.elbowWeightKg
+      : Number.isFinite(answer.componentCost?.flangeWeightKg)
+      ? answer.componentCost.flangeWeightKg
+      : Number.isFinite(answer.componentCost?.setMassKg)
+      ? answer.componentCost.setMassKg
+      : Number.isFinite(answer.componentCost?.valveWeightBasis)
+      ? answer.componentCost.valveWeightBasis
+      : NaN;
+    const quantityForWeight = Number.isFinite(answer.componentCost?.quantity)
+      ? answer.componentCost.quantity
+      : 1;
+    if (Number.isFinite(componentWeight)) {
+      const weightLabel = Number.isFinite(answer.componentCost?.teeWeightKg)
+        ? "Equal tee weight"
+        : Number.isFinite(answer.componentCost?.unequalTeeWeightKg)
+        ? "Reducing tee weight"
+        : Number.isFinite(answer.componentCost?.elbowWeightKg)
+        ? "Elbow weight"
+        : Number.isFinite(answer.componentCost?.flangeWeightKg)
+        ? "Flange weight"
+        : Number.isFinite(answer.componentCost?.setMassKg)
+        ? "Complete stud set weight"
+        : "Valve weight";
+      const unitLabel = weightLabel === "Valve weight" ? "kg/No." : "kg/No.";
+      const explicitPressureClass = /\b(?:150|300|600|900|1500|2500|3000|6000)\s*#/i.test(query);
+      const ratingRows = /valve/i.test(answer.kind)
+        ? [[
+            "Rating / pressure class",
+            `${answer.componentCost?.pressureClass ? `${answer.componentCost.pressureClass}#` : "150#"} ${explicitPressureClass ? "(user supplied)" : "(assumed default; not stated)"}`
+          ]]
+        : [];
+      target.innerHTML = `
+        ${getEstimatorOutputHeading(showOutputHeading)}
+        <div class="ask-result-header">
+          <h3>${escapeHtml(title.replace(/ estimate$/i, " weight"))}</h3>
+          <span class="ask-result-status">Ready</span>
+        </div>
+        ${makeEstimatorQueryTable(
+          ["Weight calculation", "Value"],
+          [
+            ["Material category", formatCategoryHeading(classifyMaterialSpec(answer.spec).category)],
+            ...ratingRows,
+            ["Quantity", `${formatNumber(quantityForWeight, 0)} No.`],
+            ["Weight per item", `${formatNumber(componentWeight, 2)} ${unitLabel}`],
+            ["Total weight", `${formatNumber(componentWeight * quantityForWeight, 2)} kg`],
+          ],
+          [1]
+        )}
+        <p class="ask-result-note">${escapeHtml(`${answer.componentCost.note || "Weight calculated using the approved component weight basis."} ${/valve/i.test(answer.kind) && !explicitPressureClass ? "The valve weight uses the 150# equivalent pressure multiplier of 1.00 because no rating was stated." : ""} Price and service rates are excluded because this is a weight-only request.`)}</p>
+      `;
+      return;
+    }
+  }
+
+  const componentWeightRows = [];
+  if (Number.isFinite(answer.componentCost?.teeCentreRunMm)) {
+    componentWeightRows.push(
+      ["Tee C dimension", `${formatNumber(answer.componentCost.teeCentreRunMm, 1)} mm`],
+      ["Tee M dimension", `${formatNumber(answer.componentCost.teeCentreBranchMm, 1)} mm`]
+    );
+  }
+  if (Number.isFinite(answer.componentCost?.teeDevelopedLengthM)) {
+    componentWeightRows.push([
+      "Tee developed length",
+      `${formatNumber(answer.componentCost.teeDevelopedLengthM, 3)} m`
+    ]);
+  }
+  if (Number.isFinite(answer.componentCost?.teeWeightKg)) {
+    componentWeightRows.push([
+      "Equal tee weight",
+      `${formatNumber(answer.componentCost.teeWeightKg, 2)} kg/No.`
+    ]);
+  }
+  const summaryRows = [
+    ["Material category", formatCategoryHeading(classifyMaterialSpec(answer.spec).category)],
+    ["Raw material", Number.isFinite(answer.componentCost.rawSteel) ? `${formatCurrency(answer.componentCost.rawSteel, 2)}/kg` : "Review"],
+    ["Factor used", Number.isFinite(answer.componentCost.factor) ? formatNumber(answer.componentCost.factor, 2) : "Review"],
+    ...componentWeightRows,
+    ["Unit material", materialReady ? formatCurrency(answer.componentCost.medianUnitRate, 2) : "Review"],
+    ...(isWeightOnlyQuery
+      ? []
+      : [["Normal material total", materialReady ? formatCurrency(answer.componentCost.medianTotal, 2) : "Review"]]),
+    ["P90 material total", materialReady ? formatCurrency(answer.componentCost.p90Total, 2) : "Review"],
+    ["Erection rate", Number.isFinite(service.erectionRate) ? `${formatCurrency(service.erectionRate, 2)}/IM` : "Not applicable / review"],
+    ["Welding rate", Number.isFinite(service.weldingRate) ? `${formatCurrency(service.weldingRate, 2)}/ID` : service.rateLabel || "Not applicable / review"],
+    ["Direct service", Number.isFinite(service.directServiceCost) ? formatCurrency(service.directServiceCost, 2) : answer.hasLength ? "Review" : "Enter pipe length"],
+  ];
+
+  const status = materialReady && serviceReady ? "Ready" : materialReady ? "Material ready" : "Review required";
+  const comparisonNote = answer.isGenericMaterialQuery
+    ? `Generic material comparison: main cards use ${answer.spec}; comparison cards use Austenitic Stainless Steel ASTM A312 TP304L and Alloy Steel ASTM A335 Gr.P11 with their own raw-material, erection IM and welding ID references.`
+    : `Material: ${answer.spec}`;
+  const noteParts = [
+    `Query: ${query}`,
+    comparisonNote,
+    answer.rawMapping?.note || "Current calculator material basis used.",
+    service.source || service.reason || "No service rate calculated.",
+  ];
+  if (isPipe && answer.hasLength && Number.isFinite(service.erectionQuantity)) {
+    noteParts.push(`Service quantities: ${formatNumber(service.erectionQuantity, 2)} IM and ${formatNumber(service.weldingQuantity, 2)} ID, using the 6 m stock x 1.60 planning allowance.`);
+  }
+  if (!isPipe && answer.componentCost?.note) noteParts.push(answer.componentCost.note);
+  const methodologyMarkup = makeEstimatorStepByStepMarkup(answer, query);
+
+  target.innerHTML = `
+    ${getEstimatorOutputHeading(showOutputHeading)}
+    <div class="ask-result-header">
+      <h3>${escapeHtml(title)}</h3>
+      <span class="ask-result-status ${status === "Review required" ? "review" : ""}">${escapeHtml(status)}</span>
+    </div>
+    ${makeEstimatorQueryTable(["Calculation item", "Value"], summaryRows, [1])}
+    ${methodologyMarkup}
+    <p class="ask-result-note">${escapeHtml(noteParts.join(" | "))}</p>
+  `;
+}
+
+function getEstimatorPipeServiceRows(answer) {
+  const estimate = answer.estimate;
+  const service = answer.service || {};
+  const hasLength = Boolean(answer.hasLength);
+  const lengthM = hasLength ? estimate.totalWeight / estimate.weightKgm : NaN;
+  const erectionCost = Number.isFinite(service.erectionRate) && Number.isFinite(service.erectionQuantity)
+    ? service.erectionRate * service.erectionQuantity
+    : NaN;
+  const weldingCost = Number.isFinite(service.weldingRate) && Number.isFinite(service.weldingQuantity)
+    ? service.weldingRate * service.weldingQuantity
+    : NaN;
+  const pendingLength = "Enter pipe length in m";
+  const rows = [
+    ["Pipe erection", Number.isFinite(service.erectionRate) ? `${formatCurrency(service.erectionRate, 2)}/IM` : "Review", Number.isFinite(erectionCost) ? formatCurrency(erectionCost, 2) : pendingLength],
+    ["Pipe butt welding", Number.isFinite(service.weldingRate) ? `${formatCurrency(service.weldingRate, 2)}/ID` : "Review", Number.isFinite(weldingCost) ? formatCurrency(weldingCost, 2) : pendingLength],
+    ["Pipe erection + welding", service.source || "Approved service-rate library", Number.isFinite(service.directServiceCost) ? formatCurrency(service.directServiceCost, 2) : pendingLength],
+  ];
+
+  const surfaceAreaM2 = hasLength ? Math.PI * (odTable[estimate.size] / 1000) * lengthM : NaN;
+  const projectTemperature = String(elements.designTemperature?.value || "").trim();
+  const queryTemperature = Number(answer.designTemperatureC);
+  const projectTemperatureC = projectTemperature ? Number(projectTemperature) : NaN;
+  const temperatureC = Number.isFinite(queryTemperature) ? queryTemperature : projectTemperatureC;
+  const hasTemperature = Number.isFinite(temperatureC);
+  const temperatureLabel = hasTemperature ? `${formatNumber(temperatureC, 0)}C` : "65C default";
+  const paintRate = getPipePaintingRate(hasTemperature ? temperatureC : 65, hasTemperature ? "UNDER_INSULATION" : "UNINSULATED");
+  const canPaint = isPaintableCarbonOrAlloyPipe(estimate.materialCategory);
+  rows.push([
+    "Pipe painting",
+    canPaint && paintRate ? `${formatCurrency(paintRate.rateRsPerM2, 2)}/m2 | ${temperatureLabel} | ${paintRate.method}` : "CS, LTCS and alloy steel basis only",
+    canPaint && paintRate && Number.isFinite(surfaceAreaM2) ? formatCurrency(surfaceAreaM2 * paintRate.rateRsPerM2, 2) : pendingLength,
+  ]);
+
+  const insulationRate = hasTemperature ? getInsulationP50Rate(temperatureC) : null;
+  rows.push([
+    "Pipe insulation",
+    insulationRate ? `${formatCurrency(insulationRate.rateRsPerM2, 2)}/m2 | ${insulationRate.method}` : "Enter Design Temperature (100C to 500C)",
+    insulationRate && Number.isFinite(surfaceAreaM2) ? formatCurrency(surfaceAreaM2 * insulationRate.rateRsPerM2, 2) : insulationRate ? pendingLength : "Temperature required",
+  ]);
+
+  let supportCost = NaN;
+  let civilCost = NaN;
+  let supportBasis = `${formatCurrency(pipeSupportRateRsPerMt, 0)}/MT`;
+  if (hasLength && globalThis.PipeSupportStructural) {
+    try {
+      const support = globalThis.PipeSupportStructural.calculate({
+        npsIn: estimate.size,
+        odMm: odTable[estimate.size],
+        wallThicknessMm: estimate.thickness,
+        pipeLengthM: lengthM,
+        operatingFluidDensityKgM3: 0,
+        insulationWeightKgM: 0,
+        otherLineWeightKgM: 0,
+        supportHeightM: pipeSupportHeightM,
+        serviceType: "ambient_liquid",
+        supportType: "rest",
+        installationMode: "individual_stanchion",
+        routeComplexity: "normal",
+        includeEndSupport: true,
+        additionalSupportCount: 0,
+      });
+      supportCost = support.structuralQuantityMT * pipeSupportRateRsPerMt;
+      const civilScope = getCivilSupportScope();
+      const civilRate = calculateCivilSupportCost(estimate.size) * civilScope.factor;
+      civilCost = support.totalSupportCount * civilRate;
+      supportBasis = `${formatNumber(support.structuralQuantityMT, 3)} MT | ${formatNumber(support.totalSupportCount, 0)} supports`;
+      rows.push(["Pipe structural supports", supportBasis, formatCurrency(supportCost, 2)]);
+      rows.push(["Civil works for pipe supports", `${formatCurrency(civilRate, 2)}/support | ${civilScope.label}`, formatCurrency(civilCost, 2)]);
+    } catch {
+      rows.push(["Pipe structural supports", "Support calculator review", "Review"]);
+    }
+  } else {
+    rows.push(["Pipe structural supports", `${formatCurrency(pipeSupportRateRsPerMt, 0)}/MT`, pendingLength]);
+    rows.push(["Civil works for pipe supports", `${formatCurrency(calculateCivilSupportCost(estimate.size), 2)}/support`, pendingLength]);
+  }
+
+  const totalService = [service.directServiceCost, surfaceAreaM2 * (canPaint && paintRate ? paintRate.rateRsPerM2 : 0), surfaceAreaM2 * (insulationRate?.rateRsPerM2 || 0), supportCost, civilCost]
+    .reduce((total, value) => total + (Number.isFinite(value) ? value : 0), 0);
+  if (hasLength) rows.push(["Total shown service scope", "Erection, welding, painting, insulation and supports", formatCurrency(totalService, 2)]);
+
+  return rows;
+}
+
+function renderEstimatorPipeSummary(answer, query, showOutputHeading = true) {
+  const estimate = answer.estimate;
+  const rawMapping = answer.rawMapping || {};
+  const sizeIn = Number(estimate.size);
+  const materialLabel = formatCategoryHeading(estimate.materialCategory || "Carbon Steel");
+  const standardLabel = answer.spec || "ASTM A106 Gr.B";
+  const assumptionMaterial = hasExplicitEstimatorQueryMaterial(query) ? materialLabel : "Carbon Steel";
+  const rawLow = Number.isFinite(rawMapping.low) ? rawMapping.low : estimate.rawSteel;
+  const rawHigh = Number.isFinite(rawMapping.high) ? rawMapping.high : estimate.rawSteel;
+  const rawRange = `${formatCurrency(rawLow, 2)}-${formatCurrency(rawHigh, 2)}/kg`;
+  const normalPerM = Number(estimate.medianRsM);
+  const p90PerM = Number(estimate.p90RsM);
+  const sixMetreNormal = normalPerM * 6;
+  const twelveMetreNormal = normalPerM * 12;
+  const priceRows = [
+    ["Per metre", `${formatCurrency(normalPerM, 2)} normal | ${formatCurrency(p90PerM, 2)} P90`],
+    [`Recommended estimate at ${formatCurrency(estimate.rawSteel, 2)}/kg`, `${formatCurrency(normalPerM, 2)}/m`],
+    ["One 6 m pipe", formatCurrency(sixMetreNormal, 2)],
+    ["One 12 m pipe", formatCurrency(twelveMetreNormal, 2)],
+  ];
+  if (answer.hasLength) {
+    priceRows.push(["Requested length", `${formatCurrency(estimate.medianTotal, 2)} normal | ${formatCurrency(estimate.p90Total, 2)} P90`]);
+  }
+  const serviceRows = getEstimatorPipeServiceRows(answer);
+
+  return `
+    ${getEstimatorOutputHeading(showOutputHeading)}
+    <div class="ask-pipe-assumption">
+      Assuming <strong>${escapeHtml(`${assumptionMaterial} pipe`)}</strong>:
+    </div>
+    ${makeEstimatorQueryTable(
+      ["Pipe input / basis", "Value"],
+      [
+        ["Outside diameter", `${formatNumber(odTable[sizeIn], 1)} mm`],
+        ["Wall thickness", `${formatNumber(estimate.thickness, 2)} mm`],
+        ["Pipe mass", `${formatNumber(estimate.weightKgm, 2)} kg/m`],
+        ["Current indicative raw rate", rawRange],
+      ],
+      [1]
+    )}
+    <h3 class="ask-pipe-price-heading">Estimated pipe price</h3>
+    ${makeEstimatorQueryTable(["Price basis", "Value"], priceRows, [1])}
+    <h3 class="ask-pipe-price-heading">Pipe service scope</h3>
+    ${makeEstimatorQueryTable(["Service item", "Rate / basis", "Estimated cost"], serviceRows, [2])}
+    <p class="ask-result-note">Material basis: ${escapeHtml(standardLabel)} | ${escapeHtml(rawMapping.note || "Current calculator material basis used.")}</p>
+  `;
+}
+
+function splitEstimatorQueryItems(query) {
+  const fragments = String(query || "")
+    .split(/[;,\r\n]+/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+
+  return fragments.reduce((items, fragment) => {
+    // A comma in natural language, such as "pipe cost, including services",
+    // must not create a second calculation request.
+    const previous = items[items.length - 1] || "";
+    const isTemperatureValue = /^\d+(?:\.\d+)?\s*(?:deg(?:ree)?s?\s*)?(?:c|°c)\b/i.test(fragment);
+    const isTemperatureLeadIn = /\btemp(?:erature)?\s*[:=]?\s*$/i.test(previous);
+    if (isTemperatureValue && isTemperatureLeadIn) {
+      items[items.length - 1] = `${previous} ${fragment}`;
+    } else if (/^(?:including|with)\s+(?:service|services)\b/i.test(fragment) && items.length) {
+      items[items.length - 1] = `${items[items.length - 1]}, ${fragment}`;
+    } else {
+      items.push(fragment);
+    }
+    return items;
+  }, []);
+}
+
+function renderEstimatorMultiItemAnswer(queries, summaryText = "") {
+  if (!elements.estimatorQueryResult) return;
+  if (elements.estimatorQueryExamples) elements.estimatorQueryExamples.hidden = true;
+
+  const items = queries.map((itemQuery, index) => {
+    const itemTarget = document.createElement("div");
+    renderEstimatorQueryAnswer(buildEstimatorQueryAnswer(itemQuery), itemQuery, itemTarget, false);
+    return `
+      <section class="ask-multi-item">
+        <div class="ask-multi-item-heading">
+          <span>Item ${index + 1}</span>
+          <strong>${escapeHtml(itemQuery)}</strong>
+        </div>
+        ${itemTarget.innerHTML}
+      </section>`;
+  });
+
+  elements.estimatorQueryResult.hidden = false;
+  elements.estimatorQueryResult.innerHTML = `
+    ${getEstimatorOutputHeading()}
+    <div class="ask-multi-result-summary">${escapeHtml(summaryText || `${queries.length} separate estimates calculated`)}</div>
+    <div class="ask-multi-result-list">${items.join("")}</div>
+  `;
+}
+
+function getImplicitEstimatorMultiItems(query) {
+  const text = String(query || "").trim();
+  const mentionsPipe = /\bpipe\b/i.test(text);
+  const mentionsElbow = /\belbow\b/i.test(text);
+  if (!mentionsPipe || !mentionsElbow) return null;
+
+  const pipeQuery = text
+    .replace(/\b(?:45|90)\s*(?:deg(?:ree)?|d)?\s*elbow\b/gi, "")
+    .replace(/\belbow\b/gi, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+  const elbowQuery = text
+    .replace(/\bpipe\b/gi, "")
+    .replace(/\s{2,}/g, " ")
+    .trim();
+
+  return pipeQuery && elbowQuery ? [pipeQuery, elbowQuery] : null;
+}
+
+function handleEstimatorQuery(event) {
+  event.preventDefault();
+  const query = String(elements.estimatorQueryInput?.value || "").trim();
+  if (!query) {
+    renderEstimatorQueryAnswer({ error: "Type a request, for example: 6 IN STD pipe price for 100 m." }, "");
+    return;
+  }
+  if (isServiceMethodologyPrompt(query)) {
+    renderServiceMethodologyPrompt(elements.estimatorQueryResult, true, serviceMethodologyRequestsExample(query));
+    return;
+  }
+  const queries = splitEstimatorQueryItems(query);
+  if (queries.length > 1) {
+    renderEstimatorMultiItemAnswer(queries);
+    return;
+  }
+  const inferredQueries = getImplicitEstimatorMultiItems(query);
+  if (inferredQueries) {
+    renderEstimatorMultiItemAnswer(
+      inferredQueries,
+      "Two estimates calculated: Pipe and 90 degree elbow"
+    );
+    return;
+  }
+  renderEstimatorQueryAnswer(buildEstimatorQueryAnswer(query), query);
 }
 
 function getLineItemFactorOverride(item) {
@@ -9335,7 +11076,17 @@ function parseBomSize(value) {
     return dnToNps[dnValue] || Math.round((dnValue / 25) * 2) / 2;
   }
 
-  const npsMatch = text.match(/\b(NPS|NB|IN|INCH|INCHES)?\s*(\d+(\.\d+)?|\.\d+)/);
+  // Prefer an explicit inch size before considering an unlabelled number.
+  // This avoids reading "2 nos 6 IN equal tee" as a 2 IN component.
+  const explicitInchMatch = text.match(/\b(\d+(?:\.\d+)?|\.\d+)\s*(?:["']|IN\b|INCH\b|INCHES\b)/);
+  const explicitInchSize = explicitInchMatch ? Number(explicitInchMatch[1]) : NaN;
+  if (odTable[explicitInchSize]) return explicitInchSize;
+
+  const labelledNpsMatch = text.match(/\b(?:NPS|NB)\s*(\d+(?:\.\d+)?|\.\d+)/);
+  const labelledNpsSize = labelledNpsMatch ? Number(labelledNpsMatch[1]) : NaN;
+  if (odTable[labelledNpsSize]) return labelledNpsSize;
+
+  const npsMatch = text.match(/\b(\d+(\.\d+)?|\.\d+)/);
   const npsSize = npsMatch ? Number(npsMatch[2]) : NaN;
   if (odTable[npsSize]) return npsSize;
 
@@ -9530,31 +11281,60 @@ function formatBomProcessingTime(elapsedMs) {
   return `in ${seconds} ${seconds === 1 ? "second" : "seconds"}`;
 }
 
-function updateBomProgress(completed, total, fileName = "", state = "processing", elapsedMs = NaN) {
-  if (!elements.bomProgress) return;
-
+function updateBomProgress(
+  completed,
+  total,
+  fileName = "",
+  state = "processing",
+  elapsedMs = NaN,
+  target = "prompt"
+) {
   const safeTotal = Math.max(Number(total) || 0, 1);
   const safeCompleted = Math.min(Math.max(Number(completed) || 0, 0), safeTotal);
   const percent = Math.round((safeCompleted / safeTotal) * 100);
   const isComplete = state === "complete";
 
-  elements.bomProgress.hidden = false;
-  elements.bomProgressRing.style.setProperty("--progress", `${percent}%`);
-  elements.bomProgressRing.setAttribute("aria-valuenow", String(percent));
-  elements.bomProgressCount.textContent = `${safeCompleted} / ${safeTotal}`;
-  elements.bomProgressTitle.textContent = isComplete
-    ? "BOM files processed"
-    : `Reading file ${Math.min(safeCompleted + 1, safeTotal)} of ${safeTotal}`;
-  elements.bomProgressDetail.textContent = isComplete
-    ? `${safeTotal} selected ${safeTotal === 1 ? "file has" : "files have"} been processed ${formatBomProcessingTime(elapsedMs)}.`
-    : fileName || "Preparing selected BOM files...";
-  elements.bomProgressPercent.textContent = isComplete ? "100% complete" : `${percent}% complete`;
+  const progressViews = [
+    {
+      target: "prompt",
+      root: elements.bomProgress,
+      ring: elements.bomProgressRing,
+      count: elements.bomProgressCount,
+      title: elements.bomProgressTitle,
+      detail: elements.bomProgressDetail,
+      percent: elements.bomProgressPercent,
+    },
+    {
+      target: "main",
+      root: elements.mainBomProgress,
+      ring: elements.mainBomProgressRing,
+      count: elements.mainBomProgressCount,
+      title: elements.mainBomProgressTitle,
+      detail: elements.mainBomProgressDetail,
+      percent: elements.mainBomProgressPercent,
+      enabled: elements.mainBomProgress?.dataset.enabled === "true",
+    },
+  ].filter((view) => view.target === target && view.root && view.ring && view.enabled !== false);
+
+  progressViews.forEach((view) => {
+    view.root.hidden = false;
+    view.ring.style.setProperty("--progress", `${percent}%`);
+    view.ring.setAttribute("aria-valuenow", String(percent));
+    view.count.textContent = `${safeCompleted} / ${safeTotal}`;
+    view.title.textContent = isComplete
+      ? "BOM files processed"
+      : `Reading file ${Math.min(safeCompleted + 1, safeTotal)} of ${safeTotal}`;
+    view.detail.textContent = isComplete
+      ? `${safeTotal} selected ${safeTotal === 1 ? "file has" : "files have"} been processed ${formatBomProcessingTime(elapsedMs)}.`
+      : fileName || "Preparing selected BOM files...";
+    view.percent.textContent = isComplete ? "100% complete" : `${percent}% complete`;
+  });
 }
 
 function importBomRows(rows, sourceName = "BOM", options = {}) {
   if (!rows.length) {
     setBomStatus("The uploaded BOM does not contain any readable rows.", "error");
-    return { imported: 0, skipped: 0 };
+    return { imported: 0, skipped: 0, supportedItems: 0 };
   }
 
   const headers = Object.keys(rows[0]);
@@ -9578,11 +11358,12 @@ function importBomRows(rows, sourceName = "BOM", options = {}) {
 
   if (missing.length) {
     setBomStatus(`Missing required BOM column(s): ${missing.join(", ")}.`, "error");
-    return { imported: 0, skipped: rows.length };
+    return { imported: 0, skipped: rows.length, supportedItems: 0 };
   }
 
   let imported = 0;
   let skipped = 0;
+  let supportedItems = 0;
 
   if (options.replaceBatchKey) {
     for (let index = lineItems.length - 1; index >= 0; index -= 1) {
@@ -9616,7 +11397,10 @@ function importBomRows(rows, sourceName = "BOM", options = {}) {
       sourceName,
       sourceKey
     );
-    if (groupItem) bomGroupItems.push(groupItem);
+    if (groupItem) {
+      bomGroupItems.push(groupItem);
+      if (groupItem.group !== "Other Group") supportedItems += 1;
+    }
 
     if (uomColumn && !isMeterUom(row[uomColumn])) {
       skipped += 1;
@@ -9692,21 +11476,42 @@ function importBomRows(rows, sourceName = "BOM", options = {}) {
   ]
     .filter(Boolean)
     .join("; ");
-  const statusType = imported > 0 ? "success" : "error";
+  const statusType = supportedItems > 0 ? "success" : "error";
   const skippedNote =
     skipped > 0 ? " Non-pipe rows, non-meter UoM rows, or invalid pipe data were skipped." : "";
   setBomStatus(
-    `${sourceName}: imported ${imported} pipe line(s), skipped ${skipped}. Mapped columns: ${mappedColumns}.${skippedNote}`,
+    supportedItems > 0
+      ? `${sourceName}: recognised ${supportedItems} piping item(s), imported ${imported} pipe line(s), skipped ${skipped}. Mapped columns: ${mappedColumns}.${skippedNote}`
+      : "This Excel file does not contain recognised piping BOM items. Please use the Download Example BOM Template above, complete the required fields, and upload it again.",
     statusType
   );
 
-  return { imported, skipped };
+  return { imported, skipped, supportedItems };
 }
 
 window.importBomRows = importBomRows;
 
-async function processBomFiles(files) {
+async function processBomFiles(files, { sourceInput = elements.bomFile, showPromptResult = false } = {}) {
   if (!files.length) return;
+
+  const isMainBomUpload = sourceInput === elements.bomFile;
+  // A previous valid upload must not leave report actions visible while a new
+  // file is being checked. They are restored only after recognised BOM items exist.
+  if (isMainBomUpload && elements.bomUploadReportActions) {
+    elements.bomUploadReportActions.hidden = true;
+  }
+  if (isMainBomUpload && elements.bomUploadReportPreview) {
+    elements.bomUploadReportPreview.hidden = true;
+    elements.bomUploadReportFrame.removeAttribute("srcdoc");
+  }
+  const progressTarget = isMainBomUpload ? "main" : "prompt";
+  if (elements.bomProgress) {
+    elements.bomProgress.hidden = isMainBomUpload;
+  }
+  if (elements.mainBomProgress) {
+    elements.mainBomProgress.dataset.enabled = isMainBomUpload ? "true" : "false";
+    elements.mainBomProgress.hidden = !isMainBomUpload;
+  }
 
   if (!globalThis.XLSX) {
     setBomStatus(
@@ -9717,7 +11522,7 @@ async function processBomFiles(files) {
   }
 
   const processingStartedAt = globalThis.performance?.now?.() ?? Date.now();
-  updateBomProgress(0, files.length, files[0]?.name || "");
+  updateBomProgress(0, files.length, files[0]?.name || "", "processing", NaN, progressTarget);
   await new Promise((resolve) => window.requestAnimationFrame(resolve));
 
   await ensureFlangeWeightModelLoaded();
@@ -9725,7 +11530,7 @@ async function processBomFiles(files) {
   const results = [];
 
   for (const [index, file] of files.entries()) {
-    updateBomProgress(index, files.length, file.name);
+    updateBomProgress(index, files.length, file.name, "processing", NaN, progressTarget);
     await new Promise((resolve) => window.requestAnimationFrame(resolve));
     try {
       const data = await file.arrayBuffer();
@@ -9750,12 +11555,13 @@ async function processBomFiles(files) {
       results.push({ file: file.name, imported: 0, skipped: 0, error: error.message });
     }
 
-    updateBomProgress(index + 1, files.length, file.name);
+    updateBomProgress(index + 1, files.length, file.name, "processing", NaN, progressTarget);
     await new Promise((resolve) => window.requestAnimationFrame(resolve));
   }
 
   const imported = results.reduce((total, result) => total + result.imported, 0);
   const skipped = results.reduce((total, result) => total + result.skipped, 0);
+  const supportedItems = results.reduce((total, result) => total + (result.supportedItems || 0), 0);
   const failed = results.filter((result) => result.error);
   const fileSummary = results
     .map((result) =>
@@ -9770,23 +11576,99 @@ async function processBomFiles(files) {
   if (failed.length) {
     setBomStatus(
       `${files.length} file(s) processed with ${failed.length} error(s). ${fileSummary}`,
-      imported > 0 ? "success" : "error"
+      supportedItems > 0 ? "success" : "error"
     );
   } else {
     setBomStatus(
-      `${files.length} file(s) processed. Total imported ${imported} pipe line(s), skipped ${skipped}. ${fileSummary}`,
-      imported > 0 ? "success" : "error"
+      supportedItems > 0
+        ? `${files.length} file(s) processed. Recognised ${supportedItems} piping item(s), imported ${imported} pipe line(s), skipped ${skipped}. ${fileSummary}`
+        : "This Excel file does not contain recognised piping BOM items. Please use the Download Example BOM Template above, complete the required fields, and upload it again.",
+      supportedItems > 0 ? "success" : "error"
     );
   }
 
   const processingFinishedAt = globalThis.performance?.now?.() ?? Date.now();
-  updateBomProgress(files.length, files.length, "", "complete", processingFinishedAt - processingStartedAt);
+  updateBomProgress(
+    files.length,
+    files.length,
+    "",
+    "complete",
+    processingFinishedAt - processingStartedAt,
+    progressTarget
+  );
 
-  elements.bomFile.value = "";
+  // Reuse the exact report generators from Component Cost Review, but make
+  // their shortcuts available immediately below a successful BOM upload.
+  if (elements.bomUploadReportActions) {
+    elements.bomUploadReportActions.hidden = supportedItems <= 0;
+    if (isMainBomUpload && supportedItems > 0) {
+      window.requestAnimationFrame(() => {
+        elements.bomUploadReportActions.scrollIntoView({ behavior: "smooth", block: "center" });
+      });
+    }
+  }
+  if (elements.bomUploadReportPreview) {
+    elements.bomUploadReportPreview.hidden = true;
+    elements.bomUploadReportFrame.removeAttribute("srcdoc");
+  }
+
+  sourceInput.value = "";
+  if (showPromptResult) {
+    renderEstimatorBomUploadResult({ files, imported, skipped, supportedItems, failed: failed.length });
+  }
+}
+
+function renderEstimatorBomUploadResult({ files, imported, skipped, supportedItems, failed }) {
+  if (!elements.estimatorQueryResult) return;
+
+  const hasSupportedItems = Number(supportedItems) > 0;
+  const status = !hasSupportedItems ? "Unsupported upload" : failed ? "Review upload status" : "Ready";
+  const statusClass = !hasSupportedItems || failed ? "review" : "";
+  const fileLabel = `${files.length} ${files.length === 1 ? "file" : "files"}`;
+
+  elements.estimatorQueryExamples.hidden = true;
+  elements.estimatorQueryResult.hidden = false;
+  elements.estimatorQueryResult.innerHTML = `
+    <div class="ask-result-header">
+      <h3>Excel BOM upload</h3>
+      <span class="ask-result-status ${statusClass}">${status}</span>
+    </div>
+    <h3 class="ask-result-output-heading">Output</h3>
+    ${makeEstimatorQueryTable(
+      ["Upload result", "Value"],
+      [
+        ["Selected files", fileLabel],
+        ["Recognised piping items", String(supportedItems || 0)],
+        ["Pipe rows imported", String(imported)],
+        ["Rows skipped", String(skipped)],
+        ["Files needing review", String(failed)],
+      ],
+      [1]
+    )}
+    <p class="${hasSupportedItems ? "ask-result-note" : "ask-result-error"}">${hasSupportedItems
+      ? "The uploaded BOM is ready for the same material and service reports used by Piping Component Cost Review."
+      : "This file does not contain recognised piping BOM items, so a report cannot be generated. Type \"Give me Excel BOM template file\" in the Ask Estimator bar to download the template, complete it, and upload it again."}</p>
+    ${hasSupportedItems ? `<div class="ask-upload-actions">
+      <button type="button" class="report-button" data-ask-print-report>Print / Save PDF</button>
+      <button type="button" class="excel-report-button" data-ask-excel-report>Download Excel Report</button>
+    </div>` : ""}
+  `;
+
+  // Keep the completed upload progress and its prompt output together in the viewport.
+  window.requestAnimationFrame(() => {
+    elements.bomProgress?.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
 }
 
 async function handleBomUpload(event) {
-  await processBomFiles(Array.from(event.target.files || []));
+  await processBomFiles(Array.from(event.target.files || []), { sourceInput: event.target });
+}
+
+async function handleEstimatorBomUpload(event) {
+  await processBomFiles(Array.from(event.target.files || []), {
+    sourceInput: event.target,
+    showPromptResult: true,
+  });
 }
 
 function handleBomDrag(event) {
@@ -10460,9 +12342,17 @@ function buildPipingServiceCostSheet(serviceSummary) {
   return sheet;
 }
 
+function getUnsupportedBomUploadMessage() {
+  return "This Excel file does not contain recognised piping BOM items. Please use the Download Example BOM Template under Upload Excel BOM, complete the required fields, and upload it again.";
+}
+
+function hasSupportedPipingBomItems() {
+  return bomGroupItems.some((item) => item.group && item.group !== "Other Group");
+}
+
 function exportEditableBomExcelReport() {
-  if (!bomGroupItems.length) {
-    window.alert("Upload a BOM before downloading the editable Excel report.");
+  if (!hasSupportedPipingBomItems()) {
+    window.alert(getUnsupportedBomUploadMessage());
     return;
   }
   if (!globalThis.XLSX) {
@@ -12388,8 +14278,8 @@ function buildBomCostReportHtml() {
     </html>`;
 }
 
-function enableReportPendingNavigation() {
-  const reportDocument = elements.bomReportFrame.contentDocument;
+function enableReportPendingNavigation(frame = elements.bomReportFrame) {
+  const reportDocument = frame.contentDocument;
   if (!reportDocument || reportDocument.body.dataset.pendingNavigationBound === "true") return;
 
   reportDocument.body.dataset.pendingNavigationBound = "true";
@@ -12420,15 +14310,51 @@ function enableReportPendingNavigation() {
 }
 
 function printBomCostReport() {
-  if (!bomGroupItems.length) {
-    window.alert("Upload a BOM before generating the piping material cost report.");
+  if (!hasSupportedPipingBomItems()) {
+    window.alert(getUnsupportedBomUploadMessage());
     return;
   }
 
   elements.bomReportPreview.hidden = false;
-  elements.bomReportFrame.addEventListener("load", enableReportPendingNavigation, { once: true });
+  elements.bomReportFrame.addEventListener(
+    "load",
+    () => enableReportPendingNavigation(elements.bomReportFrame),
+    { once: true }
+  );
   elements.bomReportFrame.srcdoc = buildBomCostReportHtml();
   elements.bomReportPreview.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function openEstimatorBomReport() {
+  if (!hasSupportedPipingBomItems()) {
+    window.alert(getUnsupportedBomUploadMessage());
+    return;
+  }
+
+  elements.estimatorReportPreview.hidden = false;
+  elements.estimatorReportFrame.addEventListener(
+    "load",
+    () => enableReportPendingNavigation(elements.estimatorReportFrame),
+    { once: true }
+  );
+  elements.estimatorReportFrame.srcdoc = buildBomCostReportHtml();
+  elements.estimatorReportPreview.scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function openBomUploadReport() {
+  if (!hasSupportedPipingBomItems()) {
+    window.alert(getUnsupportedBomUploadMessage());
+    return;
+  }
+
+  elements.bomUploadReportPreview.hidden = false;
+  elements.bomUploadReportFrame.addEventListener(
+    "load",
+    () => enableReportPendingNavigation(elements.bomUploadReportFrame),
+    { once: true }
+  );
+  elements.bomUploadReportFrame.srcdoc = buildBomCostReportHtml();
+  elements.bomUploadReportPreview.scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
 function printBomReportFrame() {
@@ -12444,9 +14370,43 @@ function printBomReportFrame() {
   frameWindow.print();
 }
 
+function printEstimatorBomReportFrame() {
+  if (elements.estimatorReportPreview.hidden) {
+    openEstimatorBomReport();
+    return;
+  }
+
+  const frameWindow = elements.estimatorReportFrame.contentWindow;
+  if (!frameWindow) return;
+  frameWindow.focus();
+  frameWindow.print();
+}
+
+function printBomUploadReportFrame() {
+  if (elements.bomUploadReportPreview.hidden) {
+    openBomUploadReport();
+    return;
+  }
+
+  const frameWindow = elements.bomUploadReportFrame.contentWindow;
+  if (!frameWindow) return;
+  frameWindow.focus();
+  frameWindow.print();
+}
+
 function closeBomReportPreview() {
   elements.bomReportPreview.hidden = true;
   elements.bomReportFrame.removeAttribute("srcdoc");
+}
+
+function closeEstimatorBomReportPreview() {
+  elements.estimatorReportPreview.hidden = true;
+  elements.estimatorReportFrame.removeAttribute("srcdoc");
+}
+
+function closeBomUploadReportPreview() {
+  elements.bomUploadReportPreview.hidden = true;
+  elements.bomUploadReportFrame.removeAttribute("srcdoc");
 }
 
 function populateSizeOptions() {
@@ -12529,7 +14489,7 @@ if (scenarioPlayground && componentCostReview) {
 
 initializeShowHideSummaryLabels();
 renderBomGroupReview();
-document.querySelectorAll("input, select, textarea").forEach((control) => {
+document.querySelectorAll("input:not([data-ignore-calculation]), select, textarea").forEach((control) => {
   control.addEventListener("input", () => {
     if (control === elements.rawOverride) {
       delete elements.rawOverride.dataset.source;
@@ -12543,6 +14503,14 @@ document.querySelectorAll("input, select, textarea").forEach((control) => {
     clearSuccessMessage();
     updateThicknessMode();
     calculate();
+  });
+});
+elements.estimatorQueryForm?.addEventListener("submit", handleEstimatorQuery);
+document.querySelectorAll("[data-estimator-example]").forEach((example) => {
+  example.addEventListener("click", () => {
+    elements.estimatorQueryInput.value = example.dataset.estimatorExample || "";
+    elements.estimatorQueryInput.focus();
+    handleEstimatorQuery(new Event("submit", { cancelable: true }));
   });
 });
 elements.materialBasis.addEventListener("change", () => {
@@ -12602,6 +14570,20 @@ elements.servicePartBWrap.addEventListener("click", (event) => {
 elements.designTemperature.addEventListener("input", renderPipingServiceCost);
 elements.designTemperature.addEventListener("change", renderPipingServiceCost);
 elements.bomFile.addEventListener("change", handleBomUpload);
+elements.estimatorBomUpload.addEventListener("click", () => elements.estimatorBomFile.click());
+document.querySelectorAll("[data-estimator-bom-upload]").forEach((button) => {
+  button.addEventListener("click", () => elements.estimatorBomFile.click());
+});
+elements.estimatorBomFile.addEventListener("change", handleEstimatorBomUpload);
+elements.estimatorQueryResult.addEventListener("click", (event) => {
+  if (event.target.closest("[data-ask-print-report]")) {
+    openEstimatorBomReport();
+    return;
+  }
+  if (event.target.closest("[data-ask-excel-report]")) {
+    exportEditableBomExcelReport();
+  }
+});
 elements.bomDropZone.addEventListener("dragover", handleBomDrag);
 elements.bomDropZone.addEventListener("dragleave", handleBomDragLeave);
 elements.bomDropZone.addEventListener("drop", handleBomDrop);
@@ -12624,8 +14606,16 @@ elements.print.addEventListener("click", printReport);
 elements.exportCsv.addEventListener("click", exportCsvReport);
 elements.bomReport.addEventListener("click", printBomCostReport);
 elements.bomExcelReport.addEventListener("click", exportEditableBomExcelReport);
+// The upload shortcut opens its own in-place preview directly below the
+// Upload Excel BOM actions, avoiding a jump to another part of the page.
+elements.bomUploadReport.addEventListener("click", openBomUploadReport);
+elements.bomUploadExcelReport.addEventListener("click", exportEditableBomExcelReport);
 elements.bomReportPrint.addEventListener("click", printBomReportFrame);
 elements.bomReportClose.addEventListener("click", closeBomReportPreview);
+elements.bomUploadReportPrint.addEventListener("click", printBomUploadReportFrame);
+elements.bomUploadReportClose.addEventListener("click", closeBomUploadReportPreview);
+elements.estimatorReportPrint.addEventListener("click", printEstimatorBomReportFrame);
+elements.estimatorReportClose.addEventListener("click", closeEstimatorBomReportPreview);
 elements.lineItemsBody.addEventListener("click", (event) => {
   if (event.target.matches(".remove-line")) {
     removeLine(event.target.dataset.id);

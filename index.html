@@ -29,7 +29,7 @@
       name="twitter:description"
       content="Free public BOM calculator for budgetary piping material and supported direct service cost estimation."
     />
-    <link rel="stylesheet" href="style.css?v=20260716-two-line-coverage" />
+    <link rel="stylesheet" href="style.css?v=20260720-header-query-clean-v59" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -72,6 +72,7 @@
           aria-label="Collapse section navigation"
           aria-expanded="true"
           aria-controls="side-nav"
+          data-tooltip="Close sidebar"
         >
           <span aria-hidden="true">‹</span>
         </button>
@@ -97,19 +98,113 @@
         <div>
           <p class="section-label">Open Access</p>
           <h1>Piping <span class="title-scope-accent">Material &amp; Service</span> Cost Estimator</h1>
-          <p class="capability-line"><span>Pipes | fittings | flanges | valves | bolts | gaskets | strainers</span><span>Fabrication | erection | supports | painting | insulation | PWHT</span></p>
+          <div class="header-question">
+            <button type="button" data-estimator-example="48-inch x 10 mm pipe cost, including services?">48-inch x 10 mm pipe cost, including services?</button>
+          </div>
         </div>
         <div class="header-actions">
-          <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Switch to dark mode">
-            <span class="theme-icon" aria-hidden="true"></span>
-            <span class="sr-only" id="theme-toggle-label">Switch to dark mode</span>
-          </button>
-          <div class="model-status">
-            <span class="status-dot"></span>
-            Indicative material + direct service estimate
+          <div class="header-action-row">
+            <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Switch to dark mode">
+              <span class="theme-icon" aria-hidden="true"></span>
+              <span class="sr-only" id="theme-toggle-label">Switch to dark mode</span>
+            </button>
+            <div class="header-status-stack">
+              <div class="model-status">
+                <span class="status-dot"></span>
+                Class 3 Estimate: Material + Service
+              </div>
+              <p class="capability-line"><span>Pipes | fittings | flanges | valves | bolts | gaskets | strainers</span><span>Fabrication | erection | supports | painting | insulation | PWHT</span></p>
+            </div>
           </div>
         </div>
       </header>
+
+      <section class="ask-estimator-panel" id="ask-estimator" aria-labelledby="ask-estimator-title">
+        <div class="ask-estimator-heading">
+          <div>
+            <h2 id="ask-estimator-title">Ask Estimator</h2>
+          </div>
+        </div>
+        <form class="ask-estimator-form" id="estimator-query-form">
+          <button
+            type="button"
+            class="ask-estimator-plus"
+            id="estimator-bom-upload"
+            title="Upload Excel BOM"
+            aria-label="Upload one or more Excel BOM files"
+          >&#8377;</button>
+          <input id="estimator-bom-file" type="file" accept=".xlsx,.xls,.csv" multiple hidden />
+          <input
+            id="estimator-query"
+            type="text"
+            autocomplete="off"
+            data-ignore-calculation
+            placeholder="Ask Estimator"
+            aria-label="Ask the estimator"
+          />
+          <button type="button" class="ask-estimator-submit ask-estimator-upload-submit" data-estimator-bom-upload title="Upload Excel BOM" aria-label="Upload one or more Excel BOM files">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12 16V4" />
+              <path d="m8 8 4-4 4 4" />
+              <path d="M5 15.5A4 4 0 0 0 6.1 23h11.8A4.1 4.1 0 0 0 18 15.5a6 6 0 0 0-11.9 0" />
+            </svg>
+          </button>
+        </form>
+        <div class="bom-progress ask-estimator-progress" id="bom-progress" hidden aria-live="polite" aria-atomic="true">
+          <div class="bom-progress-ring" id="bom-progress-ring" role="progressbar" aria-label="BOM upload progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="bom-progress-center">
+              <strong id="bom-progress-count">0 / 0</strong>
+              <span>Files</span>
+            </div>
+          </div>
+          <div class="bom-progress-copy">
+            <strong id="bom-progress-title">Preparing BOM files</strong>
+            <p id="bom-progress-detail">Please wait while the selected files are read.</p>
+            <small id="bom-progress-percent">0% complete</small>
+          </div>
+        </div>
+        <div class="ask-estimator-examples" id="estimator-query-examples">
+          <span class="ask-estimator-example-row">
+            <span class="ask-estimator-label">Try:</span>
+            <button type="button" data-estimator-example="6 IN STD pipe price">6 IN STD pipe price</button>
+          </span>
+          <span class="ask-estimator-divider">|</span>
+          <button type="button" data-estimator-example="Fabrication rate for CS">Fabrication rate for CS</button>
+          <span class="ask-estimator-divider">|</span>
+          <button type="button" data-estimator-example="6 IN STD pipe price, 10 IN 90 deg elbow price">6 IN STD pipe price, 10 IN 90 deg elbow price</button>
+          <details class="ask-estimator-more-examples">
+            <summary>Show 12 more examples</summary>
+            <div class="ask-estimator-more-example-list">
+              <button type="button" data-estimator-example="Erection rate for CS">Erection rate for CS</button>
+              <button type="button" data-estimator-example="6 IN equal tee price">6 IN equal tee price</button>
+              <button type="button" data-estimator-example="6 IN WN flange 150# price">6 IN WN flange 150# price</button>
+              <button type="button" data-estimator-example="6 IN gate valve 150# price">6 IN gate valve 150# price</button>
+              <button type="button" data-estimator-example="M30 x 200 stud bolt price">M30 x 200 stud bolt price</button>
+              <button type="button" data-estimator-example="GST rate">GST rate</button>
+              <button type="button" data-estimator-example="Give me excel BOM template file">Give me excel BOM template file</button>
+              <button type="button" data-estimator-example="How is pipe weight calculated?">How is pipe weight calculated?</button>
+              <button type="button" data-estimator-example="How are fittings calculated? Give example">How are fittings calculated? Give example</button>
+              <button type="button" data-estimator-example="How are flanges calculated? Give example">How are flanges calculated? Give example</button>
+              <button type="button" data-estimator-example="How are valves calculated? Give example">How are valves calculated? Give example</button>
+              <button type="button" data-estimator-example="Raw material available rate">Raw material available rate</button>
+            </div>
+          </details>
+        </div>
+        <div class="ask-estimator-result" id="estimator-query-result" aria-live="polite" hidden></div>
+        <section class="bom-report-preview ask-estimator-report-preview" id="estimator-report-preview" hidden>
+          <div class="bom-report-preview-header">
+            <div>
+              <h3>Piping Material &amp; Service Cost Estimate Report</h3>
+              <p>Review the printable report below, then save it as PDF from the print dialog.</p>
+            </div>
+            <div class="bom-report-preview-actions">
+              <button class="report-button" type="button" id="estimator-report-print-button">Print Report</button>
+              <button class="ghost-button" type="button" id="estimator-report-close-button">Close</button>
+            </div>
+          </div>
+          <iframe id="estimator-report-frame" title="Piping material and service cost estimate report preview"></iframe>
+        </section>
+      </section>
 
       <section class="context-panel" aria-label="Calculation context">
         <div class="context-heading">
@@ -484,20 +579,6 @@
             </a>
           </div>
 
-          <div class="bom-progress" id="bom-progress" hidden aria-live="polite" aria-atomic="true">
-            <div class="bom-progress-ring" id="bom-progress-ring" role="progressbar" aria-label="BOM upload progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-              <div class="bom-progress-center">
-                <strong id="bom-progress-count">0 / 0</strong>
-                <span>Files</span>
-              </div>
-            </div>
-            <div class="bom-progress-copy">
-              <strong id="bom-progress-title">Preparing BOM files</strong>
-              <p id="bom-progress-detail">Please wait while the selected files are read.</p>
-              <small id="bom-progress-percent">0% complete</small>
-            </div>
-          </div>
-
           <label class="file-drop" id="bom-drop-zone">
             <span class="upload-icon" aria-hidden="true">
               <svg viewBox="0 0 48 48" focusable="false">
@@ -521,9 +602,40 @@
           </details>
         </div>
 
+        <div class="bom-progress bom-main-progress" id="main-bom-progress" data-enabled="false" hidden aria-live="polite" aria-atomic="true">
+          <div class="bom-progress-ring" id="main-bom-progress-ring" role="progressbar" aria-label="BOM upload progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="bom-progress-center">
+              <strong id="main-bom-progress-count">0 / 0</strong>
+              <span>Files</span>
+            </div>
+          </div>
+          <div class="bom-progress-copy">
+            <strong id="main-bom-progress-title">Preparing BOM files</strong>
+            <p id="main-bom-progress-detail">Please wait while the selected files are read.</p>
+            <small id="main-bom-progress-percent">0% complete</small>
+          </div>
+        </div>
+
         <div class="bom-status" id="bom-status" aria-live="polite">
           No BOM uploaded yet.
         </div>
+        <div class="bom-upload-report-actions" id="bom-upload-report-actions" hidden>
+          <button class="report-button" type="button" id="bom-upload-report-button">Print / Save PDF</button>
+          <button class="excel-report-button" type="button" id="bom-upload-excel-report-button">Download Excel Report</button>
+        </div>
+        <section class="bom-report-preview bom-upload-report-preview" id="bom-upload-report-preview" hidden>
+          <div class="bom-report-preview-header">
+            <div>
+              <h3>Piping Material &amp; Service Cost Estimate Report</h3>
+              <p>Review the printable report below, then save it as PDF from the print dialog.</p>
+            </div>
+            <div class="bom-report-preview-actions">
+              <button class="report-button" type="button" id="bom-upload-report-print-button">Print Report</button>
+              <button class="ghost-button" type="button" id="bom-upload-report-close-button">Close</button>
+            </div>
+          </div>
+          <iframe id="bom-upload-report-frame" title="Piping material and service cost estimate report preview"></iframe>
+        </section>
       </section>
 
       <section class="line-items-panel" id="multi-size-estimate" aria-label="Multi size pipe estimate">
@@ -1052,6 +1164,6 @@
     <script src="Piping%20Service%20Cost%20for%20Web%20App/pipe_support_calculator_MT.js?v=20260715-direct-pipe-weight-basis"></script>
     <script src="Piping%20Service%20Cost%20for%20Web%20App/nrl_pwht_rules.js?v=20260714"></script>
     <script src="Piping%20Service%20Cost%20for%20Web%20App/unequal_tee_dimensions_C_M.js?v=20260716"></script>
-    <script src="app.js?v=20260716-report-top-design-match-v1"></script>
+    <script src="app.js?v=20260720-header-try-example-v76"></script>
   </body>
 </html>
