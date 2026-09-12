@@ -1,0 +1,1170 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Piping Material &amp; Service Cost Estimator | BOM Cost Tool</title>
+    <meta
+      name="description"
+      content="Free public BOM calculator for budgetary piping material and direct service cost estimation. Estimate pipes, fittings, flanges, valves, bolts, gaskets and strainers using material basis, component factors and supported schedule-of-rates services."
+    />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://medinikb.github.io/Pipe-Price-Predictor/" />
+    <meta
+      property="og:title"
+      content="Piping Material &amp; Service Cost Estimator | BOM Cost Tool"
+    />
+    <meta
+      property="og:description"
+      content="Free public BOM calculator for budgetary piping material and supported direct service cost estimation."
+    />
+    <meta property="og:url" content="https://medinikb.github.io/Pipe-Price-Predictor/" />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary" />
+    <meta
+      name="twitter:title"
+      content="Piping Material &amp; Service Cost Estimator | BOM Cost Tool"
+    />
+    <meta
+      name="twitter:description"
+      content="Free public BOM calculator for budgetary piping material and supported direct service cost estimation."
+    />
+    <link rel="stylesheet" href="style.css?v=20260912-pipe-summary-rate-layout-v60" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "SoftwareApplication",
+        "name": "Piping Material & Service Cost Estimator",
+        "applicationCategory": "BusinessApplication",
+        "operatingSystem": "Any",
+        "url": "https://medinikb.github.io/Pipe-Price-Predictor/",
+        "description": "Piping Material & Service Cost Estimator provides indicative Part A material estimates and supported Part B direct service estimates for pipes and piping components from an uploaded BOM.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "INR"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <aside class="side-nav" id="side-nav" aria-label="Section navigation" aria-hidden="false">
+      <div class="side-nav-header">
+        <div class="side-brand">
+          <button class="side-brand-mark" type="button" id="side-brand-home" aria-label="Move to top">
+            <span>
+              <svg class="rupee-mark" viewBox="0 0 64 64" focusable="false">
+                <path d="M18 12h30" />
+                <path d="M18 23h30" />
+                <path d="M45 12c0 14-9 22-26 22" />
+                <path d="M19 34l27 20" />
+              </svg>
+            </span>
+          </button>
+          <div>
+            <strong>Piping <span class="title-scope-accent">Material &amp; Service</span> Cost Estimator</strong>
+          </div>
+        </div>
+        <button
+          class="side-nav-toggle"
+          type="button"
+          id="side-nav-toggle"
+          aria-label="Collapse section navigation"
+          aria-expanded="true"
+          aria-controls="side-nav"
+          data-tooltip="Close sidebar"
+        >
+          <span aria-hidden="true">‹</span>
+        </button>
+      </div>
+      <div class="side-workflow-label">Workflow</div>
+      <nav>
+        <a href="#calculator" data-short="P" data-tooltip="Pipe Quick Estimate" title="Pipe Quick Estimate" class="active"><span class="nav-icon" aria-hidden="true"><img class="pipe-reference-icon" src="assets/pipe-bundle-orange-transparent.png" alt="" /></span><span class="nav-text">Pipe Quick Estimate</span></a>
+        <a href="#component-estimator" data-short="C" data-tooltip="Component Quick Estimate" title="Component Quick Estimate"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M5 5h14v14H5z"/><path d="M5 10h14"/><path d="M10 5v5M14 5v5"/></svg></span><span class="nav-text">Component Quick Estimate</span></a>
+        <a href="#bom-upload" data-short="B" data-tooltip="Upload Excel BOM" title="Upload Excel BOM"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 17V7"/><path d="m8 11 4-4 4 4"/><path d="M5 18a4 4 0 0 1 1-7.8A6 6 0 0 1 18 10a4 4 0 0 1 1 8"/></svg></span><span class="nav-text">Upload Excel BOM</span></a>
+        <a href="#multi-size-estimate" data-short="M" data-tooltip="Pipe Material Estimate Summary" title="Pipe Material Estimate Summary"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 4h6v6H4zM14 4h6v6h-6zM4 14h6v6H4zM14 14h6v6h-6z"/></svg></span><span class="nav-text">Pipe Material Estimate Summary</span></a>
+        <a href="#bom-group-review" data-short="G" data-tooltip="Piping Component Cost Review" title="Piping Component Cost Review"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 19a4 4 0 0 1 8 0"/><circle cx="12" cy="8" r="3"/><path d="M3 19a3.5 3.5 0 0 1 5-3"/><path d="M16 16a3.5 3.5 0 0 1 5 3"/><path d="M6 10a2.5 2.5 0 0 1 3-4"/><path d="M15 6a2.5 2.5 0 0 1 3 4"/></svg></span><span class="nav-text">Piping Component Cost Review</span></a>
+        <a href="#what-if-analysis" data-short="W" data-tooltip="What-if Lab" title="What-if Lab"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M10 3v6L4.7 18.2A2 2 0 0 0 6.4 21h11.2a2 2 0 0 0 1.7-2.8L14 9V3"/><path d="M8 3h8"/><path d="M7.8 16h8.4"/></svg></span><span class="nav-text">What-if Lab</span></a>
+        <a href="#audit-trail" data-short="A" data-tooltip="Methodology & Audit" title="Methodology & Audit"><span class="nav-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3 5 6v5c0 5 3 8 7 10 4-2 7-5 7-10V6z"/><path d="m9 12 2 2 4-5"/></svg></span><span class="nav-text">Methodology & Audit</span></a>
+      </nav>
+      <div class="side-nav-footer">
+        <span class="footer-icon" aria-hidden="true">i</span>
+        <span>Indicative material + direct service estimate</span>
+      </div>
+    </aside>
+
+    <main class="app-shell">
+      <header class="app-header" id="top">
+        <div>
+          <p class="section-label">Open Access</p>
+          <h1>Piping <span class="title-scope-accent">Material &amp; Service</span> Cost Estimator</h1>
+          <div class="header-question">
+            <button type="button" data-estimator-example="48-inch x 10 mm pipe cost, including services?">48-inch x 10 mm pipe cost, including services?</button>
+          </div>
+        </div>
+        <div class="header-actions">
+          <div class="header-action-row">
+            <button class="theme-toggle" type="button" id="theme-toggle" aria-label="Switch to dark mode">
+              <span class="theme-icon" aria-hidden="true"></span>
+              <span class="sr-only" id="theme-toggle-label">Switch to dark mode</span>
+            </button>
+            <div class="header-status-stack">
+              <div class="model-status">
+                <span class="status-dot"></span>
+                Class 3 Estimate: Material + Service
+              </div>
+              <p class="capability-line"><span>Pipes | fittings | flanges | valves | bolts | gaskets | strainers</span><span>Fabrication | erection | supports | painting | insulation | PWHT</span></p>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <section class="ask-estimator-panel" id="ask-estimator" aria-labelledby="ask-estimator-title">
+        <div class="ask-estimator-heading">
+          <div>
+            <h2 id="ask-estimator-title">Ask Estimator</h2>
+          </div>
+        </div>
+        <form class="ask-estimator-form" id="estimator-query-form">
+          <button
+            type="button"
+            class="ask-estimator-plus"
+            id="estimator-bom-upload"
+            title="Upload Excel BOM"
+            aria-label="Upload one or more Excel BOM files"
+          >&#8377;</button>
+          <input id="estimator-bom-file" type="file" accept=".xlsx,.xls,.csv" multiple hidden />
+          <input
+            id="estimator-query"
+            type="text"
+            autocomplete="off"
+            data-ignore-calculation
+            placeholder="Ask Estimator"
+            aria-label="Ask the estimator"
+          />
+          <button type="button" class="ask-estimator-submit ask-estimator-upload-submit" data-estimator-bom-upload title="Upload Excel BOM" aria-label="Upload one or more Excel BOM files">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+              <path d="M12 16V4" />
+              <path d="m8 8 4-4 4 4" />
+              <path d="M5 15.5A4 4 0 0 0 6.1 23h11.8A4.1 4.1 0 0 0 18 15.5a6 6 0 0 0-11.9 0" />
+            </svg>
+          </button>
+        </form>
+        <div class="bom-progress ask-estimator-progress" id="bom-progress" hidden aria-live="polite" aria-atomic="true">
+          <div class="bom-progress-ring" id="bom-progress-ring" role="progressbar" aria-label="BOM upload progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="bom-progress-center">
+              <strong id="bom-progress-count">0 / 0</strong>
+              <span>Files</span>
+            </div>
+          </div>
+          <div class="bom-progress-copy">
+            <strong id="bom-progress-title">Preparing BOM files</strong>
+            <p id="bom-progress-detail">Please wait while the selected files are read.</p>
+            <small id="bom-progress-percent">0% complete</small>
+          </div>
+        </div>
+        <div class="ask-estimator-examples" id="estimator-query-examples">
+          <span class="ask-estimator-example-row">
+            <span class="ask-estimator-label">Try:</span>
+            <button type="button" data-estimator-example="6 IN STD pipe price">6 IN STD pipe price</button>
+          </span>
+          <span class="ask-estimator-divider">|</span>
+          <button type="button" data-estimator-example="Fabrication rate for CS">Fabrication rate for CS</button>
+          <span class="ask-estimator-divider">|</span>
+          <button type="button" data-estimator-example="6 IN STD pipe price, 10 IN 90 deg elbow price">6 IN STD pipe price, 10 IN 90 deg elbow price</button>
+          <details class="ask-estimator-more-examples">
+            <summary>Show 12 more examples</summary>
+            <div class="ask-estimator-more-example-list">
+              <button type="button" data-estimator-example="Erection rate for CS">Erection rate for CS</button>
+              <button type="button" data-estimator-example="6 IN equal tee price">6 IN equal tee price</button>
+              <button type="button" data-estimator-example="6 IN WN flange 150# price">6 IN WN flange 150# price</button>
+              <button type="button" data-estimator-example="6 IN gate valve 150# price">6 IN gate valve 150# price</button>
+              <button type="button" data-estimator-example="M30 x 200 stud bolt price">M30 x 200 stud bolt price</button>
+              <button type="button" data-estimator-example="GST rate">GST rate</button>
+              <button type="button" data-estimator-example="Give me excel BOM template file">Give me excel BOM template file</button>
+              <button type="button" data-estimator-example="How is pipe weight calculated?">How is pipe weight calculated?</button>
+              <button type="button" data-estimator-example="How are fittings calculated? Give example">How are fittings calculated? Give example</button>
+              <button type="button" data-estimator-example="How are flanges calculated? Give example">How are flanges calculated? Give example</button>
+              <button type="button" data-estimator-example="How are valves calculated? Give example">How are valves calculated? Give example</button>
+              <button type="button" data-estimator-example="Raw material available rate">Raw material available rate</button>
+            </div>
+          </details>
+        </div>
+        <div class="ask-estimator-result" id="estimator-query-result" aria-live="polite" hidden></div>
+        <section class="bom-report-preview ask-estimator-report-preview" id="estimator-report-preview" hidden>
+          <div class="bom-report-preview-header">
+            <div>
+              <h3>Piping Material &amp; Service Cost Estimate Report</h3>
+              <p>Review the printable report below, then save it as PDF from the print dialog.</p>
+            </div>
+            <div class="bom-report-preview-actions">
+              <button class="report-button" type="button" id="estimator-report-print-button">Print Report</button>
+              <button class="ghost-button" type="button" id="estimator-report-close-button">Close</button>
+            </div>
+          </div>
+          <iframe id="estimator-report-frame" title="Piping material and service cost estimate report preview"></iframe>
+        </section>
+      </section>
+
+      <section class="context-panel" aria-label="Calculation context">
+        <div class="context-heading">
+          <div>
+            <h2>Project Information</h2>
+            <p>Add project details for report traceability.</p>
+          </div>
+        </div>
+        <div class="context-grid">
+          <label>
+            <span>Project / Job Description</span>
+            <textarea
+              id="project-description"
+              rows="3"
+              placeholder="Example: Budgetary supply estimate for piping BOM of CDU/VDU project."
+            ></textarea>
+          </label>
+          <label>
+            <span>Project No. / MOC No. / Job No.</span>
+            <input
+              id="project-number"
+              type="text"
+              placeholder="Example: NRL/CDU-VDU/RTA-2027"
+            />
+          </label>
+          <label class="design-temperature-field">
+            <span>Design Temperature (°C)</span>
+            <input
+              id="design-temperature"
+              type="number"
+              step="0.1"
+              placeholder="e.g., 250"
+            />
+          </label>
+        </div>
+      </section>
+
+      <section class="pipe-quick-section" id="calculator" aria-label="Pipe price calculator">
+        <div class="panel-heading pipe-quick-heading">
+          <div>
+            <h2>Pipe Quick Estimate</h2>
+            <p>Estimate pipe material cost using size, thickness, length, material basis, coating, and estimate factors.</p>
+          </div>
+          <button class="primary-button" type="button" id="add-line-button">Add Pipe</button>
+        </div>
+        <div class="tool-grid">
+        <form class="input-panel" id="calculator-form">
+          <div class="panel-heading">
+            <h2>Inputs</h2>
+            <div class="panel-actions">
+              <button class="ghost-button" type="button" id="reset-button">Reset</button>
+            </div>
+          </div>
+
+          <div class="field-grid">
+                <label>
+                  <span>Year</span>
+                  <select id="year">
+                    <option>2026</option>
+                    <option>2025</option>
+                    <option>2024</option>
+                    <option>2023</option>
+                    <option>2022</option>
+                    <option>2021</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span>Size IN</span>
+                  <select id="size"></select>
+                </label>
+
+                <label>
+                  <span>Thickness Input</span>
+                  <select id="thickness-mode">
+                    <option value="direct">Direct thickness in mm</option>
+                    <option value="schedule" selected>Pipe schedule lookup</option>
+                  </select>
+                </label>
+
+                <label id="schedule-field" class="schedule-active">
+                  <span>Pipe Schedule</span>
+                  <select id="schedule">
+                    <option value="STD">STD</option>
+                    <option value="HVY">HVY</option>
+                    <option value="XS">XS</option>
+                    <option value="XXS">XXS</option>
+                    <option value="5S">5S</option>
+                    <option value="5">5</option>
+                    <option value="10S">10S</option>
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="30">30</option>
+                    <option value="40S">40S</option>
+                    <option value="40">40</option>
+                    <option value="60">60</option>
+                    <option value="80S">80S</option>
+                    <option value="80">80</option>
+                    <option value="100">100</option>
+                    <option value="120">120</option>
+                    <option value="140">140</option>
+                    <option value="160">160</option>
+                  </select>
+                </label>
+
+                <label>
+                  <span id="thickness-label">Thickness MM</span>
+                  <input id="thickness" type="number" min="0.1" step="0.01" value="5.4" />
+                </label>
+
+                <label>
+                  <span>Length M</span>
+                  <input id="length" type="number" min="0" step="0.1" value="100" />
+                </label>
+                <input id="spec" class="hidden" type="hidden" value="ASTM A106" />
+
+                <div class="material-library-card">
+                  <div class="material-library-heading">
+                    <strong>Suggested Raw Material Rate</strong>
+                  </div>
+                  <div class="material-library-grid">
+                    <label>
+                      <span>Basic Mat. Of Const.</span>
+                      <select id="material-basis">
+                        <option value="">Select material group</option>
+                      </select>
+                    </label>
+                    <label>
+                      <span>Pipe Material Standard</span>
+                      <select id="material-grade-family" disabled>
+                        <option value="">Select pipe material standard</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div class="material-library-output" aria-live="polite">
+                    <div>
+                      <span>Ch.Comp / Grade Family</span>
+                      <strong id="material-standard-output">-</strong>
+                    </div>
+                    <div>
+                      <span>Indicative Raw Material</span>
+                      <strong id="raw-material-basis-output">-</strong>
+                    </div>
+                    <div>
+                      <span>Raw material price range</span>
+                      <strong id="raw-material-range-output">-</strong>
+                    </div>
+                    <div>
+                      <span>Recommended Rs/kg</span>
+                      <strong id="recommended-rate-output">-</strong>
+                    </div>
+                  </div>
+                </div>
+
+                <label>
+                  <span>Coating</span>
+                  <select id="coating">
+                    <option>No</option>
+                    <option>Yes</option>
+                  </select>
+                </label>
+                <label>
+                  <span>Raw Steel Rs/kg Override</span>
+                  <input id="raw-override" type="number" min="0" step="0.01" placeholder="Optional" />
+                </label>
+
+                <label>
+                  <span>Estimate Factor Override</span>
+                  <input id="factor-override" type="number" min="0" step="0.01" placeholder="Optional" />
+                </label>
+
+                <label>
+                  <span>Factor w.r.t. CS</span>
+                  <input id="factor-cs-output" type="text" value="-" readonly />
+                </label>
+          </div>
+
+          <p class="warning" id="warning"></p>
+          <p class="success-message" id="success-message" aria-live="polite"></p>
+        </form>
+
+        <section class="output-panel" aria-label="Calculated results">
+          <div class="panel-heading">
+            <h2>Output</h2>
+            <span id="factor-source" class="source-pill">Coating factor</span>
+          </div>
+
+          <div class="metrics">
+            <article class="metric">
+              <span>OD used</span>
+              <strong id="od-mm">-</strong>
+            </article>
+            <article class="metric">
+              <span>Weight kg/m</span>
+              <strong id="weight-kgm">-</strong>
+            </article>
+            <article class="metric">
+              <span>Total weight kg</span>
+              <strong id="total-weight">-</strong>
+            </article>
+            <article class="metric">
+              <span>Raw steel Rs/kg</span>
+              <strong id="raw-steel">-</strong>
+            </article>
+          </div>
+
+          <div class="price-columns">
+            <article class="price-card median">
+              <span>Normal estimate</span>
+              <h3>Median factor</h3>
+              <p class="factor-help">Your realistic working number for negotiation and planning.</p>
+              <p class="factor" id="median-factor">-</p>
+              <dl>
+                <div>
+                  <dt>Finished Rs/kg</dt>
+                  <dd id="median-rs-kg">-</dd>
+                </div>
+                <div>
+                  <dt>Rs/m</dt>
+                  <dd id="median-rs-m">-</dd>
+                </div>
+                <div>
+                  <dt>Total Rs</dt>
+                  <dd id="median-total">-</dd>
+                </div>
+              </dl>
+            </article>
+
+            <article class="price-card p90">
+              <span>Conservative estimate</span>
+              <h3>P90 factor</h3>
+              <p class="factor-help">Your safety-margin number for budget approval.</p>
+              <p class="factor" id="p90-factor">-</p>
+              <dl>
+                <div>
+                  <dt>Finished Rs/kg</dt>
+                  <dd id="p90-rs-kg">-</dd>
+                </div>
+                <div>
+                  <dt>Rs/m</dt>
+                  <dd id="p90-rs-m">-</dd>
+                </div>
+                <div>
+                  <dt>Total Rs</dt>
+                  <dd id="p90-total">-</dd>
+                </div>
+              </dl>
+            </article>
+          </div>
+
+          <section class="estimate-basis-band" aria-label="Estimate basis and budget comparison">
+            <div class="estimate-basis-column">
+              <h3>Calculation Basis</h3>
+              <dl>
+                <div><dt>Material standard</dt><dd id="pipe-basis-material">-</dd></div>
+                <div><dt>Size / wall</dt><dd id="pipe-basis-size-wall">-</dd></div>
+                <div><dt>Coating</dt><dd id="pipe-basis-coating">-</dd></div>
+              </dl>
+            </div>
+            <div class="estimate-basis-column">
+              <h3>Price Build-up</h3>
+              <dl>
+                <div><dt>Raw material</dt><dd id="pipe-basis-raw">-</dd></div>
+                <div><dt>Normal factor</dt><dd id="pipe-basis-factor">-</dd></div>
+                <div><dt>Finished rate</dt><dd id="pipe-basis-finished-rate">-</dd></div>
+              </dl>
+            </div>
+            <div class="estimate-basis-column estimate-risk-column">
+              <h3>Budget Difference</h3>
+              <dl>
+                <div><dt>Risk reserve</dt><dd id="pipe-basis-risk-reserve">-</dd></div>
+                <div><dt>P90 uplift</dt><dd id="pipe-basis-p90-uplift">-</dd></div>
+                <div><dt>P90 total</dt><dd id="pipe-basis-p90-total">-</dd></div>
+              </dl>
+            </div>
+          </section>
+        </section>
+        </div>
+      </section>
+
+      <section class="component-quick-panel" id="component-estimator" aria-label="Manual piping component estimate">
+        <div class="panel-heading">
+          <div>
+            <h2>Component Quick Estimate</h2>
+            <p>Estimate fittings, flanges, valves, stud-and-nut sets, gaskets, and strainers without uploading a BOM.</p>
+          </div>
+          <button class="primary-button" type="button" id="add-component-button">Add Component</button>
+        </div>
+
+        <div class="component-quick-grid">
+          <div class="component-input-area">
+            <div class="component-input-heading">
+              <h3>Inputs</h3>
+              <button class="ghost-button" type="button" id="reset-component-button">Reset</button>
+            </div>
+            <div class="component-field-grid">
+              <label>
+                <span>Component Group</span>
+                <select id="component-group"></select>
+              </label>
+              <label>
+                <span>Component Type</span>
+                <select id="component-type"></select>
+              </label>
+              <label>
+                <span id="component-size-label">Size IN</span>
+                <input id="component-size" type="text" value="4 IN" placeholder="Example: 4 IN" />
+                <select id="component-unequal-tee-size" hidden aria-label="Unequal tee run and branch size"></select>
+              </label>
+              <label id="component-rating-field">
+                <span>Rating / Schedule</span>
+                <input id="component-rating" type="text" value="150#" placeholder="Example: 150#, STD, XS" />
+              </label>
+              <label>
+                <span>Material Standard</span>
+                <input id="component-material" type="text" value="ASTM A105" placeholder="Example: ASTM A105" />
+              </label>
+              <label>
+                <span>Quantity</span>
+                <input id="component-quantity" type="number" min="0.01" step="1" value="1" />
+              </label>
+              <label>
+                <span>UOM</span>
+                <input id="component-uom" type="text" value="Nos" readonly />
+              </label>
+            </div>
+            <p class="component-warning" id="component-warning" aria-live="polite"></p>
+          </div>
+
+          <section class="component-output-area" aria-label="Component estimate output">
+            <div class="component-output-header">
+              <h3>Output</h3>
+              <span id="component-output-group" class="source-pill">Component estimate</span>
+              <span id="component-output-status" class="component-status">Ready</span>
+            </div>
+            <div class="component-metrics">
+              <article><span>Material Category</span><strong id="component-material-category">-</strong></article>
+              <article><span>Raw Rs/kg</span><strong id="component-raw-rate">-</strong></article>
+              <article><span>Factor Used</span><strong id="component-factor">-</strong></article>
+              <article><span>Unit Rs</span><strong id="component-unit-rate">-</strong></article>
+              <article><span>Normal Total</span><strong id="component-normal-total">-</strong></article>
+              <article><span>P90 Total</span><strong id="component-p90-total">-</strong></article>
+            </div>
+            <p class="component-basis" id="component-basis">Choose a component type to view its calculation basis.</p>
+          </section>
+        </div>
+      </section>
+
+      <section class="bom-panel" id="bom-upload" aria-label="Excel BOM upload">
+        <div class="panel-heading">
+          <div>
+            <h2>Upload Excel BOM</h2>
+            <p>
+              Upload one or more piping BOMs to estimate material and supported direct service costs.
+            </p>
+          </div>
+        </div>
+
+        <div class="bom-upload-grid">
+          <div class="template-callout">
+            <div>
+              <strong>Need the BOM format?</strong>
+              <p>Download the Excel template, complete the project and piping-component details, then upload it below.</p>
+            </div>
+            <a class="template-download" href="Piping%20BOM%20Example%20Template.xlsx" download>
+              <span>Download Example BOM Template</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <path d="M12 3v12" />
+                <path d="m7 10 5 5 5-5" />
+                <path d="M5 21h14" />
+              </svg>
+            </a>
+          </div>
+
+          <label class="file-drop" id="bom-drop-zone">
+            <span class="upload-icon" aria-hidden="true">
+              <svg viewBox="0 0 48 48" focusable="false">
+                <path d="M16.5 35.5H14a9 9 0 0 1-.9-17.95A12 12 0 0 1 36.2 20.8 7.5 7.5 0 0 1 34.5 35.5H32" />
+                <path d="M24 36V20" />
+                <path d="M17.5 26.5 24 20l6.5 6.5" />
+              </svg>
+            </span>
+            <strong>Click to upload or drag and drop</strong>
+            <small>.xlsx, .xls, or .csv files only</small>
+            <input id="bom-file" type="file" accept=".xlsx,.xls,.csv" multiple />
+          </label>
+
+          <details class="bom-help">
+            <summary>Supported column names</summary>
+            <p>
+              Size / NPS / DN, Sch/Thck/Rating or Thickness, Quantity or Length,
+              UoM, Coating, Material, Raw Steel Rs/kg, Estimate Factor Override.
+              Schedule text like S-STD, STD, HVY, Heavy, SCH 40, S-80, and 5S is converted to mm.
+            </p>
+          </details>
+        </div>
+
+        <div class="bom-progress bom-main-progress" id="main-bom-progress" data-enabled="false" hidden aria-live="polite" aria-atomic="true">
+          <div class="bom-progress-ring" id="main-bom-progress-ring" role="progressbar" aria-label="BOM upload progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+            <div class="bom-progress-center">
+              <strong id="main-bom-progress-count">0 / 0</strong>
+              <span>Files</span>
+            </div>
+          </div>
+          <div class="bom-progress-copy">
+            <strong id="main-bom-progress-title">Preparing BOM files</strong>
+            <p id="main-bom-progress-detail">Please wait while the selected files are read.</p>
+            <small id="main-bom-progress-percent">0% complete</small>
+          </div>
+        </div>
+
+        <div class="bom-status" id="bom-status" aria-live="polite">
+          No BOM uploaded yet.
+        </div>
+        <div class="bom-upload-report-actions" id="bom-upload-report-actions" hidden>
+          <button class="report-button" type="button" id="bom-upload-report-button">Print / Save PDF</button>
+          <button class="excel-report-button" type="button" id="bom-upload-excel-report-button">Download Excel Report</button>
+        </div>
+        <section class="bom-report-preview bom-upload-report-preview" id="bom-upload-report-preview" hidden>
+          <div class="bom-report-preview-header">
+            <div>
+              <h3>Piping Material &amp; Service Cost Estimate Report</h3>
+              <p>Review the printable report below, then save it as PDF from the print dialog.</p>
+            </div>
+            <div class="bom-report-preview-actions">
+              <button class="report-button" type="button" id="bom-upload-report-print-button">Print Report</button>
+              <button class="ghost-button" type="button" id="bom-upload-report-close-button">Close</button>
+            </div>
+          </div>
+          <iframe id="bom-upload-report-frame" title="Piping material and service cost estimate report preview"></iframe>
+        </section>
+      </section>
+
+      <section class="line-items-panel" id="multi-size-estimate" aria-label="Multi size pipe estimate">
+        <div class="panel-heading">
+          <div>
+            <h2>Pipe Material Estimate Summary</h2>
+            <p>Add pipe sizes manually or upload one or more BOM files to build a combined pipe material estimate.</p>
+          </div>
+          <div class="panel-actions report-actions">
+            <button class="print-button" type="button" id="print-button">Print / Save PDF</button>
+            <button class="excel-report-button" type="button" id="export-csv-button">Export Pipe Estimate CSV</button>
+            <span id="line-count" class="source-pill">0 lines</span>
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th><button class="sort-button" type="button" data-sort="size">Size <span aria-hidden="true">↕</span></button></th>
+                <th><button class="sort-button" type="button" data-sort="thickness">Thk mm <span aria-hidden="true">↕</span></button></th>
+                <th class="text-column"><button class="sort-button" type="button" data-sort="spec">Material <span aria-hidden="true">↕</span></button></th>
+                <th><button class="sort-button" type="button" data-sort="length">Length m <span aria-hidden="true">↕</span></button></th>
+                <th><button class="sort-button" type="button" data-sort="coating">Coating <span aria-hidden="true">↕</span></button></th>
+                <th><button class="sort-button" type="button" data-sort="rawSteel">Raw Steel<br />Rs/kg <span aria-hidden="true">↕</span></button></th>
+                <th><button class="sort-button" type="button" data-sort="medianFactor">Factor <span aria-hidden="true">↕</span></button></th>
+                <th><button class="sort-button" type="button" data-sort="weightKgm">Kg/m <span aria-hidden="true">↕</span></button></th>
+                <th><button class="sort-button" type="button" data-sort="totalWeight">Total kg <span aria-hidden="true">↕</span></button></th>
+                <th><button class="sort-button" type="button" data-sort="medianRsM">Rs/m <span aria-hidden="true">↕</span></button></th>
+                <th><button class="sort-button" type="button" data-sort="medianTotal">Normal<br />total <span aria-hidden="true">↕</span></button></th>
+                <th><button class="sort-button" type="button" data-sort="p90Total">P90<br />total <span aria-hidden="true">↕</span></button></th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="line-items-body">
+              <tr class="empty-row">
+                <td colspan="13">No pipe lines added yet.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="summary-strip">
+          <article>
+            <span>Total weight</span>
+            <strong id="summary-weight">-</strong>
+          </article>
+          <article>
+            <span>Normal estimate</span>
+            <strong id="summary-median">-</strong>
+          </article>
+          <article>
+            <span>P90 estimate</span>
+            <strong id="summary-p90">-</strong>
+          </article>
+        </div>
+
+        <div class="category-review" aria-label="Material category review">
+          <div class="category-review-heading">
+            <div>
+              <h3>Pipe Material Category Review</h3>
+              <p>
+                Categories are detected from ASTM piping material specification data.<br>
+                Non-CS estimates use the same factor-based method and are indicative only.
+              </p>
+            </div>
+            <div class="category-review-badges">
+              <span id="category-line-check" class="audit-line-check">Line check: 0 / 0</span>
+              <span id="category-count" class="source-pill">0 categories</span>
+            </div>
+          </div>
+          <details class="category-review-details">
+            <summary>Show Pipe Material Category Review</summary>
+            <div id="category-tables" class="category-tables">
+              <p class="empty-note">Upload a BOM or add pipe lines to view category-wise tables.</p>
+            </div>
+          </details>
+        </div>
+
+      </section>
+
+      <section class="what-if-panel" id="what-if-analysis" aria-label="What-if analysis">
+        <div class="panel-heading">
+          <div>
+            <h2>Scenario Playground (Material What-if Analysis)</h2>
+            <p>Compare pipe, piping component, or complete material estimate changes under selected commercial assumptions.<br /><span>Direct service rates are not varied in this lab.</span></p>
+          </div>
+          <span class="source-pill">Budget risk review</span>
+        </div>
+
+        <details class="what-if-details">
+          <summary>Show Material What-if Lab</summary>
+
+          <div class="whatif-main-grid">
+            <section class="whatif-input-panel" aria-label="Selected scenario cases">
+              <div class="whatif-input-heading">
+                <div>
+                  <h3>Selected Cases</h3>
+                  <p id="whatif-scope-note">Pipes and recognised non-pipe components are included. Coating scenarios affect pipe values only.</p>
+                </div>
+                <label for="whatif-scope">
+                  <span>Estimate scope</span>
+                  <select id="whatif-scope">
+                    <option value="complete" selected>Complete material estimate</option>
+                    <option value="pipe">Pipe estimate only</option>
+                    <option value="components">Piping components only</option>
+                  </select>
+                </label>
+              </div>
+              <div class="what-if-controls" aria-label="What-if case selection">
+              <label>
+                <input type="checkbox" class="whatif-toggle" value="Raw Material" checked />
+                Raw material
+              </label>
+              <label>
+                <input type="checkbox" class="whatif-toggle" value="Pipe Factor" checked />
+                Pipe factor
+              </label>
+              <label>
+                <input type="checkbox" class="whatif-toggle" value="Component Factor" checked />
+                Component factor
+              </label>
+              <label>
+                <input type="checkbox" class="whatif-toggle" value="Coating" checked />
+                Coating
+              </label>
+              </div>
+
+              <div class="whatif-slider-grid">
+              <div class="what-if-slider" id="raw-material-slider-panel">
+                <div class="slider-card-head">
+                  <label for="raw-steel-slider">
+                    <span>Raw material</span>
+                    <small id="raw-steel-slider-base">Base value: -</small>
+                  </label>
+                  <div class="slider-adjustment-info">
+                    <span>Adjustment</span>
+                    <strong id="raw-steel-slider-value">0%</strong>
+                  </div>
+                  <div class="slider-adjusted-info">
+                    <span>Adjusted value</span>
+                    <strong id="raw-steel-slider-rate">-</strong>
+                  </div>
+                </div>
+                <div class="slider-track-wrap">
+                  <span class="slider-progress" id="raw-steel-slider-progress" aria-hidden="true"></span>
+                  <input id="raw-steel-slider" type="range" min="-30" max="30" step="1" value="0" />
+                  <span class="slider-rupee-thumb" id="raw-steel-slider-thumb" aria-hidden="true">₹</span>
+                  <div class="slider-mid-marker" aria-hidden="true">
+                    <span></span>
+                  </div>
+                  <div class="slider-tick-labels" aria-hidden="true"><span>-30%</span><span>-15%</span><span>0%</span><span>+15%</span><span>+30%</span></div>
+                </div>
+              </div>
+
+              <div class="what-if-slider factor-slider" id="pipe-factor-slider-panel">
+                <div class="slider-card-head">
+                  <label for="pipe-factor-slider">
+                    <span>Pipe factor</span>
+                    <small id="pipe-factor-slider-base">Base value: -</small>
+                  </label>
+                  <div class="slider-adjustment-info">
+                    <span>Adjustment</span>
+                    <strong id="pipe-factor-slider-value">0%</strong>
+                  </div>
+                  <div class="slider-adjusted-info">
+                    <span>Adjusted value</span>
+                    <strong id="pipe-factor-slider-rate">-</strong>
+                  </div>
+                </div>
+                <div class="slider-track-wrap">
+                  <span class="slider-progress" id="pipe-factor-slider-progress" aria-hidden="true"></span>
+                  <input id="pipe-factor-slider" type="range" min="-30" max="30" step="1" value="0" />
+                  <span class="slider-factor-thumb" id="pipe-factor-slider-thumb" aria-hidden="true">x</span>
+                  <div class="slider-mid-marker" aria-hidden="true">
+                    <span></span>
+                  </div>
+                  <div class="slider-tick-labels" aria-hidden="true"><span>-30%</span><span>-15%</span><span>0%</span><span>+15%</span><span>+30%</span></div>
+                </div>
+              </div>
+
+              <div class="what-if-slider factor-slider" id="component-factor-slider-panel">
+                <div class="slider-card-head">
+                  <label for="component-factor-slider">
+                    <span>Component factor</span>
+                    <small id="component-factor-slider-base">Base value: -</small>
+                  </label>
+                  <div class="slider-adjustment-info">
+                    <span>Adjustment</span>
+                    <strong id="component-factor-slider-value">0%</strong>
+                  </div>
+                  <div class="slider-adjusted-info">
+                    <span>Adjusted value</span>
+                    <strong id="component-factor-slider-rate">-</strong>
+                  </div>
+                </div>
+                <div class="slider-track-wrap">
+                  <span class="slider-progress" id="component-factor-slider-progress" aria-hidden="true"></span>
+                  <input id="component-factor-slider" type="range" min="-30" max="30" step="1" value="0" />
+                  <span class="slider-factor-thumb" id="component-factor-slider-thumb" aria-hidden="true">x</span>
+                  <div class="slider-mid-marker" aria-hidden="true">
+                    <span></span>
+                  </div>
+                  <div class="slider-tick-labels" aria-hidden="true"><span>-30%</span><span>-15%</span><span>0%</span><span>+15%</span><span>+30%</span></div>
+                </div>
+              </div>
+            </div>
+            </section>
+
+            <section class="whatif-output-panel" aria-label="Scenario summary">
+              <h3>Scenario Summary</h3>
+              <div class="what-if-summary">
+                <article class="scenario-base">
+                  <span>Base estimate</span>
+                  <strong id="whatif-base">-</strong>
+                </article>
+                <article class="scenario-low">
+                  <span>Lowest case</span>
+                  <strong id="whatif-low">-</strong>
+                </article>
+                <article class="scenario-high">
+                  <span>Highest case</span>
+                  <strong id="whatif-high">-</strong>
+                </article>
+                <article class="scenario-range">
+                  <span>Risk range</span>
+                  <strong id="whatif-range">-</strong>
+                </article>
+                <article class="scenario-driver">
+                  <span>Biggest cost driver</span>
+                  <strong id="whatif-driver">-</strong>
+                </article>
+              </div>
+
+              <div class="what-if-chart" id="whatif-chart" aria-label="What-if normal total bar chart">
+                <p class="empty-note">Add pipe lines or enter one estimate to view what-if analysis.</p>
+              </div>
+            </section>
+          </div>
+
+          <div class="table-wrap what-if-table-wrap">
+            <table class="what-if-table">
+              <thead>
+                <tr>
+                  <th><button class="whatif-sort-button" type="button" data-sort="name">Scenario <span aria-hidden="true">↕</span></button></th>
+                  <th><button class="whatif-sort-button" type="button" data-sort="rawSteel">Raw material <span aria-hidden="true">↕</span></button></th>
+                  <th><button class="whatif-sort-button" type="button" data-sort="pipeFactor">Pipe factor <span aria-hidden="true">↕</span></button></th>
+                  <th><button class="whatif-sort-button" type="button" data-sort="componentFactor">Component factor <span aria-hidden="true">↕</span></button></th>
+                  <th><button class="whatif-sort-button" type="button" data-sort="coating">Coating <span aria-hidden="true">↕</span></button></th>
+                  <th><button class="whatif-sort-button" type="button" data-sort="median">Normal total <span aria-hidden="true">↕</span></button></th>
+                  <th><button class="whatif-sort-button" type="button" data-sort="p90">P90 total <span aria-hidden="true">↕</span></button></th>
+                  <th><button class="whatif-sort-button" type="button" data-sort="change">Change vs base <span aria-hidden="true">↕</span></button></th>
+                </tr>
+              </thead>
+              <tbody id="whatif-body">
+                <tr class="empty-row">
+                  <td colspan="8">No scenarios are available for the selected scope.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <p class="audit-note">
+            This Material What-if Lab varies raw material rate, pipe factor, component factor, and pipe coating. Manual sliders apply
+            a separate +/-30% adjustment for rapid material-budget sensitivity review. Direct service rates remain unchanged.
+          </p>
+        </details>
+      </section>
+
+      <section class="bom-group-panel" id="bom-group-review" aria-label="Piping component cost review">
+        <div class="panel-heading">
+          <div>
+            <h2>Piping Component Cost Review</h2>
+            <p class="bom-review-copy">Part A - uploaded BOM items are grouped and budget-priced for Pipe, Fitting, Flange, Valves, Bolt,<br />Gasket, Trap/Strainer, and Other.</p>
+          </div>
+          <div class="bom-heading-actions">
+            <span id="bom-group-count" class="source-pill">0 items</span>
+            <button class="report-button" type="button" id="bom-report-button">Print / Save PDF</button>
+            <button class="excel-report-button" type="button" id="bom-excel-report-button">Download Excel Report</button>
+          </div>
+        </div>
+
+        <details class="bom-group-details">
+          <summary>Show Piping Component Cost Review</summary>
+          <div id="bom-group-tables" class="bom-group-tables">
+            <p class="empty-note">Upload a BOM to view group-wise item tables.</p>
+          </div>
+        </details>
+
+        <section class="bom-report-preview" id="bom-report-preview" hidden>
+          <div class="bom-report-preview-header">
+            <div>
+              <h3>Piping Material &amp; Service Cost Estimate Report</h3>
+              <p>Review the printable report below, then save it as PDF from the print dialog.</p>
+            </div>
+            <div class="bom-report-preview-actions">
+              <button class="report-button" type="button" id="bom-report-print-button">Print Report</button>
+              <button class="ghost-button" type="button" id="bom-report-close-button">Close</button>
+            </div>
+          </div>
+          <iframe id="bom-report-frame" title="Piping material cost estimate report preview"></iframe>
+        </section>
+      </section>
+
+      <section class="service-cost-panel" id="piping-service-cost" aria-label="Piping service cost estimate">
+        <div class="panel-heading">
+          <div>
+            <h2>Piping Service Cost Estimate</h2>
+            <p>Part B - preliminary direct service cost for pipe, fitting and flange erection/welding, plus<br>valve weight-based service, from the uploaded BOM.</p>
+          </div>
+          <span id="service-cost-total-pill" class="source-pill">Direct service cost: Rs 0.00</span>
+        </div>
+
+        <details class="service-cost-details">
+          <summary>Show Piping Service Cost Estimate</summary>
+          <div class="service-basis-grid" aria-label="Service estimate basis">
+            <label>
+              <span>Installation Location</span>
+              <select id="service-location">
+                <option value="ABOVE_GROUND">Above-ground</option>
+                <option value="UNDERGROUND">Underground</option>
+              </select>
+            </label>
+            <label>
+              <span>Regulatory Class</span>
+              <select id="service-regulatory-class">
+                <option value="NON_IBR">Non-IBR</option>
+                <option value="IBR">IBR</option>
+              </select>
+            </label>
+            <label>
+              <span>Painting Basis</span>
+              <select id="service-painting-scope" disabled aria-label="Painting basis is selected automatically from Design Temperature">
+                <option value="UNINSULATED">Uninsulated CS/LTCS/AS piping</option>
+                <option value="UNDER_INSULATION">Painting under insulation (CUI)</option>
+              </select>
+            </label>
+            <label>
+              <span>Rework / Modification Rate (%)</span>
+              <input id="service-rework-rate" type="number" min="0" step="0.01" value="15" inputmode="decimal" aria-label="Rework and modification rate as a percentage of eligible welding cost" />
+            </label>
+            <label>
+              <span>Civil Support Scope</span>
+              <select id="service-civil-support-scope" aria-label="Civil cost scope for pipe supports">
+                <option value="INSIDE_BATTERY_LIMIT">Inside Unit Battery Limit (30%)</option>
+                <option value="OUTSIDE_BATTERY_LIMIT">Outside Unit Battery Limit (100%)</option>
+              </select>
+            </label>
+            <article class="service-basis-note">
+              <span>Planning Assumption</span>
+              <strong>6 m stock + 1.60 allowance</strong>
+              <small>Pipe rows use the 6 m proxy; fittings use connection ends; each flange No. equals one joint. Valve service uses calculated valve weight.</small>
+            </article>
+          </div>
+
+          <div class="service-cost-summary" id="service-cost-summary">
+            <article><span>Eligible service rows</span><strong id="service-ready-count">0</strong></article>
+            <article><span>Need review</span><strong id="service-review-count">0</strong></article>
+            <article><span>Total erection Qty (IM)</span><strong id="service-erection-quantity">0.00 IM</strong></article>
+            <article><span>Total welding Qty (ID)</span><strong id="service-welding-quantity">0.00 ID</strong></article>
+            <article><span>Erection cost</span><strong id="service-erection-total">Rs 0.00</strong></article>
+            <article><span>Welding cost</span><strong id="service-welding-total">Rs 0.00</strong></article>
+            <article><span>Valve service cost</span><strong id="service-valve-total">Rs 0.00</strong></article>
+            <article><span>Rework/modification</span><strong id="service-rework-total">Rs 0.00</strong><small id="service-rework-id">0.00 ID (15.00%)</small></article>
+            <article><span>Pipe support cost</span><strong id="service-support-total">Rs 0.00</strong><small id="service-support-mt">0.000 MT @ Rs 1,50,000/MT</small></article>
+            <article><span>Civil cost for pipe support</span><strong id="service-support-civil-total">Rs 0.00</strong><small id="service-support-civil-basis">300 mm above-ground, size-based cost per support</small></article>
+            <article><span>Pipe painting cost</span><strong id="service-painting-total">Rs 0.00</strong><small id="service-painting-basis">Uninsulated CS/LTCS/AS: 65C default</small></article>
+            <article><span>Pipe insulation cost</span><strong id="service-insulation-total">Rs 0.00</strong><small id="service-insulation-basis">Enter Design Temperature (100C to 500C)</small></article>
+            <article><span>PWHT cost (if applicable)</span><strong id="service-pwht-total">Rs 0.00</strong><small id="service-pwht-basis">Matched against NRL PWHT rules</small></article>
+            <article><span>Direct service cost</span><strong id="service-direct-total">Rs 0.00</strong></article>
+          </div>
+
+          <div id="service-part-b-wrap" class="service-part-b-wrap"></div>
+          <div id="service-cost-table-wrap" class="service-cost-table-wrap">
+            <p class="empty-note">Upload a BOM to calculate pipe, fitting, flange and valve service cost.</p>
+          </div>
+          <div id="service-support-table-wrap" class="service-support-table-wrap"></div>
+          <div id="service-painting-table-wrap" class="service-painting-table-wrap"></div>
+          <div id="service-insulation-table-wrap" class="service-insulation-table-wrap"></div>
+          <div id="service-pwht-table-wrap" class="service-pwht-table-wrap"></div>
+          <p class="service-disclaimer">This is a preliminary service estimate. Pipe insulation cost uses outside surface area = pi x OD (m) x length (m), multiplied by the provisional P50 insulation rate selected from the entered design temperature: 100C = Rs 4,578/m2, 200C = Rs 4,881/m2, 300C = Rs 5,082/m2, 400C = Rs 5,587/m2 and 500C = Rs 6,118/m2. Temperatures between approved points use linear interpolation; outside 100C to 500C remain Review. Pipe painting uses the same surface area for CS, LTCS and alloy-steel pipe: uninsulated piping uses Rs 1,010/m2 at the 65C default, while painting under insulation uses Rs 885/m2 from 65C to 200C and Rs 2,220/m2 from 300C to 500C. The 200C to 300C CUI rate is calculated by linear interpolation between Rs 885/m2 and Rs 2,220/m2. PWHT is calculated only when Piping Class / PMS Class, material and thickness match `nrl_pwht_rules`; it uses eligible welding inch-diameter and the applicable material-category rate. Pipe-support structural steel uses the parametric pipe support calculator and an all-inclusive adopted rate of Rs 1,50,000/MT, based on NRL LPP/WO references 4300080842, 4300083138, 4300083970 and 4300088266. The rate includes contractor-supplied structural steel, fabrication, welding, surface preparation, primer/painting, transportation, erection, bolting and alignment, measured on net fabricated weight. Civil cost for pipe support is separately added using the editable civil-support percentage of the pipe support structural cost. Approved IM and ID rate libraries are applied by detected material category to pipe, fitting and flange work. Rework/modification allowance uses the editable rework percentage of total eligible project welding ID and its matched welding cost. Valves use their calculated material-cost weight x BOM quantity x IOCL-ME-SOR rate: Rs 30.53/kg for valves other than RTJ and Rs 36.64/kg for RTJ valves. Unsupported rows stay marked Review. Actual weld quantities, site constraints, NDT scope, commissioning, taxes and commercial terms are excluded unless separately estimated.</p>
+        </details>
+      </section>
+
+      <section class="audit-panel" id="audit-trail" aria-label="Audit trail and calculation methodology">
+        <div class="panel-heading">
+          <div>
+            <h2>Calculation Methodology &amp; Audit Trail</h2>
+            <p>One review reference for pricing basis, component methods, assumptions, and any user overrides.</p>
+            <p id="report-generated"></p>
+          </div>
+          <span class="source-pill">Material + direct service basis</span>
+        </div>
+
+        <details class="audit-details">
+          <summary>Show Calculation Methodology &amp; Audit Trail</summary>
+
+          <div class="audit-grid">
+          <article>
+            <h3>Pipe Weight &amp; Rate</h3>
+            <p>Pipe mass formula: W = 0.0246615 x (OD - t) x t.</p>
+            <ul>
+              <li>W = pipe mass in kg/m.</li>
+              <li>OD = actual outside diameter in mm from the built-in OD table.</li>
+              <li>t = wall thickness in mm from direct entry or the selected schedule.</li>
+              <li>Total weight = W x length in meter.</li>
+              <li>Pipe Rs/m = finished Rs/kg x pipe kg/m.</li>
+            </ul>
+            <p class="audit-example"><strong>Example - 6 IN CS pipe, 7.11 mm wall:</strong> W = 0.0246615 x (168.3 - 7.11) x 7.11 = <strong>28.26 kg/m</strong>. For 100 m, total weight = <strong>2,826.00 kg</strong>.</p>
+          </article>
+
+          <article>
+            <h3>Material Rate, Factors &amp; P90</h3>
+            <ul>
+              <li>Raw material Rs/kg is selected from the material library for the chosen year and material standard.</li>
+              <li>Finished pipe Rs/kg = raw material Rs/kg x pipe estimate factor.</li>
+              <li>Normal total is the working estimate; P90 is the higher budget envelope.</li>
+              <li>Manual and valid BOM-row overrides replace the relevant default only, including in Piping Component Cost Review, and are recorded below when used.</li>
+            </ul>
+            <p class="audit-example"><strong>Example - 6 IN CS pipe, 2026:</strong> raw material <strong>Rs 56.50/kg</strong> x normal pipe factor <strong>1.80</strong> = finished rate <strong>Rs 101.70/kg</strong>. x 28.26 kg/m = <strong>Rs 2,874.41/m</strong>.</p>
+          </article>
+
+          <article>
+            <h3>Fittings, Gaskets &amp; Strainers</h3>
+            <ul>
+              <li><strong>90 degree LR elbows, NPS 2 to 48:</strong> developed length = 2.356 x actual OD; elbow weight = pipe kg/m x developed length. CS factors: 2 IN = 5.00; above 2 to 4 IN = 3.50; above 4 to 20 IN = 2.50; above 20 to 26 IN = 2.80; above 26 to 48 IN = 3.20.</li>
+              <li><strong>45 degree elbows:</strong> use 50% of the matching 90 degree elbow physical weight. Unit price = 65% of the 90 degree elbow price for NPS 2 to 6 IN, and 60% for NPS 8 to 48 IN.</li>
+              <li><strong>Equal tees:</strong> developed length = 2C + M - 0.5 x OD; tee weight = pipe kg/m x developed length. PO-derived factors: NPS 2 to 4 IN = 4.41; NPS 6 to 20 IN = 3.86; NPS 24 to 48 IN = 3.55.</li>
+              <li><strong>Reducing tees:</strong> use approved unequal-tee C/M dimensions and the same PO-derived Equal Tee factor for the run size. If dimensions cannot produce a price, the readable run-size Equal Tee price is used and labelled <em>Equal tee fallback</em>.</li>
+              <li>Other fittings, gaskets and strainers continue to use the matching-pipe basis and approved component factor. Normal total = unit Rs x BOM quantity; P90 uses the active P90-to-normal ratio.</li>
+            </ul>
+            <p class="audit-example"><strong>Example - 6 IN CS 90 degree LR elbow, STD:</strong> pipe mass = <strong>28.26 kg/m</strong>; developed length = 2.356 x 168.3 mm = <strong>0.3965 m</strong>; elbow weight = <strong>11.21 kg</strong>. 11.21 kg x Rs 56.50/kg x factor <strong>2.50</strong> = <strong>Rs 1,582.98 per No.</strong></p>
+          </article>
+
+          <article>
+            <h3>Flange Weight Model</h3>
+            <ul>
+              <li>Recognised WN, SO and Blind flanges use the flange-weight-3-input-model-v2 JSON model.</li>
+              <li>Flange weight is matched by flange type, pressure rating, and nominal size.</li>
+              <li>Unit Rs = flange weight x material Rs/kg x P50 base multiplier x material multiplier.</li>
+              <li>Where a type-specific lookup is unavailable, the app records the WN fallback used or requests review.</li>
+            </ul>
+            <p class="audit-example"><strong>Example - 6 IN WN flange, 150#, CS:</strong> JSON weight <strong>10.60 kg</strong> x raw material <strong>Rs 56.50/kg</strong> x WN multiplier <strong>3.70</strong> = <strong>Rs 2,215.93 per No.</strong></p>
+          </article>
+
+          <article>
+            <h3>Valve Pricing Method</h3>
+            <ul>
+              <li>Gate valves use the built-in size-band weight equations and conversion factors.</li>
+              <li>Other recognised valve types use the approved ratio relative to the gate-valve base for the same size and rating.</li>
+              <li>Pressure class and material multiplier are applied where available.</li>
+              <li>Rows without a usable size, rating, material, or factor remain marked Review.</li>
+            </ul>
+            <p class="audit-example"><strong>Example - 6 IN gate valve, 150#, CS:</strong> weight basis = 2.00 x 6 squared = <strong>72.00 kg</strong>. 72.00 x Rs 56.50/kg x conversion factor 3.70 = <strong>Rs 15,058.80 per No.</strong></p>
+          </article>
+
+          <article>
+            <h3>Stud Bolt &amp; Nut Set Method</h3>
+            <ul>
+              <li>Readable metric designations such as M30 x 200 use one fully threaded stud plus two heavy-hex nuts.</li>
+              <li>Mass uses standard coarse pitch, effective thread diameter, heavy-hex nut dimensions, and 7,850 kg/m3 density.</li>
+              <li>Unit Rs = complete set mass x material Rs/kg x commercial factor 2.50.</li>
+              <li>Unreadable bolt rows retain the existing review or fallback route; washers, coating and packing are excluded.</li>
+            </ul>
+            <p class="audit-example"><strong>Example - M30 x 200 stud set:</strong> stud plus two heavy-hex nuts = <strong>1.66 kg/set</strong>. 1.66 kg x Rs 56.50/kg x commercial factor 2.50 = <strong>Rs 234.88 per set</strong>.</p>
+          </article>
+
+          <article>
+            <h3>Material Classification &amp; BOM Review</h3>
+            <ul>
+              <li>Materials are classified using astm_piping_material_specification_webapp.json and its Basic Material of Construction logic.</li>
+              <li>BOM items are grouped as Pipe, Fitting, Flange, Valve, Bolt, Gasket, Trap/Strainer, or Other.</li>
+              <li>Only recognised rows with sufficient data receive a calculated rate.</li>
+              <li>Rows marked Review need a confirmed rate, missing data, or a management decision before reliance on the group total.</li>
+            </ul>
+            <p class="audit-example"><strong>Example - material detection:</strong> a 6 IN item with <strong>ASTM A106 Gr.B</strong> is classified as <strong>Carbon Steel</strong>; ASTM A335 Gr.P5 is classified as <strong>Low &amp; Intermediate Alloy Steel</strong>.</p>
+          </article>
+
+          <article>
+            <h3>Coating &amp; Scope</h3>
+            <ul>
+              <li>Coating applies to pipe values only: Yes means internal epoxy lining, external PE coating, or both.</li>
+              <li>Coating Yes factor = 2.30 normal / 3.80 P90; Coating No factor = 1.80 normal / 2.70 P90.</li>
+              <li>Material category, raw rate, factor, P90, and component pricing are indicative cost-estimation inputs.</li>
+              <li>Validate SS, alloy, duplex, non-ferrous, and commercial rates with supplier quotations.</li>
+            </ul>
+            <p class="audit-example"><strong>Example - 6 IN pipe coating:</strong> the same pipe uses factor <strong>1.80</strong> when non-coated and <strong>2.30</strong> when coated. Coating changes pipe values only; it does not change fitting or valve factors.</p>
+          </article>
+
+          <article>
+            <h3>Pipe, Fitting &amp; Flange Service Cost</h3>
+            <ul>
+              <li>Pipe, Fitting and Flange rows use approved CS, SS or AS service rates by detected material category. Unclassified rows use the CS rate as a visible fallback.</li>
+              <li>Pipe erection cost = NPS x pipe length in metres x approved Rs/IM rate. Fittings and flanges have no separate erection IM in this first release.</li>
+              <li>Each pipe row is one run: base joints = ceiling(length / 6 m), then base joints x 1.60, always rounded upward. Fittings use connection ends: Tee = 3, Cap/Weldolet = 1, other fittings = 2 per No.</li>
+              <li>Each flange No. equals one estimated joint. Welding cost = estimated joints x NPS x approved Rs/ID rate, matched by location, IBR status, size and thickness.</li>
+              <li>Unsupported rate combinations are marked Review and excluded from the direct service total.</li>
+            </ul>
+            <p class="audit-example"><strong>Examples - 6 IN, 60 m pipe:</strong> erection IM = 6 x 60 = <strong>360 IM</strong>. Base joints = ceiling(60 / 6) = 10; estimated joints = ceiling(10 x 1.60) = <strong>16 joints</strong>; welding quantity = 16 x 6 = <strong>96 ID</strong>. <strong>6 IN elbow, Qty. 4:</strong> 2 ends x 4 = <strong>8 joints</strong>. <strong>6 IN flange, Qty. 4:</strong> 1 joint x 4 = <strong>4 joints</strong>. No escalation or contingency is added.</p>
+          </article>
+
+          <article class="override-review" id="override-review-card" hidden>
+            <h3>Reviewer Override Check</h3>
+            <ul id="override-review-list">
+            </ul>
+          </article>
+          </div>
+
+          <p class="audit-note">
+            This tool provides indicative Part A material and Part B direct-service estimates.
+            Activities not explicitly included, testing, freight, taxes, packing, wastage,
+            contractor margin, and commercial terms are excluded unless separately stated.
+          </p>
+        </details>
+      </section>
+
+      <footer class="site-footer">
+        This tool provides indicative Part A material and Part B direct-service estimates. Total base project cost means material base plus supported direct service only; it is not a total installed project cost. Activities not explicitly included, testing, freight, taxes, packing, wastage, contractor margin, and commercial terms are excluded unless separately stated.
+      </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+    <script src="Piping%20Service%20Cost%20for%20Web%20App/service_cost_rates_CS.js?v=20260713-multi-material-service"></script>
+    <script src="Piping%20Service%20Cost%20for%20Web%20App/service_cost_rates_SS.js?v=20260713-multi-material-service"></script>
+    <script src="Piping%20Service%20Cost%20for%20Web%20App/service_cost_rates_AS.js?v=20260713-multi-material-service"></script>
+    <script src="Piping%20Service%20Cost%20for%20Web%20App/service_cost_engine.js?v=20260715-joint-allowance-160"></script>
+    <script src="Piping%20Service%20Cost%20for%20Web%20App/pipe_support_calculator_MT.js?v=20260715-direct-pipe-weight-basis"></script>
+    <script src="Piping%20Service%20Cost%20for%20Web%20App/nrl_pwht_rules.js?v=20260714"></script>
+    <script src="Piping%20Service%20Cost%20for%20Web%20App/unequal_tee_dimensions_C_M.js?v=20260716"></script>
+    <script src="app.js?v=20260912-pipe-summary-raw-steel-v80"></script>
+  </body>
+</html>
