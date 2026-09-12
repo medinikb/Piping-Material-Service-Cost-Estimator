@@ -1,6 +1,6 @@
 # Piping Material & Service Cost Estimator
 
-Live tool: https://medinikb.github.io/Pipe-Price-Predictor/
+Live tool: Live tool: https://medinikb.github.io/Piping-Material-Service-Cost-Estimator/
 
 Piping Material & Service Cost Estimator is a free public BOM-based tool for two separate budgetary views: **Part A - Piping Material Cost** and **Part B - Piping Service Cost**. It estimates pipes, fittings, flanges, valves, bolts, gaskets, and strainers from manual inputs or uploaded BOM files.
 
