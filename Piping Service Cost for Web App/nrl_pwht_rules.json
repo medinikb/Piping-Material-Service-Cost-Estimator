@@ -1,0 +1,378 @@
+{
+  "schema_version": "1.0",
+  "source": "NRL Piping Material Specification",
+  "threshold_reference": {
+    "three_quarter_inch_mm": 19.05,
+    "note": "Keep '>' and '>=' as separate conditions."
+  },
+  "categories": {
+    "all_weld_joints_or_all_thicknesses": [
+      {
+        "pipe_class": "A22A",
+        "rating_lb": 150,
+        "service": "Sour water, sour gas, caustic soda and sour hydrocarbon, stress-relieved service",
+        "pipe_material": [
+          "API 5L Grade B, seamless"
+        ],
+        "size_schedule": "0.5-1.5 in XS; 2-6 in STD; 8-14 in Sch 20; 16 in STD",
+        "rule": {
+          "type": "ALL_WELD_JOINTS",
+          "pwht_required": true
+        },
+        "source_pages": [
+          9,
+          77
+        ]
+      },
+      {
+        "pipe_class": "A23A",
+        "rating_lb": 150,
+        "service": "Sour water, sour gas and caustic soda, stress-relieved non-NACE service",
+        "pipe_material": [
+          "API 5L Grade B, seamless"
+        ],
+        "size_schedule": "0.5-1.5 in Sch 160; 2 in XS; 3-26 in STD; 28-32 in XS",
+        "rule": {
+          "type": "ALL_WELD_JOINTS",
+          "pwht_required": true
+        },
+        "source_pages": [
+          10,
+          79
+        ]
+      },
+      {
+        "pipe_class": "B22A",
+        "rating_lb": 300,
+        "service": "Sour water, sour gas and caustic soda, stress-relieved service",
+        "pipe_material": [
+          "API 5L Grade B, seamless"
+        ],
+        "size_schedule": "0.25-1.5 in Sch 160; 2-14 in STD; 16 in '540' thickness as printed",
+        "rule": {
+          "type": "ALL_WELD_JOINTS",
+          "pwht_required": true
+        },
+        "source_pages": [
+          17,
+          93
+        ],
+        "validation_note": "Verify the printed 16 in thickness against the controlled PMS."
+      },
+      {
+        "pipe_class": "B21N",
+        "rating_lb": 300,
+        "service": "Mild to moderately corrosive, flammable and toxic but non-lethal hydrocarbon",
+        "pipe_material": [
+          "ASTM A312 TP316L, solution heat treated, seamless"
+        ],
+        "size_schedule": "0.5-1.5 in Sch 40S; 2-3 in Sch 10S; 4-16 in Sch 40S",
+        "rule": {
+          "type": "ALL_THICKNESSES_NO_EXEMPTION_STATED",
+          "pwht_required": true
+        },
+        "source_pages": [
+          21,
+          103
+        ]
+      },
+      {
+        "pipe_class": "B22M",
+        "rating_lb": 300,
+        "service": "Corrosive liquid, vapour and gas, lethal hydrocarbon service",
+        "pipe_material": [
+          "ASTM A312 TP321, solution heat treated, seamless"
+        ],
+        "size_schedule": "0.5-1.5 in Sch 40S; 2-3 in Sch 10S; 4-6 in Sch 40S; 8-16 in Sch 10S",
+        "rule": {
+          "type": "ALL_THICKNESSES_NO_EXEMPTION_STATED",
+          "pwht_required": true
+        },
+        "source_pages": [
+          22,
+          105
+        ]
+      },
+      {
+        "pipe_class": "F25D",
+        "rating_lb": 1500,
+        "service": "Hydrogen and hydrogen-bearing hydrocarbon",
+        "pipe_material": [
+          "ASTM A335 Grade P11, seamless"
+        ],
+        "size_schedule": "0.5-6 in Sch 160; 8-20 in Sch 140",
+        "rule": {
+          "type": "ALL_WELDED_JOINTS",
+          "pwht_required": true
+        },
+        "source_pages": [
+          43,
+          145
+        ]
+      },
+      {
+        "pipe_class": "F26D",
+        "rating_lb": 1500,
+        "service": "Hydrogen and hydrogen-bearing hydrocarbon",
+        "pipe_material": [
+          "ASTM A335 Grade P11, seamless"
+        ],
+        "size_schedule": "0.5-0.75 in XXS; 1 in Sch 160; 1.5 in XXS; 2-6 in Sch 160; 8 in XXS; 10-16 in Sch 160",
+        "rule": {
+          "type": "ALL_WELDED_JOINTS",
+          "pwht_required": true
+        },
+        "source_pages": [
+          44,
+          147
+        ]
+      },
+      {
+        "pipe_class": "B19A",
+        "rating_lb": 300,
+        "service": "Corrosive sour and caustic service, stress-relieved zone",
+        "pipe_material": [
+          "API 5L Grade B, seamless"
+        ],
+        "size_schedule": "0.25-1.5 in Sch 160; 2-2.5 in XS; 3-14 in STD",
+        "rule": {
+          "type": "ALL_JOINTS_STRESS_RELIEVED",
+          "pwht_required": true
+        },
+        "source_pages": [
+          55,
+          177
+        ]
+      },
+      {
+        "pipe_class": "A19A",
+        "rating_lb": 150,
+        "service": "Corrosive sour and caustic service, stress-relieved zone",
+        "pipe_material": [
+          "API 5L Grade B, seamless",
+          "ASTM A672 Grade C70 Class 22, EFSW"
+        ],
+        "size_schedule": "0.5-3 in XS; 4-8 in STD; 8-14 in Sch 20; EFSW 8.0 mm for '18-16 in' as printed",
+        "rule": {
+          "type": "ALL_JOINTS_STRESS_RELIEVED",
+          "pwht_required": true
+        },
+        "source_pages": [
+          62,
+          190
+        ],
+        "validation_note": "Verify the printed EFSW size range against the controlled PMS."
+      }
+    ],
+    "conditional_on_wall_thickness": [
+      {
+        "pipe_class": "D25A",
+        "rating_lb": 600,
+        "pipe_material": [
+          "ASTM A106 Grade B",
+          "Normalized for applicable larger sizes"
+        ],
+        "size_schedule": "0.5-1.5 in Sch 160; 2-8 in XS; 10-14 in Sch 80",
+        "rule": {
+          "type": "WALL_THICKNESS",
+          "operator": ">",
+          "threshold_mm": 19.05
+        },
+        "source_pages": [
+          29,
+          117
+        ]
+      },
+      {
+        "pipe_class": "D26A",
+        "rating_lb": 600,
+        "pipe_material": [
+          "ASTM A106 Grade B",
+          "Normalized for applicable larger sizes"
+        ],
+        "size_schedule": "0.5-2 in Sch 160; 3-8 in XS; 10-14 in Sch 80",
+        "rule": {
+          "type": "WALL_THICKNESS",
+          "operator": ">",
+          "threshold_mm": 19.05
+        },
+        "source_pages": [
+          30,
+          119
+        ]
+      },
+      {
+        "pipe_class": "E25A",
+        "rating_lb": 900,
+        "pipe_material": [
+          "ASTM A106 Grade B",
+          "Normalized for applicable larger sizes"
+        ],
+        "size_schedule": "0.5-1.5 in Sch 160; 2-3 in STD; 4-10 in XS; 12-14 in Sch 80",
+        "rule": {
+          "type": "WALL_THICKNESS",
+          "operator": ">=",
+          "threshold_mm": 19.05
+        },
+        "source_pages": [
+          36,
+          131
+        ]
+      },
+      {
+        "pipe_class": "E26A",
+        "rating_lb": 900,
+        "pipe_material": [
+          "ASTM A106 Grade B"
+        ],
+        "size_schedule": "0.5-2 in Sch 160",
+        "rule": {
+          "type": "WALL_THICKNESS",
+          "operator": ">=",
+          "threshold_mm": 19.05
+        },
+        "source_pages": [
+          37,
+          133
+        ]
+      },
+      {
+        "pipe_class": "F25A",
+        "rating_lb": 1500,
+        "pipe_material": [
+          "ASTM A106 Grade B",
+          "Normalized for applicable larger sizes"
+        ],
+        "size_schedule": "0.5-6 in Sch 160; 8-20 in Sch 140",
+        "rule": {
+          "type": "WALL_THICKNESS",
+          "operator": ">=",
+          "threshold_mm": 19.05
+        },
+        "source_pages": [
+          40,
+          139
+        ]
+      },
+      {
+        "pipe_class": "F27A",
+        "rating_lb": 1500,
+        "pipe_material": [
+          "ASTM A106 Grade B, normalized"
+        ],
+        "size_schedule": "0.5-3 in XXS; 4-6 in Sch 160; 8-24 in Sch 140",
+        "rule": {
+          "type": "WALL_THICKNESS",
+          "operator": ">=",
+          "threshold_mm": 19.05
+        },
+        "source_pages": [
+          41,
+          141
+        ]
+      },
+      {
+        "pipe_class": "G21A",
+        "rating_lb": 2500,
+        "pipe_material": [
+          "API 5L Grade B, seamless"
+        ],
+        "size_schedule": "0.5-6 in Sch 160; 8 in XXS; 10-14 in Sch 160",
+        "rule": {
+          "type": "WALL_THICKNESS",
+          "operator": ">",
+          "threshold_mm": 19.05
+        },
+        "source_pages": [
+          45,
+          149
+        ]
+      },
+      {
+        "pipe_class": "G22A",
+        "rating_lb": 2500,
+        "pipe_material": [
+          "API 5L Grade B, seamless"
+        ],
+        "size_schedule": "0.5-2 in Sch 160; 3-6 in XXS; 8 in 26 mm; 10 in 32 mm; 12 in 38 mm; 14 in 42 mm",
+        "rule": {
+          "type": "WALL_THICKNESS",
+          "operator": ">",
+          "threshold_mm": 19.05
+        },
+        "source_pages": [
+          48,
+          155
+        ]
+      },
+      {
+        "pipe_class": "B26A",
+        "rating_lb": 300,
+        "pipe_material": [
+          "ASTM A106 Grade B, seamless"
+        ],
+        "size_schedule": "0.5-1.5 in Sch 160; 2 in XS; 3-10 in STD; 12-16 in Sch 40",
+        "rule": {
+          "type": "WALL_THICKNESS",
+          "operator": ">",
+          "threshold_mm": 19.05
+        },
+        "source_pages": [
+          50,
+          163
+        ]
+      },
+      {
+        "pipe_class": "B25A",
+        "rating_lb": 300,
+        "pipe_material": [
+          "ASTM A106 Grade B, seamless"
+        ],
+        "size_schedule": "0.5-1.5 in Sch 160; 2-14 in STD; '18-16 in' Sch 40 as printed",
+        "rule": {
+          "type": "WALL_THICKNESS",
+          "operator": ">",
+          "threshold_mm": 19.05
+        },
+        "source_pages": [
+          61,
+          188
+        ],
+        "validation_note": "Verify the printed size range against the controlled PMS."
+      }
+    ],
+    "service_specific": [
+      {
+        "pipe_class": "A16A",
+        "rating_lb": 150,
+        "pipe_material": [
+          "API 5L Grade B, seamless",
+          "Large-bore EFSW material printed as ASTM A GTL Grade B60 Class 12"
+        ],
+        "size_schedule": "0.5 in XXS; 0.75-1.5 in Sch 160; 2-3 in Sch 80; 4-6 in Sch 40; 8-14 in Sch 30; 16-24 in 8.0 mm",
+        "rule": {
+          "type": "SERVICE_MATCH",
+          "pwht_required": true,
+          "applicable_services": [
+            "SOUR WATER",
+            "SOUR GAS"
+          ],
+          "maximum_hardness_bhn": 200
+        },
+        "source_pages": [
+          64,
+          194
+        ],
+        "validation_note": "Verify the printed large-bore EFSW material designation against the controlled PMS."
+      }
+    ]
+  },
+  "evaluation_priority": [
+    "SERVICE_MATCH",
+    "ALL_WELD_JOINTS",
+    "ALL_JOINTS_STRESS_RELIEVED",
+    "ALL_THICKNESSES_NO_EXEMPTION_STATED",
+    "WALL_THICKNESS",
+    "DEFAULT_NOT_REQUIRED"
+  ]
+}
