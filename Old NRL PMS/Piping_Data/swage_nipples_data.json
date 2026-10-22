@@ -1,0 +1,588 @@
+{
+  "metadata": {
+    "dataset_name": "Swage nipple data",
+    "source_file": "Swage nipples_Data.xlsx",
+    "source_used_range": "A1:M20",
+    "record_count": 18,
+    "units": {
+      "dimensions": "mm",
+      "weight": "kg",
+      "nps": "inch"
+    },
+    "notes": [
+      "Values are extracted from the uploaded Excel file.",
+      "Dash and blank cells were converted to JSON null.",
+      "No independent engineering code validation has been performed on the dimensional values."
+    ]
+  },
+  "field_dictionary": {
+    "component_type": "Swage Nipple.",
+    "size": "Original size string from Excel.",
+    "size_parts_nps": "List of NPS display values parsed from size.",
+    "size_parts_nps_in": "List of NPS values as decimal inches for sorting/filtering.",
+    "outside_diameter_mm": "Outside diameters D1/D2 in mm.",
+    "dimensions_mm": "A, F, H1, H2, and M dimensions in mm.",
+    "weight_kg_by_schedule": "Weight in kg by schedule designation.",
+    "source_excel_row": "Original row number in the uploaded Excel sheet."
+  },
+  "records": [
+    {
+      "id": "SWAGE_NIPPLE_NPS_0_75_X_0_5",
+      "component_type": "Swage Nipple",
+      "size": "3/4\" x 1/2\"",
+      "size_parts_nps": [
+        "3/4",
+        "1/2"
+      ],
+      "size_parts_nps_in": [
+        0.75,
+        0.5
+      ],
+      "outside_diameter_mm": {
+        "D1": 26.67,
+        "D2": 21.34
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 76,
+        "reduced_neck_length_F": 21,
+        "threaded_length_H1": 13,
+        "threaded_length_H2": 11,
+        "center_to_center_M": 2.665
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 0.2,
+        "Sch_80": 0.21,
+        "Sch_160": 0.27,
+        "Sch_XXS": 0.34
+      },
+      "source_excel_row": 3
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_1_X_0_25",
+      "component_type": "Swage Nipple",
+      "size": "1\" x 1/4\"",
+      "size_parts_nps": [
+        "1",
+        "1/4"
+      ],
+      "size_parts_nps_in": [
+        1.0,
+        0.25
+      ],
+      "outside_diameter_mm": {
+        "D1": 33.4,
+        "D2": 13.72
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 89,
+        "reduced_neck_length_F": 16,
+        "threaded_length_H1": 14,
+        "threaded_length_H2": 8,
+        "center_to_center_M": 9.84
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 0.25,
+        "Sch_80": 0.33,
+        "Sch_160": 0.42,
+        "Sch_XXS": 0.55
+      },
+      "source_excel_row": 4
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_1_X_0_5",
+      "component_type": "Swage Nipple",
+      "size": "1\" x 1/2\"",
+      "size_parts_nps": [
+        "1",
+        "1/2"
+      ],
+      "size_parts_nps_in": [
+        1.0,
+        0.5
+      ],
+      "outside_diameter_mm": {
+        "D1": 33.4,
+        "D2": 21.34
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 89,
+        "reduced_neck_length_F": 21,
+        "threaded_length_H1": 14,
+        "threaded_length_H2": 11,
+        "center_to_center_M": 6.03
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 0.25,
+        "Sch_80": 0.33,
+        "Sch_160": 0.42,
+        "Sch_XXS": 0.55
+      },
+      "source_excel_row": 5
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_1_X_0_75",
+      "component_type": "Swage Nipple",
+      "size": "1\" x 3/4\"",
+      "size_parts_nps": [
+        "1",
+        "3/4"
+      ],
+      "size_parts_nps_in": [
+        1.0,
+        0.75
+      ],
+      "outside_diameter_mm": {
+        "D1": 33.4,
+        "D2": 26.67
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 89,
+        "reduced_neck_length_F": 22.5,
+        "threaded_length_H1": 14,
+        "threaded_length_H2": 13,
+        "center_to_center_M": 3.365
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 0.25,
+        "Sch_80": 0.33,
+        "Sch_160": 0.42,
+        "Sch_XXS": 0.55
+      },
+      "source_excel_row": 6
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_1_5_X_0_5",
+      "component_type": "Swage Nipple",
+      "size": "1½\" x 1/2\"",
+      "size_parts_nps": [
+        "1½",
+        "1/2"
+      ],
+      "size_parts_nps_in": [
+        1.5,
+        0.5
+      ],
+      "outside_diameter_mm": {
+        "D1": 48.26,
+        "D2": 21.34
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 114,
+        "reduced_neck_length_F": 21,
+        "threaded_length_H1": 18,
+        "threaded_length_H2": 11,
+        "center_to_center_M": 13.46
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 0.45,
+        "Sch_80": 0.6,
+        "Sch_160": 0.82,
+        "Sch_XXS": 1.06
+      },
+      "source_excel_row": 7
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_1_5_X_0_75",
+      "component_type": "Swage Nipple",
+      "size": "1½\" x 3/4\"",
+      "size_parts_nps": [
+        "1½",
+        "3/4"
+      ],
+      "size_parts_nps_in": [
+        1.5,
+        0.75
+      ],
+      "outside_diameter_mm": {
+        "D1": 48.26,
+        "D2": 26.67
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 114,
+        "reduced_neck_length_F": 22.5,
+        "threaded_length_H1": 18,
+        "threaded_length_H2": 13,
+        "center_to_center_M": 10.795
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 0.45,
+        "Sch_80": 0.6,
+        "Sch_160": 0.82,
+        "Sch_XXS": 1.06
+      },
+      "source_excel_row": 8
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_1_5_X_1",
+      "component_type": "Swage Nipple",
+      "size": "1½\" x 1\"",
+      "size_parts_nps": [
+        "1½",
+        "1"
+      ],
+      "size_parts_nps_in": [
+        1.5,
+        1.0
+      ],
+      "outside_diameter_mm": {
+        "D1": 48.26,
+        "D2": 33.4
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 114,
+        "reduced_neck_length_F": 25,
+        "threaded_length_H1": 18,
+        "threaded_length_H2": 14,
+        "center_to_center_M": 7.43
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 0.45,
+        "Sch_80": 0.6,
+        "Sch_160": 0.82,
+        "Sch_XXS": 1.06
+      },
+      "source_excel_row": 9
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_2_X_0_5",
+      "component_type": "Swage Nipple",
+      "size": "2\" x 1/2\"",
+      "size_parts_nps": [
+        "2",
+        "1/2"
+      ],
+      "size_parts_nps_in": [
+        2.0,
+        0.5
+      ],
+      "outside_diameter_mm": {
+        "D1": 60.33,
+        "D2": 21.34
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 165,
+        "reduced_neck_length_F": 21,
+        "threaded_length_H1": 19,
+        "threaded_length_H2": 11,
+        "center_to_center_M": 19.495
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 0.85,
+        "Sch_80": 1.2,
+        "Sch_160": 1.8,
+        "Sch_XXS": 2.2
+      },
+      "source_excel_row": 10
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_2_X_0_75",
+      "component_type": "Swage Nipple",
+      "size": "2\" x 3/4\"",
+      "size_parts_nps": [
+        "2",
+        "3/4"
+      ],
+      "size_parts_nps_in": [
+        2.0,
+        0.75
+      ],
+      "outside_diameter_mm": {
+        "D1": 60.33,
+        "D2": 26.67
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 165,
+        "reduced_neck_length_F": 22.5,
+        "threaded_length_H1": 19,
+        "threaded_length_H2": 13,
+        "center_to_center_M": 16.83
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 0.85,
+        "Sch_80": 1.2,
+        "Sch_160": 1.8,
+        "Sch_XXS": 2.2
+      },
+      "source_excel_row": 11
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_2_X_1",
+      "component_type": "Swage Nipple",
+      "size": "2\" x 1\"",
+      "size_parts_nps": [
+        "2",
+        "1"
+      ],
+      "size_parts_nps_in": [
+        2.0,
+        1.0
+      ],
+      "outside_diameter_mm": {
+        "D1": 60.33,
+        "D2": 33.4
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 165,
+        "reduced_neck_length_F": 25,
+        "threaded_length_H1": 19,
+        "threaded_length_H2": 14,
+        "center_to_center_M": 13.465
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 0.85,
+        "Sch_80": 1.2,
+        "Sch_160": 1.8,
+        "Sch_XXS": 2.2
+      },
+      "source_excel_row": 12
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_2_X_1_5",
+      "component_type": "Swage Nipple",
+      "size": "2\" x 1½\"",
+      "size_parts_nps": [
+        "2",
+        "1½"
+      ],
+      "size_parts_nps_in": [
+        2.0,
+        1.5
+      ],
+      "outside_diameter_mm": {
+        "D1": 60.33,
+        "D2": 48.26
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 165,
+        "reduced_neck_length_F": 28,
+        "threaded_length_H1": 19,
+        "threaded_length_H2": 18,
+        "center_to_center_M": 6.035
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 0.85,
+        "Sch_80": 1.2,
+        "Sch_160": 1.8,
+        "Sch_XXS": 2.2
+      },
+      "source_excel_row": 13
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_3_X_1",
+      "component_type": "Swage Nipple",
+      "size": "3\" x 1\"",
+      "size_parts_nps": [
+        "3",
+        "1"
+      ],
+      "size_parts_nps_in": [
+        3.0,
+        1.0
+      ],
+      "outside_diameter_mm": {
+        "D1": 88.9,
+        "D2": 33.4
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 203,
+        "reduced_neck_length_F": 25,
+        "threaded_length_H1": 26,
+        "threaded_length_H2": 14,
+        "center_to_center_M": 27.75
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 1.7,
+        "Sch_80": 3,
+        "Sch_160": 4.3,
+        "Sch_XXS": 5.6
+      },
+      "source_excel_row": 14
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_3_X_1_5",
+      "component_type": "Swage Nipple",
+      "size": "3\" x 1½\"",
+      "size_parts_nps": [
+        "3",
+        "1½"
+      ],
+      "size_parts_nps_in": [
+        3.0,
+        1.5
+      ],
+      "outside_diameter_mm": {
+        "D1": 88.9,
+        "D2": 48.26
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 203,
+        "reduced_neck_length_F": 28,
+        "threaded_length_H1": 26,
+        "threaded_length_H2": 18,
+        "center_to_center_M": 20.32
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 1.7,
+        "Sch_80": 3,
+        "Sch_160": 4.3,
+        "Sch_XXS": 5.6
+      },
+      "source_excel_row": 15
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_3_X_2",
+      "component_type": "Swage Nipple",
+      "size": "3\" x 2\"",
+      "size_parts_nps": [
+        "3",
+        "2"
+      ],
+      "size_parts_nps_in": [
+        3.0,
+        2.0
+      ],
+      "outside_diameter_mm": {
+        "D1": 88.9,
+        "D2": 60.33
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 203,
+        "reduced_neck_length_F": 29,
+        "threaded_length_H1": 26,
+        "threaded_length_H2": 19,
+        "center_to_center_M": 14.285
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 1.7,
+        "Sch_80": 3,
+        "Sch_160": 4.3,
+        "Sch_XXS": 5.6
+      },
+      "source_excel_row": 16
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_4_X_1",
+      "component_type": "Swage Nipple",
+      "size": "4\" x 1\"",
+      "size_parts_nps": [
+        "4",
+        "1"
+      ],
+      "size_parts_nps_in": [
+        4.0,
+        1.0
+      ],
+      "outside_diameter_mm": {
+        "D1": 114.3,
+        "D2": 33.4
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 229,
+        "reduced_neck_length_F": 25,
+        "threaded_length_H1": 26,
+        "threaded_length_H2": 14,
+        "center_to_center_M": 40.45
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 2.33,
+        "Sch_80": 5,
+        "Sch_160": 7.5,
+        "Sch_XXS": 9.2
+      },
+      "source_excel_row": 17
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_4_X_1_5",
+      "component_type": "Swage Nipple",
+      "size": "4\" x 1½\"",
+      "size_parts_nps": [
+        "4",
+        "1½"
+      ],
+      "size_parts_nps_in": [
+        4.0,
+        1.5
+      ],
+      "outside_diameter_mm": {
+        "D1": 114.3,
+        "D2": 48.26
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 229,
+        "reduced_neck_length_F": 28,
+        "threaded_length_H1": 28,
+        "threaded_length_H2": 18,
+        "center_to_center_M": 33.02
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 2.33,
+        "Sch_80": 5,
+        "Sch_160": 7.5,
+        "Sch_XXS": 9.2
+      },
+      "source_excel_row": 18
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_4_X_2",
+      "component_type": "Swage Nipple",
+      "size": "4\" x 2\"",
+      "size_parts_nps": [
+        "4",
+        "2"
+      ],
+      "size_parts_nps_in": [
+        4.0,
+        2.0
+      ],
+      "outside_diameter_mm": {
+        "D1": 114.3,
+        "D2": 60.33
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 229,
+        "reduced_neck_length_F": 29,
+        "threaded_length_H1": 28,
+        "threaded_length_H2": 19,
+        "center_to_center_M": 26.985
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 2.33,
+        "Sch_80": 5,
+        "Sch_160": 7.5,
+        "Sch_XXS": 9.2
+      },
+      "source_excel_row": 19
+    },
+    {
+      "id": "SWAGE_NIPPLE_NPS_4_X_3",
+      "component_type": "Swage Nipple",
+      "size": "4\" x 3\"",
+      "size_parts_nps": [
+        "4",
+        "3"
+      ],
+      "size_parts_nps_in": [
+        4.0,
+        3.0
+      ],
+      "outside_diameter_mm": {
+        "D1": 114.3,
+        "D2": 88.9
+      },
+      "dimensions_mm": {
+        "nipple_length_A": 229,
+        "reduced_neck_length_F": 43,
+        "threaded_length_H1": 28,
+        "threaded_length_H2": 26,
+        "center_to_center_M": 12.7
+      },
+      "weight_kg_by_schedule": {
+        "Sch_40": 2.33,
+        "Sch_80": 5,
+        "Sch_160": 7.5,
+        "Sch_XXS": 9.2
+      },
+      "source_excel_row": 20
+    }
+  ]
+}

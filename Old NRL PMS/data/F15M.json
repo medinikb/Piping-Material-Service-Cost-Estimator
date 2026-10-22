@@ -1,0 +1,135 @@
+{
+  "pipeClass": "F15M",
+  "source": {
+    "document": "Piping Mat. Specification#NRL.pdf",
+    "sheets": [
+      "F15M sheet 2 of 3",
+      "F15M sheet 3 of 3"
+    ],
+    "pages": [
+      143,
+      144
+    ],
+    "note": "MVP data manually structured from F15M material specification rows. Verify against source PDF before procurement issue."
+  },
+  "items": [
+    {
+      "id": "pipe-seamless-0-5-1-5",
+      "group": "Pipes",
+      "item": "Pipe",
+      "type": "Pipe (Seamless)",
+      "endFacing": "BE",
+      "lowSize": 0.5,
+      "highSize": 1.5,
+      "schThkRating": "S160",
+      "faceFinishRadius": "",
+      "dimensionStandard": "B - 36.19",
+      "material": "ASTM A 312 TP321H",
+      "unit": "M",
+      "sourcePage": 143
+    },
+    {
+      "id": "pipe-seamless-2-6",
+      "group": "Pipes",
+      "item": "Pipe",
+      "type": "Pipe (Seamless)",
+      "endFacing": "BE",
+      "lowSize": 2.0,
+      "highSize": 6.0,
+      "schThkRating": "XS",
+      "faceFinishRadius": "",
+      "dimensionStandard": "B - 36.19",
+      "material": "ASTM A 312 TP321H",
+      "unit": "M",
+      "sourcePage": 143
+    },
+    {
+      "id": "pipe-seamless-8-14",
+      "group": "Pipes",
+      "item": "Pipe",
+      "type": "Pipe (Seamless)",
+      "endFacing": "BE",
+      "lowSize": 8.0,
+      "highSize": 14.0,
+      "schThkRating": "S100",
+      "faceFinishRadius": "",
+      "dimensionStandard": "B - 36.19",
+      "material": "ASTM A 312 TP321H",
+      "unit": "M",
+      "sourcePage": 143
+    },
+    {
+      "id": "fitting-bw-0-5-14",
+      "group": "Fittings",
+      "item": "Fitting",
+      "type": "BW",
+      "endFacing": "BW",
+      "lowSize": 0.5,
+      "highSize": 14.0,
+      "schThkRating": "As per matching pipe",
+      "faceFinishRadius": "R = 1.50",
+      "dimensionStandard": "B - 16.9",
+      "material": "ASTM A 403 GR.WP321H",
+      "unit": "Nos",
+      "sourcePage": 143,
+      "aliases": [
+        "Elbow 90 deg.",
+        "Elbow 45 deg.",
+        "Equal Tee",
+        "Red. Tee",
+        "Reducing Tee",
+        "Con. Reducer",
+        "Ecc. Reducer"
+      ]
+    },
+    {
+      "id": "weldolet-0-5-12",
+      "group": "Fittings",
+      "item": "Weldolet",
+      "type": "BW",
+      "endFacing": "BW",
+      "lowSize": 0.5,
+      "highSize": 12.0,
+      "schThkRating": "As per matching pipe",
+      "faceFinishRadius": "R = 1.50",
+      "dimensionStandard": "MNF'STD",
+      "material": "ASTM A182 GR.F321H",
+      "unit": "Nos",
+      "sourcePage": 143,
+      "aliases": [
+        "WELDOLETS",
+        "Weldolet"
+      ]
+    },
+    {
+      "id": "valve-gate-bw-0-5-2",
+      "group": "Valves",
+      "item": "Gate Valve",
+      "type": "GATE",
+      "endFacing": "BW",
+      "lowSize": 0.5,
+      "highSize": 2.0,
+      "schThkRating": "1500 #",
+      "faceFinishRadius": "",
+      "dimensionStandard": "API - 602",
+      "material": "A182 GR.F321H; SS321+STL",
+      "unit": "Nos",
+      "sourcePage": 144
+    },
+    {
+      "id": "valve-globe-bw-0-5-2",
+      "group": "Valves",
+      "item": "Globe Valve",
+      "type": "GLOBE",
+      "endFacing": "BW",
+      "lowSize": 0.5,
+      "highSize": 2.0,
+      "schThkRating": "1500 #",
+      "faceFinishRadius": "",
+      "dimensionStandard": "API - 602",
+      "material": "A182 GR.F321H; SS321+STL",
+      "unit": "Nos",
+      "sourcePage": 144
+    }
+  ]
+}

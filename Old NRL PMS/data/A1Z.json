@@ -1,0 +1,202 @@
+{
+  "pipeClass": "A1Z",
+  "source": {
+    "document": "Piping Mat. Specification#NRL.pdf",
+    "sheets": [
+      "A1Z sheet 2 of 3",
+      "A1Z sheet 3 of 3"
+    ],
+    "pages": [
+      157,
+      158
+    ],
+    "note": "MVP data manually structured from A1Z material specification rows. Verify against source PDF before procurement issue."
+  },
+  "items": [
+    {
+      "id": "pipe-seamless-pe-0-5-12",
+      "group": "Pipes",
+      "item": "Pipe",
+      "type": "Pipe (Seamless)",
+      "endFacing": "PE",
+      "lowSize": 0.5,
+      "highSize": 12,
+      "schThkRating": "9.3 mm",
+      "faceFinishRadius": "",
+      "dimensionStandard": "D3035",
+      "material": "ASTM D3035 GR.PE3406 CLC",
+      "unit": "M",
+      "sourcePage": 157
+    },
+    {
+      "id": "flange-lj-0-12",
+      "group": "Flanges",
+      "item": "Lap Joint Flange",
+      "type": "LJ",
+      "endFacing": "FF",
+      "lowSize": 0.5,
+      "highSize": 12,
+      "schThkRating": "150 #",
+      "faceFinishRadius": "STK.FIN",
+      "dimensionStandard": "EIL'STD",
+      "material": "ASTM A515 GR.60",
+      "unit": "Nos",
+      "sourcePage": 157,
+      "aliases": [
+        "Flange"
+      ]
+    },
+    {
+      "id": "flange-blind-0-12",
+      "group": "Flanges",
+      "item": "Blind Flange",
+      "type": "BLIND",
+      "endFacing": "FF",
+      "lowSize": 0.5,
+      "highSize": 12,
+      "schThkRating": "150 #",
+      "faceFinishRadius": "STK.FIN",
+      "dimensionStandard": "EIL'STD",
+      "material": "ASTM A515 GR.60/HDPE",
+      "unit": "Nos",
+      "sourcePage": 157
+    },
+    {
+      "id": "spacer-blind-0-12",
+      "group": "Flanges",
+      "item": "SPCR & BLN",
+      "type": "SPCR & BLN",
+      "endFacing": "FF",
+      "lowSize": 0.5,
+      "highSize": 12,
+      "schThkRating": "150 #",
+      "faceFinishRadius": "STK.FIN",
+      "dimensionStandard": "EIL'STD",
+      "material": "ASTM A515 GR.60/HDPE",
+      "unit": "Nos",
+      "sourcePage": 157
+    },
+    {
+      "id": "fitting-pe-0-12",
+      "group": "Fittings",
+      "item": "Fitting",
+      "type": "PE",
+      "endFacing": "PE",
+      "lowSize": 0.5,
+      "highSize": 12,
+      "schThkRating": "As per matching pipe",
+      "faceFinishRadius": "R = 30",
+      "dimensionStandard": "EIL'STD",
+      "material": "ASTM D3261 GR.P34 CLC",
+      "unit": "Nos",
+      "sourcePage": 157,
+      "aliases": [
+        "Elbow 90 deg.",
+        "Elbow 45 deg.",
+        "Equal Tee",
+        "Red. Tee",
+        "Reducing Tee",
+        "Con. Reducer",
+        "Ecc. Reducer"
+      ]
+    },
+    {
+      "id": "stub-end-pe-0-12",
+      "group": "Fittings",
+      "item": "Stub End",
+      "type": "STUB END",
+      "endFacing": "PE",
+      "lowSize": 0.5,
+      "highSize": 12,
+      "schThkRating": "150 #",
+      "faceFinishRadius": "STK.FIN",
+      "dimensionStandard": "EIL'STD",
+      "material": "ASTM D3261 GR.P34 CLC",
+      "unit": "Nos",
+      "sourcePage": 157,
+      "aliases": [
+        "STUB END"
+      ]
+    },
+    {
+      "id": "valve-check-ff-small",
+      "group": "Valves",
+      "item": "Check Valve",
+      "type": "CHECK",
+      "endFacing": "FF",
+      "lowSize": 0.5,
+      "highSize": 1.5,
+      "schThkRating": "150 #",
+      "faceFinishRadius": "SERR.FIN",
+      "dimensionStandard": "BS - 5352",
+      "material": "A351CN7M BODY & TRIM",
+      "unit": "Nos",
+      "sourcePage": 158
+    },
+    {
+      "id": "valve-check-ff-2-12",
+      "group": "Valves",
+      "item": "Check Valve",
+      "type": "CHECK",
+      "endFacing": "FF",
+      "lowSize": 2,
+      "highSize": 12,
+      "schThkRating": "150 #",
+      "faceFinishRadius": "SERR.FIN",
+      "dimensionStandard": "BS - 1868",
+      "material": "B: A216 GRWCB (RUB.LON",
+      "unit": "Nos",
+      "sourcePage": 158,
+      "note": "Material text kept as printed/visible in source table; verify before procurement issue."
+    },
+    {
+      "id": "valve-diaphragm-ff",
+      "group": "Valves",
+      "item": "Diaphragm Valve",
+      "type": "DIAPHRAM",
+      "endFacing": "FF",
+      "lowSize": 0.75,
+      "highSize": 12,
+      "schThkRating": "150 #",
+      "faceFinishRadius": "SERR.FIN",
+      "dimensionStandard": "BS - 5156",
+      "material": "B: A216 GRWCB (RUB.LON",
+      "unit": "Nos",
+      "sourcePage": 158,
+      "note": "Source uses spelling 'DIAPHRAM' and material text appears truncated/abbreviated as 'RUB.LON'. Verify before procurement issue."
+    },
+    {
+      "id": "machine-bolts",
+      "group": "Bolting",
+      "item": "Machine Bolt with Nut",
+      "aliases": [
+        "Machine Bolt"
+      ],
+      "type": "M/C BOLT + NUT",
+      "endFacing": "-",
+      "lowSize": 0.5,
+      "highSize": 12,
+      "schThkRating": "-",
+      "faceFinishRadius": "",
+      "dimensionStandard": "B - 18.2",
+      "material": "A307 GR.B GALV. / A307 GR.B GALV.",
+      "unit": "Nos",
+      "sourcePage": 158
+    },
+    {
+      "id": "gasket-ring-0-12",
+      "group": "Gasket",
+      "item": "Gasket",
+      "type": "RING",
+      "endFacing": "-",
+      "lowSize": 0.5,
+      "highSize": 12,
+      "schThkRating": "3MM",
+      "faceFinishRadius": "",
+      "dimensionStandard": "EIL'STD",
+      "material": "BUTYL RUBBER",
+      "unit": "Nos",
+      "sourcePage": 158
+    }
+  ]
+}
