@@ -1,0 +1,3 @@
+Item,Size,Sch/Thck/Rating,Material,Quantity,UOM,Raw Steel Rs/kg Override,Estimate Factor Override,Confirmed Unit Rate Rs,Quotation Reference
+PIPE SEAMLESS,6 IN,SCH 40,A106 Gr.B,10,M,100,2,999999,RETIRED-PIPE-TEST
+Gasket,4 IN,150#,SS304 + CAF,3,Nos,500,3,750,RETIRED-GASKET-TEST
