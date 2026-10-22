@@ -1,0 +1,9477 @@
+{
+  "modelName": "Flange Weight Three-Input Model",
+  "version": "2.0-json",
+  "description": "Exact database lookup first. When no exact type-size-rating record is available, use logarithmic interpolation between adjacent sizes within the first available standard series. Extrapolation is not allowed.",
+  "inputs": {
+    "flangeType": {
+      "type": "string",
+      "allowedValues": [
+        "WNRF",
+        "SORF",
+        "BLRF"
+      ]
+    },
+    "size": {
+      "type": "string_or_number",
+      "examples": [
+        "42\"",
+        "42",
+        "DN1050",
+        "1 1/2\""
+      ]
+    },
+    "rating": {
+      "type": "string_or_number",
+      "examples": [
+        "150#",
+        150,
+        "Class 150"
+      ]
+    }
+  },
+  "calculationLogic": {
+    "step1": "Normalize flange type, size and rating.",
+    "step2": "Build exact key as FLANGE_TYPE|RATING|NPS.",
+    "step3": "Return exactWeights[key] when available.",
+    "step4": "Otherwise select the first standard series available according to standardPriority and apply logarithmic interpolation.",
+    "interpolationFormula": "W = exp[ln(W1) + ((ln(DN)-ln(DN1))/(ln(DN2)-ln(DN1))) × (ln(W2)-ln(W1))]",
+    "extrapolationAllowed": false,
+    "standardPriority": [
+      "ANSI B16.5",
+      "BS 3293",
+      "ANSI B16.47-API 605",
+      "ANSI B16.47-MSS SP-44"
+    ]
+  },
+  "npsToDn": {
+    "0.5\"": 15.0,
+    "0.75\"": 20.0,
+    "1\"": 25.0,
+    "1.5\"": 40.0,
+    "10\"": 250.0,
+    "12\"": 300.0,
+    "14\"": 350.0,
+    "16\"": 400.0,
+    "18\"": 450.0,
+    "2\"": 50.0,
+    "2.5\"": 65.0,
+    "20\"": 500.0,
+    "22\"": 550.0,
+    "24\"": 600.0,
+    "26\"": 650.0,
+    "28\"": 700.0,
+    "3\"": 80.0,
+    "30\"": 750.0,
+    "32\"": 800.0,
+    "34\"": 850.0,
+    "36\"": 900.0,
+    "38\"": 950.0,
+    "4\"": 100.0,
+    "40\"": 1000.0,
+    "42\"": 1050.0,
+    "44\"": 1100.0,
+    "46\"": 1150.0,
+    "48\"": 1200.0,
+    "5\"": 125.0,
+    "50\"": 1250.0,
+    "52\"": 1300.0,
+    "54\"": 1350.0,
+    "56\"": 1400.0,
+    "58\"": 1450.0,
+    "6\"": 150.0,
+    "60\"": 1500.0,
+    "8\"": 200.0
+  },
+  "exactWeights": {
+    "BLRF|150#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 0.8
+    },
+    "BLRF|150#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 0.9
+    },
+    "BLRF|150#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.0
+    },
+    "BLRF|150#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.4
+    },
+    "BLRF|150#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 31.8
+    },
+    "BLRF|150#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 50.0
+    },
+    "BLRF|150#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.5",
+      "weight": 60.0
+    },
+    "BLRF|150#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.5",
+      "weight": 77.0
+    },
+    "BLRF|150#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.5",
+      "weight": 95.0
+    },
+    "BLRF|150#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.6
+    },
+    "BLRF|150#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.5",
+      "weight": 123.0
+    },
+    "BLRF|150#|22\"": {
+      "dn": 550.0,
+      "standard": "ANSI B16.5",
+      "weight": 151.0
+    },
+    "BLRF|150#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.5",
+      "weight": 187.0
+    },
+    "BLRF|150#|26\"": {
+      "dn": 650.0,
+      "standard": "ANSI B16.5",
+      "weight": 226.0
+    },
+    "BLRF|150#|28\"": {
+      "dn": 700.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 363.0
+    },
+    "BLRF|150#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 4.1
+    },
+    "BLRF|150#|30\"": {
+      "dn": 750.0,
+      "standard": "ANSI B16.5",
+      "weight": 309.0
+    },
+    "BLRF|150#|32\"": {
+      "dn": 800.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 537.0
+    },
+    "BLRF|150#|34\"": {
+      "dn": 850.0,
+      "standard": "ANSI B16.5",
+      "weight": 425.0
+    },
+    "BLRF|150#|36\"": {
+      "dn": 900.0,
+      "standard": "ANSI B16.5",
+      "weight": 485.0
+    },
+    "BLRF|150#|38\"": {
+      "dn": 950.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 792.0
+    },
+    "BLRF|150#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 7.7
+    },
+    "BLRF|150#|40\"": {
+      "dn": 1000.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 893.0
+    },
+    "BLRF|150#|42\"": {
+      "dn": 1050.0,
+      "standard": "ANSI B16.5",
+      "weight": 716.0
+    },
+    "BLRF|150#|44\"": {
+      "dn": 1100.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1190.0
+    },
+    "BLRF|150#|46\"": {
+      "dn": 1150.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1299.0
+    },
+    "BLRF|150#|48\"": {
+      "dn": 1200.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1470.0
+    },
+    "BLRF|150#|50\"": {
+      "dn": 1250.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1615.0
+    },
+    "BLRF|150#|52\"": {
+      "dn": 1300.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1817.0
+    },
+    "BLRF|150#|54\"": {
+      "dn": 1350.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2031.0
+    },
+    "BLRF|150#|56\"": {
+      "dn": 1400.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2244.0
+    },
+    "BLRF|150#|58\"": {
+      "dn": 1450.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2491.0
+    },
+    "BLRF|150#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 11.8
+    },
+    "BLRF|150#|60\"": {
+      "dn": 1500.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2697.0
+    },
+    "BLRF|150#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 20.4
+    },
+    "BLRF|1500#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.77
+    },
+    "BLRF|1500#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 2.42
+    },
+    "BLRF|1500#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.57
+    },
+    "BLRF|1500#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 5.75
+    },
+    "BLRF|1500#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 210.0
+    },
+    "BLRF|1500#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 316.0
+    },
+    "BLRF|1500#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.5",
+      "weight": 420.0
+    },
+    "BLRF|1500#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.5",
+      "weight": 558.0
+    },
+    "BLRF|1500#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.5",
+      "weight": 760.0
+    },
+    "BLRF|1500#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 10.1
+    },
+    "BLRF|1500#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.5",
+      "weight": 965.0
+    },
+    "BLRF|1500#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.5",
+      "weight": 1558.0
+    },
+    "BLRF|1500#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 19.1
+    },
+    "BLRF|1500#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 29.9
+    },
+    "BLRF|1500#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 71.8
+    },
+    "BLRF|1500#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 122.0
+    },
+    "BLRF|2500#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 2.99
+    },
+    "BLRF|2500#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.5
+    },
+    "BLRF|2500#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 4.96
+    },
+    "BLRF|2500#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 10.4
+    },
+    "BLRF|2500#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 411.0
+    },
+    "BLRF|2500#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 592.0
+    },
+    "BLRF|2500#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 15.6
+    },
+    "BLRF|2500#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 34.8
+    },
+    "BLRF|2500#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 53.9
+    },
+    "BLRF|2500#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 141.0
+    },
+    "BLRF|2500#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 214.0
+    },
+    "BLRF|300#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.0
+    },
+    "BLRF|300#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.4
+    },
+    "BLRF|300#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.8
+    },
+    "BLRF|300#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.2
+    },
+    "BLRF|300#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 50.0
+    },
+    "BLRF|300#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 84.0
+    },
+    "BLRF|300#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.5",
+      "weight": 107.0
+    },
+    "BLRF|300#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.5",
+      "weight": 139.0
+    },
+    "BLRF|300#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.5",
+      "weight": 177.0
+    },
+    "BLRF|300#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.6
+    },
+    "BLRF|300#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.5",
+      "weight": 223.0
+    },
+    "BLRF|300#|22\"": {
+      "dn": 550.0,
+      "standard": "ANSI B16.5",
+      "weight": 270.0
+    },
+    "BLRF|300#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.5",
+      "weight": 342.0
+    },
+    "BLRF|300#|26\"": {
+      "dn": 650.0,
+      "standard": "ANSI B16.5",
+      "weight": 431.0
+    },
+    "BLRF|300#|28\"": {
+      "dn": 700.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 566.0
+    },
+    "BLRF|300#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 7.3
+    },
+    "BLRF|300#|30\"": {
+      "dn": 750.0,
+      "standard": "ANSI B16.5",
+      "weight": 637.0
+    },
+    "BLRF|300#|32\"": {
+      "dn": 800.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 770.0
+    },
+    "BLRF|300#|34\"": {
+      "dn": 850.0,
+      "standard": "ANSI B16.5",
+      "weight": 862.0
+    },
+    "BLRF|300#|36\"": {
+      "dn": 900.0,
+      "standard": "ANSI B16.5",
+      "weight": 977.0
+    },
+    "BLRF|300#|38\"": {
+      "dn": 950.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 872.0
+    },
+    "BLRF|300#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 12.2
+    },
+    "BLRF|300#|40\"": {
+      "dn": 1000.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1035.0
+    },
+    "BLRF|300#|42\"": {
+      "dn": 1050.0,
+      "standard": "ANSI B16.5",
+      "weight": 1436.0
+    },
+    "BLRF|300#|44\"": {
+      "dn": 1100.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1340.0
+    },
+    "BLRF|300#|46\"": {
+      "dn": 1150.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1600.0
+    },
+    "BLRF|300#|48\"": {
+      "dn": 1200.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1700.0
+    },
+    "BLRF|300#|50\"": {
+      "dn": 1250.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1936.0
+    },
+    "BLRF|300#|52\"": {
+      "dn": 1300.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2143.0
+    },
+    "BLRF|300#|54\"": {
+      "dn": 1350.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2486.0
+    },
+    "BLRF|300#|56\"": {
+      "dn": 1400.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2674.0
+    },
+    "BLRF|300#|58\"": {
+      "dn": 1450.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2913.0
+    },
+    "BLRF|300#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 22.7
+    },
+    "BLRF|300#|60\"": {
+      "dn": 1500.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 3184.0
+    },
+    "BLRF|300#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 37.0
+    },
+    "BLRF|400#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 94.0
+    },
+    "BLRF|400#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 124.0
+    },
+    "BLRF|400#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 162.0
+    },
+    "BLRF|400#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 205.0
+    },
+    "BLRF|400#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 254.0
+    },
+    "BLRF|400#|22\"": {
+      "dn": 550.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 320.0
+    },
+    "BLRF|400#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 386.0
+    },
+    "BLRF|400#|26\"": {
+      "dn": 650.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 534.0
+    },
+    "BLRF|400#|28\"": {
+      "dn": 700.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 645.0
+    },
+    "BLRF|400#|30\"": {
+      "dn": 750.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 760.0
+    },
+    "BLRF|400#|32\"": {
+      "dn": 800.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 885.0
+    },
+    "BLRF|400#|34\"": {
+      "dn": 850.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1035.0
+    },
+    "BLRF|400#|36\"": {
+      "dn": 900.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1205.0
+    },
+    "BLRF|400#|38\"": {
+      "dn": 950.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1055.0
+    },
+    "BLRF|400#|40\"": {
+      "dn": 1000.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1229.0
+    },
+    "BLRF|400#|42\"": {
+      "dn": 1050.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1366.0
+    },
+    "BLRF|400#|44\"": {
+      "dn": 1100.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1569.0
+    },
+    "BLRF|400#|46\"": {
+      "dn": 1150.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1776.0
+    },
+    "BLRF|400#|48\"": {
+      "dn": 1200.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2043.0
+    },
+    "BLRF|400#|50\"": {
+      "dn": 1250.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2294.0
+    },
+    "BLRF|400#|52\"": {
+      "dn": 1300.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2500.0
+    },
+    "BLRF|400#|54\"": {
+      "dn": 1350.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2900.0
+    },
+    "BLRF|400#|56\"": {
+      "dn": 1400.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 3174.0
+    },
+    "BLRF|400#|58\"": {
+      "dn": 1450.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 3462.0
+    },
+    "BLRF|400#|60\"": {
+      "dn": 1500.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 3940.0
+    },
+    "BLRF|600#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 0.76
+    },
+    "BLRF|600#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.28
+    },
+    "BLRF|600#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.6
+    },
+    "BLRF|600#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.25
+    },
+    "BLRF|600#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 97.5
+    },
+    "BLRF|600#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 124.0
+    },
+    "BLRF|600#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.5",
+      "weight": 151.0
+    },
+    "BLRF|600#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.5",
+      "weight": 214.0
+    },
+    "BLRF|600#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.5",
+      "weight": 272.0
+    },
+    "BLRF|600#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.15
+    },
+    "BLRF|600#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.5",
+      "weight": 349.0
+    },
+    "BLRF|600#|22\"": {
+      "dn": 550.0,
+      "standard": "ANSI B16.5",
+      "weight": 437.0
+    },
+    "BLRF|600#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.5",
+      "weight": 533.0
+    },
+    "BLRF|600#|26\"": {
+      "dn": 650.0,
+      "standard": "ANSI B16.5",
+      "weight": 676.0
+    },
+    "BLRF|600#|28\"": {
+      "dn": 700.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 869.0
+    },
+    "BLRF|600#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 8.44
+    },
+    "BLRF|600#|30\"": {
+      "dn": 750.0,
+      "standard": "ANSI B16.5",
+      "weight": 895.0
+    },
+    "BLRF|600#|32\"": {
+      "dn": 800.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1204.0
+    },
+    "BLRF|600#|34\"": {
+      "dn": 850.0,
+      "standard": "ANSI B16.5",
+      "weight": 1185.0
+    },
+    "BLRF|600#|36\"": {
+      "dn": 900.0,
+      "standard": "ANSI B16.5",
+      "weight": 1368.0
+    },
+    "BLRF|600#|38\"": {
+      "dn": 950.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1447.0
+    },
+    "BLRF|600#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 17.3
+    },
+    "BLRF|600#|40\"": {
+      "dn": 1000.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1620.0
+    },
+    "BLRF|600#|42\"": {
+      "dn": 1050.0,
+      "standard": "ANSI B16.5",
+      "weight": 2006.0
+    },
+    "BLRF|600#|44\"": {
+      "dn": 1100.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2100.0
+    },
+    "BLRF|600#|46\"": {
+      "dn": 1150.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2450.0
+    },
+    "BLRF|600#|48\"": {
+      "dn": 1200.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2850.0
+    },
+    "BLRF|600#|50\"": {
+      "dn": 1250.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 3233.0
+    },
+    "BLRF|600#|52\"": {
+      "dn": 1300.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 3570.0
+    },
+    "BLRF|600#|54\"": {
+      "dn": 1350.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 3968.0
+    },
+    "BLRF|600#|56\"": {
+      "dn": 1400.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 4450.0
+    },
+    "BLRF|600#|58\"": {
+      "dn": 1450.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 4850.0
+    },
+    "BLRF|600#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 36.1
+    },
+    "BLRF|600#|60\"": {
+      "dn": 1500.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 5588.0
+    },
+    "BLRF|600#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 58.9
+    },
+    "BLRF|900#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.77
+    },
+    "BLRF|900#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 2.42
+    },
+    "BLRF|900#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.57
+    },
+    "BLRF|900#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 5.75
+    },
+    "BLRF|900#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 122.0
+    },
+    "BLRF|900#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 173.0
+    },
+    "BLRF|900#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.5",
+      "weight": 206.0
+    },
+    "BLRF|900#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.5",
+      "weight": 259.0
+    },
+    "BLRF|900#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.5",
+      "weight": 367.0
+    },
+    "BLRF|900#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 10.1
+    },
+    "BLRF|900#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.5",
+      "weight": 463.0
+    },
+    "BLRF|900#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.5",
+      "weight": 876.0
+    },
+    "BLRF|900#|26\"": {
+      "dn": 650.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1060.0
+    },
+    "BLRF|900#|28\"": {
+      "dn": 700.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1306.0
+    },
+    "BLRF|900#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 13.1
+    },
+    "BLRF|900#|30\"": {
+      "dn": 750.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1565.0
+    },
+    "BLRF|900#|32\"": {
+      "dn": 800.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1885.0
+    },
+    "BLRF|900#|34\"": {
+      "dn": 850.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2250.0
+    },
+    "BLRF|900#|36\"": {
+      "dn": 900.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2595.0
+    },
+    "BLRF|900#|38\"": {
+      "dn": 950.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2610.0
+    },
+    "BLRF|900#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 26.9
+    },
+    "BLRF|900#|40\"": {
+      "dn": 1000.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 2870.0
+    },
+    "BLRF|900#|42\"": {
+      "dn": 1050.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 3195.0
+    },
+    "BLRF|900#|44\"": {
+      "dn": 1100.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 3720.0
+    },
+    "BLRF|900#|46\"": {
+      "dn": 1150.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 4579.0
+    },
+    "BLRF|900#|48\"": {
+      "dn": 1200.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 4730.0
+    },
+    "BLRF|900#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 47.4
+    },
+    "BLRF|900#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 82.5
+    },
+    "SORF|150#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 0.8
+    },
+    "SORF|150#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 0.9
+    },
+    "SORF|150#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.0
+    },
+    "SORF|150#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.4
+    },
+    "SORF|150#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 19.5
+    },
+    "SORF|150#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 29.1
+    },
+    "SORF|150#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.5",
+      "weight": 38.6
+    },
+    "SORF|150#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.5",
+      "weight": 42.2
+    },
+    "SORF|150#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.5",
+      "weight": 54.5
+    },
+    "SORF|150#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 2.3
+    },
+    "SORF|150#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.5",
+      "weight": 70.0
+    },
+    "SORF|150#|22\"": {
+      "dn": 550.0,
+      "standard": "ANSI B16.5",
+      "weight": 72.0
+    },
+    "SORF|150#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.5",
+      "weight": 95.0
+    },
+    "SORF|150#|26\"": {
+      "dn": 650.0,
+      "standard": "ANSI B16.5",
+      "weight": 123.0
+    },
+    "SORF|150#|28\"": {
+      "dn": 700.0,
+      "standard": "BS 3293",
+      "weight": 122.0
+    },
+    "SORF|150#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.6
+    },
+    "SORF|150#|30\"": {
+      "dn": 750.0,
+      "standard": "ANSI B16.5",
+      "weight": 138.0
+    },
+    "SORF|150#|32\"": {
+      "dn": 800.0,
+      "standard": "BS 3293",
+      "weight": 170.0
+    },
+    "SORF|150#|34\"": {
+      "dn": 850.0,
+      "standard": "ANSI B16.5",
+      "weight": 186.0
+    },
+    "SORF|150#|36\"": {
+      "dn": 900.0,
+      "standard": "ANSI B16.5",
+      "weight": 211.0
+    },
+    "SORF|150#|38\"": {
+      "dn": 950.0,
+      "standard": "BS 3293",
+      "weight": 249.0
+    },
+    "SORF|150#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 5.9
+    },
+    "SORF|150#|40\"": {
+      "dn": 1000.0,
+      "standard": "BS 3293",
+      "weight": 272.0
+    },
+    "SORF|150#|42\"": {
+      "dn": 1050.0,
+      "standard": "ANSI B16.5",
+      "weight": 313.0
+    },
+    "SORF|150#|44\"": {
+      "dn": 1100.0,
+      "standard": "BS 3293",
+      "weight": 331.0
+    },
+    "SORF|150#|46\"": {
+      "dn": 1150.0,
+      "standard": "BS 3293",
+      "weight": 349.0
+    },
+    "SORF|150#|48\"": {
+      "dn": 1200.0,
+      "standard": "BS 3293",
+      "weight": 381.0
+    },
+    "SORF|150#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 8.6
+    },
+    "SORF|150#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 13.6
+    },
+    "SORF|1500#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.2
+    },
+    "SORF|1500#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.6
+    },
+    "SORF|1500#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 4.1
+    },
+    "SORF|1500#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 6.4
+    },
+    "SORF|1500#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 198.0
+    },
+    "SORF|1500#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 303.0
+    },
+    "SORF|1500#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 11.3
+    },
+    "SORF|1500#|2.5\"": {
+      "dn": 65.0,
+      "standard": "ANSI B16.5",
+      "weight": 16.3
+    },
+    "SORF|1500#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 21.8
+    },
+    "SORF|1500#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 33.0
+    },
+    "SORF|1500#|5\"": {
+      "dn": 125.0,
+      "standard": "ANSI B16.5",
+      "weight": 60.0
+    },
+    "SORF|1500#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 74.0
+    },
+    "SORF|1500#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 117.0
+    },
+    "SORF|300#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.2
+    },
+    "SORF|300#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.3
+    },
+    "SORF|300#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.4
+    },
+    "SORF|300#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 2.7
+    },
+    "SORF|300#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 36.8
+    },
+    "SORF|300#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 52.0
+    },
+    "SORF|300#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.5",
+      "weight": 74.0
+    },
+    "SORF|300#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.5",
+      "weight": 100.0
+    },
+    "SORF|300#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.5",
+      "weight": 127.0
+    },
+    "SORF|300#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.2
+    },
+    "SORF|300#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.5",
+      "weight": 148.0
+    },
+    "SORF|300#|22\"": {
+      "dn": 550.0,
+      "standard": "ANSI B16.5",
+      "weight": 197.0
+    },
+    "SORF|300#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.5",
+      "weight": 222.0
+    },
+    "SORF|300#|26\"": {
+      "dn": 650.0,
+      "standard": "ANSI B16.5",
+      "weight": 251.0
+    },
+    "SORF|300#|28\"": {
+      "dn": 700.0,
+      "standard": "BS 3293",
+      "weight": 313.0
+    },
+    "SORF|300#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 5.9
+    },
+    "SORF|300#|30\"": {
+      "dn": 750.0,
+      "standard": "ANSI B16.5",
+      "weight": 354.0
+    },
+    "SORF|300#|32\"": {
+      "dn": 800.0,
+      "standard": "BS 3293",
+      "weight": 395.0
+    },
+    "SORF|300#|34\"": {
+      "dn": 850.0,
+      "standard": "ANSI B16.5",
+      "weight": 460.0
+    },
+    "SORF|300#|36\"": {
+      "dn": 900.0,
+      "standard": "ANSI B16.5",
+      "weight": 513.0
+    },
+    "SORF|300#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 10.0
+    },
+    "SORF|300#|42\"": {
+      "dn": 1050.0,
+      "standard": "ANSI B16.5",
+      "weight": 731.0
+    },
+    "SORF|300#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 17.7
+    },
+    "SORF|300#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 26.3
+    },
+    "SORF|600#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 0.74
+    },
+    "SORF|600#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.27
+    },
+    "SORF|600#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.52
+    },
+    "SORF|600#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 2.96
+    },
+    "SORF|600#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 70.3
+    },
+    "SORF|600#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 84.2
+    },
+    "SORF|600#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.5",
+      "weight": 98.7
+    },
+    "SORF|600#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.5",
+      "weight": 142.0
+    },
+    "SORF|600#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.5",
+      "weight": 173.0
+    },
+    "SORF|600#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.62
+    },
+    "SORF|600#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.5",
+      "weight": 220.0
+    },
+    "SORF|600#|22\"": {
+      "dn": 550.0,
+      "standard": "ANSI B16.5",
+      "weight": 292.0
+    },
+    "SORF|600#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.5",
+      "weight": 398.0
+    },
+    "SORF|600#|26\"": {
+      "dn": 650.0,
+      "standard": "ANSI B16.5",
+      "weight": 408.0
+    },
+    "SORF|600#|28\"": {
+      "dn": 700.0,
+      "standard": "BS 3293",
+      "weight": 472.0
+    },
+    "SORF|600#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 7.0
+    },
+    "SORF|600#|30\"": {
+      "dn": 750.0,
+      "standard": "ANSI B16.5",
+      "weight": 576.0
+    },
+    "SORF|600#|32\"": {
+      "dn": 800.0,
+      "standard": "BS 3293",
+      "weight": 605.0
+    },
+    "SORF|600#|34\"": {
+      "dn": 850.0,
+      "standard": "ANSI B16.5",
+      "weight": 652.0
+    },
+    "SORF|600#|36\"": {
+      "dn": 900.0,
+      "standard": "ANSI B16.5",
+      "weight": 744.0
+    },
+    "SORF|600#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 14.5
+    },
+    "SORF|600#|42\"": {
+      "dn": 1050.0,
+      "standard": "ANSI B16.5",
+      "weight": 1058.0
+    },
+    "SORF|600#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 28.7
+    },
+    "SORF|600#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 43.4
+    },
+    "SORF|900#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.74
+    },
+    "SORF|900#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 2.34
+    },
+    "SORF|900#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.44
+    },
+    "SORF|900#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 5.36
+    },
+    "SORF|900#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 101.0
+    },
+    "SORF|900#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 133.0
+    },
+    "SORF|900#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.5",
+      "weight": 153.0
+    },
+    "SORF|900#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.5",
+      "weight": 185.0
+    },
+    "SORF|900#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.5",
+      "weight": 258.0
+    },
+    "SORF|900#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 9.85
+    },
+    "SORF|900#|2.5\"": {
+      "dn": 65.0,
+      "standard": "ANSI B16.5",
+      "weight": 13.7
+    },
+    "SORF|900#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.5",
+      "weight": 317.0
+    },
+    "SORF|900#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.5",
+      "weight": 606.0
+    },
+    "SORF|900#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 11.6
+    },
+    "SORF|900#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 19.7
+    },
+    "SORF|900#|5\"": {
+      "dn": 125.0,
+      "standard": "ANSI B16.5",
+      "weight": 31.9
+    },
+    "SORF|900#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 41.1
+    },
+    "SORF|900#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 70.7
+    },
+    "WNRF|150#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 0.48
+    },
+    "WNRF|150#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 0.71
+    },
+    "WNRF|150#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.01
+    },
+    "WNRF|150#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.72
+    },
+    "WNRF|150#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 24.0
+    },
+    "WNRF|150#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 36.5
+    },
+    "WNRF|150#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.5",
+      "weight": 48.4
+    },
+    "WNRF|150#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.5",
+      "weight": 60.6
+    },
+    "WNRF|150#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.5",
+      "weight": 68.3
+    },
+    "WNRF|150#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 2.58
+    },
+    "WNRF|150#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.5",
+      "weight": 84.5
+    },
+    "WNRF|150#|22\"": {
+      "dn": 550.0,
+      "standard": "ANSI B16.5",
+      "weight": 102.0
+    },
+    "WNRF|150#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.5",
+      "weight": 115.0
+    },
+    "WNRF|150#|26\"": {
+      "dn": 650.0,
+      "standard": "ANSI B16.5",
+      "weight": 118.0
+    },
+    "WNRF|150#|28\"": {
+      "dn": 700.0,
+      "standard": "BS 3293",
+      "weight": 134.0
+    },
+    "WNRF|150#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 4.92
+    },
+    "WNRF|150#|30\"": {
+      "dn": 750.0,
+      "standard": "ANSI B16.5",
+      "weight": 153.0
+    },
+    "WNRF|150#|32\"": {
+      "dn": 800.0,
+      "standard": "BS 3293",
+      "weight": 190.0
+    },
+    "WNRF|150#|34\"": {
+      "dn": 850.0,
+      "standard": "ANSI B16.5",
+      "weight": 212.0
+    },
+    "WNRF|150#|36\"": {
+      "dn": 900.0,
+      "standard": "ANSI B16.5",
+      "weight": 242.0
+    },
+    "WNRF|150#|38\"": {
+      "dn": 950.0,
+      "standard": "BS 3293",
+      "weight": 284.0
+    },
+    "WNRF|150#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 6.84
+    },
+    "WNRF|150#|40\"": {
+      "dn": 1000.0,
+      "standard": "BS 3293",
+      "weight": 311.0
+    },
+    "WNRF|150#|42\"": {
+      "dn": 1050.0,
+      "standard": "ANSI B16.5",
+      "weight": 358.0
+    },
+    "WNRF|150#|44\"": {
+      "dn": 1100.0,
+      "standard": "BS 3293",
+      "weight": 376.0
+    },
+    "WNRF|150#|46\"": {
+      "dn": 1150.0,
+      "standard": "BS 3293",
+      "weight": 399.0
+    },
+    "WNRF|150#|48\"": {
+      "dn": 1200.0,
+      "standard": "BS 3293",
+      "weight": 440.0
+    },
+    "WNRF|150#|50\"": {
+      "dn": 1250.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 263.0
+    },
+    "WNRF|150#|52\"": {
+      "dn": 1300.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 285.0
+    },
+    "WNRF|150#|54\"": {
+      "dn": 1350.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 287.0
+    },
+    "WNRF|150#|56\"": {
+      "dn": 1400.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 323.0
+    },
+    "WNRF|150#|58\"": {
+      "dn": 1450.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 384.0
+    },
+    "WNRF|150#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 10.6
+    },
+    "WNRF|150#|60\"": {
+      "dn": 1500.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 388.0
+    },
+    "WNRF|150#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 17.6
+    },
+    "WNRF|1500#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.87
+    },
+    "WNRF|1500#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 2.56
+    },
+    "WNRF|1500#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.74
+    },
+    "WNRF|1500#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 5.94
+    },
+    "WNRF|1500#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 194.0
+    },
+    "WNRF|1500#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 288.0
+    },
+    "WNRF|1500#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.5",
+      "weight": 380.0
+    },
+    "WNRF|1500#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.5",
+      "weight": 485.0
+    },
+    "WNRF|1500#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.5",
+      "weight": 644.0
+    },
+    "WNRF|1500#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 10.8
+    },
+    "WNRF|1500#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.5",
+      "weight": 775.0
+    },
+    "WNRF|1500#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.5",
+      "weight": 1232.0
+    },
+    "WNRF|1500#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 19.9
+    },
+    "WNRF|1500#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 29.9
+    },
+    "WNRF|1500#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 68.4
+    },
+    "WNRF|1500#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 117.0
+    },
+    "WNRF|2500#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.12
+    },
+    "WNRF|2500#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.7
+    },
+    "WNRF|2500#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 5.24
+    },
+    "WNRF|2500#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 10.9
+    },
+    "WNRF|2500#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 406.0
+    },
+    "WNRF|2500#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 572.0
+    },
+    "WNRF|2500#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 16.2
+    },
+    "WNRF|2500#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 36.2
+    },
+    "WNRF|2500#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 55.3
+    },
+    "WNRF|2500#|5\"": {
+      "dn": 125.0,
+      "standard": "ANSI B16.5",
+      "weight": 92.5
+    },
+    "WNRF|2500#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 143.0
+    },
+    "WNRF|2500#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 215.0
+    },
+    "WNRF|300#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 0.75
+    },
+    "WNRF|300#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.26
+    },
+    "WNRF|300#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.52
+    },
+    "WNRF|300#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 2.89
+    },
+    "WNRF|300#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 42.7
+    },
+    "WNRF|300#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 61.8
+    },
+    "WNRF|300#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.5",
+      "weight": 85.8
+    },
+    "WNRF|300#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.5",
+      "weight": 106.0
+    },
+    "WNRF|300#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.5",
+      "weight": 131.0
+    },
+    "WNRF|300#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.4
+    },
+    "WNRF|300#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.5",
+      "weight": 158.0
+    },
+    "WNRF|300#|22\"": {
+      "dn": 550.0,
+      "standard": "ANSI B16.5",
+      "weight": 195.0
+    },
+    "WNRF|300#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.5",
+      "weight": 230.0
+    },
+    "WNRF|300#|26\"": {
+      "dn": 650.0,
+      "standard": "ANSI B16.5",
+      "weight": 279.0
+    },
+    "WNRF|300#|28\"": {
+      "dn": 700.0,
+      "standard": "BS 3293",
+      "weight": 340.0
+    },
+    "WNRF|300#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 6.93
+    },
+    "WNRF|300#|30\"": {
+      "dn": 750.0,
+      "standard": "ANSI B16.5",
+      "weight": 390.0
+    },
+    "WNRF|300#|32\"": {
+      "dn": 800.0,
+      "standard": "BS 3293",
+      "weight": 435.0
+    },
+    "WNRF|300#|34\"": {
+      "dn": 850.0,
+      "standard": "ANSI B16.5",
+      "weight": 504.0
+    },
+    "WNRF|300#|36\"": {
+      "dn": 900.0,
+      "standard": "ANSI B16.5",
+      "weight": 560.0
+    },
+    "WNRF|300#|38\"": {
+      "dn": 950.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 416.0
+    },
+    "WNRF|300#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 11.2
+    },
+    "WNRF|300#|40\"": {
+      "dn": 1000.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 450.0
+    },
+    "WNRF|300#|42\"": {
+      "dn": 1050.0,
+      "standard": "ANSI B16.5",
+      "weight": 790.0
+    },
+    "WNRF|300#|44\"": {
+      "dn": 1100.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 552.0
+    },
+    "WNRF|300#|46\"": {
+      "dn": 1150.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 650.0
+    },
+    "WNRF|300#|48\"": {
+      "dn": 1200.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 731.0
+    },
+    "WNRF|300#|50\"": {
+      "dn": 1250.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 760.0
+    },
+    "WNRF|300#|52\"": {
+      "dn": 1300.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 800.0
+    },
+    "WNRF|300#|54\"": {
+      "dn": 1350.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 898.0
+    },
+    "WNRF|300#|56\"": {
+      "dn": 1400.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 1143.0
+    },
+    "WNRF|300#|58\"": {
+      "dn": 1450.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 1217.0
+    },
+    "WNRF|300#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 19.1
+    },
+    "WNRF|300#|60\"": {
+      "dn": 1500.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 1311.0
+    },
+    "WNRF|300#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 29.9
+    },
+    "WNRF|400#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 70.0
+    },
+    "WNRF|400#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 96.0
+    },
+    "WNRF|400#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 118.0
+    },
+    "WNRF|400#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 145.0
+    },
+    "WNRF|400#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 173.0
+    },
+    "WNRF|400#|22\"": {
+      "dn": 550.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 211.0
+    },
+    "WNRF|400#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 249.0
+    },
+    "WNRF|400#|26\"": {
+      "dn": 650.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 304.0
+    },
+    "WNRF|400#|28\"": {
+      "dn": 700.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 362.0
+    },
+    "WNRF|400#|30\"": {
+      "dn": 750.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 415.0
+    },
+    "WNRF|400#|32\"": {
+      "dn": 800.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 478.0
+    },
+    "WNRF|400#|34\"": {
+      "dn": 850.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 538.0
+    },
+    "WNRF|400#|36\"": {
+      "dn": 900.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 604.0
+    },
+    "WNRF|400#|38\"": {
+      "dn": 950.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 406.0
+    },
+    "WNRF|400#|40\"": {
+      "dn": 1000.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 473.0
+    },
+    "WNRF|400#|42\"": {
+      "dn": 1050.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 513.0
+    },
+    "WNRF|400#|44\"": {
+      "dn": 1100.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 586.0
+    },
+    "WNRF|400#|46\"": {
+      "dn": 1150.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 648.0
+    },
+    "WNRF|400#|48\"": {
+      "dn": 1200.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 768.0
+    },
+    "WNRF|400#|50\"": {
+      "dn": 1250.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 832.0
+    },
+    "WNRF|400#|52\"": {
+      "dn": 1300.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 897.0
+    },
+    "WNRF|400#|54\"": {
+      "dn": 1350.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1086.0
+    },
+    "WNRF|400#|56\"": {
+      "dn": 1400.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1139.0
+    },
+    "WNRF|400#|58\"": {
+      "dn": 1450.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1208.0
+    },
+    "WNRF|400#|60\"": {
+      "dn": 1500.0,
+      "standard": "ANSI B16.47-MSS SP-44",
+      "weight": 1408.0
+    },
+    "WNRF|600#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 0.87
+    },
+    "WNRF|600#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.45
+    },
+    "WNRF|600#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.76
+    },
+    "WNRF|600#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.49
+    },
+    "WNRF|600#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 86.5
+    },
+    "WNRF|600#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 103.0
+    },
+    "WNRF|600#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.5",
+      "weight": 158.0
+    },
+    "WNRF|600#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.5",
+      "weight": 219.0
+    },
+    "WNRF|600#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.5",
+      "weight": 252.0
+    },
+    "WNRF|600#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 4.36
+    },
+    "WNRF|600#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.5",
+      "weight": 313.0
+    },
+    "WNRF|600#|22\"": {
+      "dn": 550.0,
+      "standard": "ANSI B16.5",
+      "weight": 380.0
+    },
+    "WNRF|600#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.5",
+      "weight": 444.0
+    },
+    "WNRF|600#|26\"": {
+      "dn": 650.0,
+      "standard": "ANSI B16.5",
+      "weight": 487.0
+    },
+    "WNRF|600#|28\"": {
+      "dn": 700.0,
+      "standard": "BS 3293",
+      "weight": 508.0
+    },
+    "WNRF|600#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 8.53
+    },
+    "WNRF|600#|30\"": {
+      "dn": 750.0,
+      "standard": "ANSI B16.5",
+      "weight": 559.0
+    },
+    "WNRF|600#|32\"": {
+      "dn": 800.0,
+      "standard": "BS 3293",
+      "weight": 680.0
+    },
+    "WNRF|600#|34\"": {
+      "dn": 850.0,
+      "standard": "ANSI B16.5",
+      "weight": 689.0
+    },
+    "WNRF|600#|36\"": {
+      "dn": 900.0,
+      "standard": "ANSI B16.5",
+      "weight": 780.0
+    },
+    "WNRF|600#|38\"": {
+      "dn": 950.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 707.0
+    },
+    "WNRF|600#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 17.4
+    },
+    "WNRF|600#|40\"": {
+      "dn": 1000.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 762.0
+    },
+    "WNRF|600#|42\"": {
+      "dn": 1050.0,
+      "standard": "ANSI B16.5",
+      "weight": 1096.0
+    },
+    "WNRF|600#|44\"": {
+      "dn": 1100.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 992.0
+    },
+    "WNRF|600#|46\"": {
+      "dn": 1150.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 1100.0
+    },
+    "WNRF|600#|48\"": {
+      "dn": 1200.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 1299.0
+    },
+    "WNRF|600#|50\"": {
+      "dn": 1250.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 1524.0
+    },
+    "WNRF|600#|52\"": {
+      "dn": 1300.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 1585.0
+    },
+    "WNRF|600#|54\"": {
+      "dn": 1350.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 1735.0
+    },
+    "WNRF|600#|56\"": {
+      "dn": 1400.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 1952.0
+    },
+    "WNRF|600#|58\"": {
+      "dn": 1450.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 2069.0
+    },
+    "WNRF|600#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 34.9
+    },
+    "WNRF|600#|60\"": {
+      "dn": 1500.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 2474.0
+    },
+    "WNRF|600#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 53.9
+    },
+    "WNRF|900#|0.5\"": {
+      "dn": 15.0,
+      "standard": "ANSI B16.5",
+      "weight": 1.87
+    },
+    "WNRF|900#|0.75\"": {
+      "dn": 20.0,
+      "standard": "ANSI B16.5",
+      "weight": 2.56
+    },
+    "WNRF|900#|1\"": {
+      "dn": 25.0,
+      "standard": "ANSI B16.5",
+      "weight": 3.74
+    },
+    "WNRF|900#|1.5\"": {
+      "dn": 40.0,
+      "standard": "ANSI B16.5",
+      "weight": 5.94
+    },
+    "WNRF|900#|10\"": {
+      "dn": 250.0,
+      "standard": "ANSI B16.5",
+      "weight": 119.0
+    },
+    "WNRF|900#|12\"": {
+      "dn": 300.0,
+      "standard": "ANSI B16.5",
+      "weight": 157.0
+    },
+    "WNRF|900#|14\"": {
+      "dn": 350.0,
+      "standard": "ANSI B16.5",
+      "weight": 180.0
+    },
+    "WNRF|900#|16\"": {
+      "dn": 400.0,
+      "standard": "ANSI B16.5",
+      "weight": 217.0
+    },
+    "WNRF|900#|18\"": {
+      "dn": 450.0,
+      "standard": "ANSI B16.5",
+      "weight": 292.0
+    },
+    "WNRF|900#|2\"": {
+      "dn": 50.0,
+      "standard": "ANSI B16.5",
+      "weight": 10.8
+    },
+    "WNRF|900#|20\"": {
+      "dn": 500.0,
+      "standard": "ANSI B16.5",
+      "weight": 362.0
+    },
+    "WNRF|900#|24\"": {
+      "dn": 600.0,
+      "standard": "ANSI B16.5",
+      "weight": 665.0
+    },
+    "WNRF|900#|26\"": {
+      "dn": 650.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 564.0
+    },
+    "WNRF|900#|28\"": {
+      "dn": 700.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 706.0
+    },
+    "WNRF|900#|3\"": {
+      "dn": 80.0,
+      "standard": "ANSI B16.5",
+      "weight": 13.7
+    },
+    "WNRF|900#|30\"": {
+      "dn": 750.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 833.0
+    },
+    "WNRF|900#|32\"": {
+      "dn": 800.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 919.0
+    },
+    "WNRF|900#|34\"": {
+      "dn": 850.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 1105.0
+    },
+    "WNRF|900#|36\"": {
+      "dn": 900.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 1124.0
+    },
+    "WNRF|900#|38\"": {
+      "dn": 950.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 1495.0
+    },
+    "WNRF|900#|4\"": {
+      "dn": 100.0,
+      "standard": "ANSI B16.5",
+      "weight": 22.5
+    },
+    "WNRF|900#|40\"": {
+      "dn": 1000.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 1584.0
+    },
+    "WNRF|900#|42\"": {
+      "dn": 1050.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 1718.0
+    },
+    "WNRF|900#|44\"": {
+      "dn": 1100.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 2006.0
+    },
+    "WNRF|900#|46\"": {
+      "dn": 1150.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 2337.0
+    },
+    "WNRF|900#|48\"": {
+      "dn": 1200.0,
+      "standard": "ANSI B16.47-API 605",
+      "weight": 2509.0
+    },
+    "WNRF|900#|6\"": {
+      "dn": 150.0,
+      "standard": "ANSI B16.5",
+      "weight": 47.7
+    },
+    "WNRF|900#|8\"": {
+      "dn": 200.0,
+      "standard": "ANSI B16.5",
+      "weight": 81.3
+    }
+  },
+  "alternativeWeights": {
+    "BLRF|150#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 0.8
+      }
+    ],
+    "BLRF|150#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 0.9
+      }
+    ],
+    "BLRF|150#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.0
+      }
+    ],
+    "BLRF|150#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.4
+      }
+    ],
+    "BLRF|150#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 31.8
+      }
+    ],
+    "BLRF|150#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 50.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 61.0
+      }
+    ],
+    "BLRF|150#|14\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 60.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 81.5
+      }
+    ],
+    "BLRF|150#|16\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 77.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 106.5
+      }
+    ],
+    "BLRF|150#|18\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 95.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 134.5
+      }
+    ],
+    "BLRF|150#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.6
+      }
+    ],
+    "BLRF|150#|20\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 123.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 171.5
+      }
+    ],
+    "BLRF|150#|22\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 151.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 217.0
+      }
+    ],
+    "BLRF|150#|24\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 187.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 262.0
+      }
+    ],
+    "BLRF|150#|26\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 226.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 306.0
+      }
+    ],
+    "BLRF|150#|28\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 363.0
+      }
+    ],
+    "BLRF|150#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 4.1
+      }
+    ],
+    "BLRF|150#|30\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 309.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 430.0
+      }
+    ],
+    "BLRF|150#|32\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 537.0
+      }
+    ],
+    "BLRF|150#|34\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 425.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 600.0
+      }
+    ],
+    "BLRF|150#|36\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 485.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 730.0
+      }
+    ],
+    "BLRF|150#|38\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 792.0
+      }
+    ],
+    "BLRF|150#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 7.7
+      }
+    ],
+    "BLRF|150#|40\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 893.0
+      }
+    ],
+    "BLRF|150#|42\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 716.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1044.0
+      }
+    ],
+    "BLRF|150#|44\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1190.0
+      }
+    ],
+    "BLRF|150#|46\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1299.0
+      }
+    ],
+    "BLRF|150#|48\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1470.0
+      }
+    ],
+    "BLRF|150#|50\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1615.0
+      }
+    ],
+    "BLRF|150#|52\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1817.0
+      }
+    ],
+    "BLRF|150#|54\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2031.0
+      }
+    ],
+    "BLRF|150#|56\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2244.0
+      }
+    ],
+    "BLRF|150#|58\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2491.0
+      }
+    ],
+    "BLRF|150#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 11.8
+      }
+    ],
+    "BLRF|150#|60\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2697.0
+      }
+    ],
+    "BLRF|150#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 20.4
+      }
+    ],
+    "BLRF|1500#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.77
+      }
+    ],
+    "BLRF|1500#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 2.42
+      }
+    ],
+    "BLRF|1500#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.57
+      }
+    ],
+    "BLRF|1500#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 5.75
+      }
+    ],
+    "BLRF|1500#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 210.0
+      }
+    ],
+    "BLRF|1500#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 316.0
+      }
+    ],
+    "BLRF|1500#|14\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 420.0
+      }
+    ],
+    "BLRF|1500#|16\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 558.0
+      }
+    ],
+    "BLRF|1500#|18\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 760.0
+      }
+    ],
+    "BLRF|1500#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 10.1
+      }
+    ],
+    "BLRF|1500#|20\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 965.0
+      }
+    ],
+    "BLRF|1500#|24\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1558.0
+      }
+    ],
+    "BLRF|1500#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 19.1
+      }
+    ],
+    "BLRF|1500#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 29.9
+      }
+    ],
+    "BLRF|1500#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 71.8
+      }
+    ],
+    "BLRF|1500#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 122.0
+      }
+    ],
+    "BLRF|2500#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 2.99
+      }
+    ],
+    "BLRF|2500#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.5
+      }
+    ],
+    "BLRF|2500#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 4.96
+      }
+    ],
+    "BLRF|2500#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 10.4
+      }
+    ],
+    "BLRF|2500#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 411.0
+      }
+    ],
+    "BLRF|2500#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 592.0
+      }
+    ],
+    "BLRF|2500#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 15.6
+      }
+    ],
+    "BLRF|2500#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 34.8
+      }
+    ],
+    "BLRF|2500#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 53.9
+      }
+    ],
+    "BLRF|2500#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 141.0
+      }
+    ],
+    "BLRF|2500#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 214.0
+      }
+    ],
+    "BLRF|300#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.0
+      }
+    ],
+    "BLRF|300#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.4
+      }
+    ],
+    "BLRF|300#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.8
+      }
+    ],
+    "BLRF|300#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.2
+      }
+    ],
+    "BLRF|300#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 50.0
+      }
+    ],
+    "BLRF|300#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 84.0
+      }
+    ],
+    "BLRF|300#|14\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 107.0
+      }
+    ],
+    "BLRF|300#|16\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 139.0
+      }
+    ],
+    "BLRF|300#|18\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 177.0
+      }
+    ],
+    "BLRF|300#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.6
+      }
+    ],
+    "BLRF|300#|20\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 223.0
+      }
+    ],
+    "BLRF|300#|22\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 270.0
+      }
+    ],
+    "BLRF|300#|24\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 342.0
+      }
+    ],
+    "BLRF|300#|26\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 431.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 460.0
+      }
+    ],
+    "BLRF|300#|28\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 566.0
+      }
+    ],
+    "BLRF|300#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 7.3
+      }
+    ],
+    "BLRF|300#|30\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 637.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 663.0
+      }
+    ],
+    "BLRF|300#|32\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 770.0
+      }
+    ],
+    "BLRF|300#|34\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 862.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 894.0
+      }
+    ],
+    "BLRF|300#|36\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 977.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1040.0
+      }
+    ],
+    "BLRF|300#|38\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 872.0
+      }
+    ],
+    "BLRF|300#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 12.2
+      }
+    ],
+    "BLRF|300#|40\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1035.0
+      }
+    ],
+    "BLRF|300#|42\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1436.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1173.0
+      }
+    ],
+    "BLRF|300#|44\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1340.0
+      }
+    ],
+    "BLRF|300#|46\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1600.0
+      }
+    ],
+    "BLRF|300#|48\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1700.0
+      }
+    ],
+    "BLRF|300#|50\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1936.0
+      }
+    ],
+    "BLRF|300#|52\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2143.0
+      }
+    ],
+    "BLRF|300#|54\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2486.0
+      }
+    ],
+    "BLRF|300#|56\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2674.0
+      }
+    ],
+    "BLRF|300#|58\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2913.0
+      }
+    ],
+    "BLRF|300#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 22.7
+      }
+    ],
+    "BLRF|300#|60\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 3184.0
+      }
+    ],
+    "BLRF|300#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 37.0
+      }
+    ],
+    "BLRF|400#|12\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 94.0
+      }
+    ],
+    "BLRF|400#|14\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 124.0
+      }
+    ],
+    "BLRF|400#|16\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 162.0
+      }
+    ],
+    "BLRF|400#|18\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 205.0
+      }
+    ],
+    "BLRF|400#|20\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 254.0
+      }
+    ],
+    "BLRF|400#|22\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 320.0
+      }
+    ],
+    "BLRF|400#|24\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 386.0
+      }
+    ],
+    "BLRF|400#|26\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 534.0
+      }
+    ],
+    "BLRF|400#|28\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 645.0
+      }
+    ],
+    "BLRF|400#|30\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 760.0
+      }
+    ],
+    "BLRF|400#|32\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 885.0
+      }
+    ],
+    "BLRF|400#|34\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1035.0
+      }
+    ],
+    "BLRF|400#|36\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1205.0
+      }
+    ],
+    "BLRF|400#|38\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1055.0
+      }
+    ],
+    "BLRF|400#|40\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1229.0
+      }
+    ],
+    "BLRF|400#|42\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1366.0
+      }
+    ],
+    "BLRF|400#|44\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1569.0
+      }
+    ],
+    "BLRF|400#|46\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1776.0
+      }
+    ],
+    "BLRF|400#|48\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2043.0
+      }
+    ],
+    "BLRF|400#|50\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2294.0
+      }
+    ],
+    "BLRF|400#|52\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2500.0
+      }
+    ],
+    "BLRF|400#|54\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2900.0
+      }
+    ],
+    "BLRF|400#|56\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 3174.0
+      }
+    ],
+    "BLRF|400#|58\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 3462.0
+      }
+    ],
+    "BLRF|400#|60\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 3940.0
+      }
+    ],
+    "BLRF|600#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 0.76
+      }
+    ],
+    "BLRF|600#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.28
+      }
+    ],
+    "BLRF|600#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.6
+      }
+    ],
+    "BLRF|600#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.25
+      }
+    ],
+    "BLRF|600#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 97.5
+      }
+    ],
+    "BLRF|600#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 124.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 124.0
+      }
+    ],
+    "BLRF|600#|14\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 151.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 151.0
+      }
+    ],
+    "BLRF|600#|16\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 214.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 214.0
+      }
+    ],
+    "BLRF|600#|18\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 272.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 272.0
+      }
+    ],
+    "BLRF|600#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.15
+      }
+    ],
+    "BLRF|600#|20\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 349.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 349.0
+      }
+    ],
+    "BLRF|600#|22\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 437.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 440.0
+      }
+    ],
+    "BLRF|600#|24\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 533.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 533.0
+      }
+    ],
+    "BLRF|600#|26\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 676.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 740.0
+      }
+    ],
+    "BLRF|600#|28\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 869.0
+      }
+    ],
+    "BLRF|600#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 8.44
+      }
+    ],
+    "BLRF|600#|30\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 895.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1030.0
+      }
+    ],
+    "BLRF|600#|32\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1204.0
+      }
+    ],
+    "BLRF|600#|34\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1185.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1371.0
+      }
+    ],
+    "BLRF|600#|36\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1368.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1600.0
+      }
+    ],
+    "BLRF|600#|38\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1447.0
+      }
+    ],
+    "BLRF|600#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 17.3
+      }
+    ],
+    "BLRF|600#|40\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1620.0
+      }
+    ],
+    "BLRF|600#|42\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 2006.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1948.0
+      }
+    ],
+    "BLRF|600#|44\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2100.0
+      }
+    ],
+    "BLRF|600#|46\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2450.0
+      }
+    ],
+    "BLRF|600#|48\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2850.0
+      }
+    ],
+    "BLRF|600#|50\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 3233.0
+      }
+    ],
+    "BLRF|600#|52\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 3570.0
+      }
+    ],
+    "BLRF|600#|54\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 3968.0
+      }
+    ],
+    "BLRF|600#|56\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 4450.0
+      }
+    ],
+    "BLRF|600#|58\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 4850.0
+      }
+    ],
+    "BLRF|600#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 36.1
+      }
+    ],
+    "BLRF|600#|60\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 5588.0
+      }
+    ],
+    "BLRF|600#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 58.9
+      }
+    ],
+    "BLRF|900#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.77
+      }
+    ],
+    "BLRF|900#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 2.42
+      }
+    ],
+    "BLRF|900#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.57
+      }
+    ],
+    "BLRF|900#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 5.75
+      }
+    ],
+    "BLRF|900#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 122.0
+      }
+    ],
+    "BLRF|900#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 173.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 173.0
+      }
+    ],
+    "BLRF|900#|14\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 206.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 206.0
+      }
+    ],
+    "BLRF|900#|16\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 259.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 259.0
+      }
+    ],
+    "BLRF|900#|18\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 367.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 367.0
+      }
+    ],
+    "BLRF|900#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 10.1
+      }
+    ],
+    "BLRF|900#|20\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 463.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 463.0
+      }
+    ],
+    "BLRF|900#|24\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 876.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 876.0
+      }
+    ],
+    "BLRF|900#|26\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1060.0
+      }
+    ],
+    "BLRF|900#|28\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1306.0
+      }
+    ],
+    "BLRF|900#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 13.1
+      }
+    ],
+    "BLRF|900#|30\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1565.0
+      }
+    ],
+    "BLRF|900#|32\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1885.0
+      }
+    ],
+    "BLRF|900#|34\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2250.0
+      }
+    ],
+    "BLRF|900#|36\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2595.0
+      }
+    ],
+    "BLRF|900#|38\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2610.0
+      }
+    ],
+    "BLRF|900#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 26.9
+      }
+    ],
+    "BLRF|900#|40\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2870.0
+      }
+    ],
+    "BLRF|900#|42\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 3195.0
+      }
+    ],
+    "BLRF|900#|44\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 3720.0
+      }
+    ],
+    "BLRF|900#|46\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 4579.0
+      }
+    ],
+    "BLRF|900#|48\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 4730.0
+      }
+    ],
+    "BLRF|900#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 47.4
+      }
+    ],
+    "BLRF|900#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 82.5
+      }
+    ],
+    "SORF|150#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 0.8
+      }
+    ],
+    "SORF|150#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 0.9
+      }
+    ],
+    "SORF|150#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.0
+      }
+    ],
+    "SORF|150#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.4
+      }
+    ],
+    "SORF|150#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 19.5
+      }
+    ],
+    "SORF|150#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 29.1
+      }
+    ],
+    "SORF|150#|14\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 38.6
+      }
+    ],
+    "SORF|150#|16\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 42.2
+      }
+    ],
+    "SORF|150#|18\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 54.5
+      }
+    ],
+    "SORF|150#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 2.3
+      }
+    ],
+    "SORF|150#|20\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 70.0
+      }
+    ],
+    "SORF|150#|22\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 72.0
+      }
+    ],
+    "SORF|150#|24\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 95.0
+      }
+    ],
+    "SORF|150#|26\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 123.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 107.0
+      }
+    ],
+    "SORF|150#|28\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 122.0
+      }
+    ],
+    "SORF|150#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.6
+      }
+    ],
+    "SORF|150#|30\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 138.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 138.0
+      }
+    ],
+    "SORF|150#|32\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 170.0
+      }
+    ],
+    "SORF|150#|34\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 186.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 184.0
+      }
+    ],
+    "SORF|150#|36\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 211.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 211.0
+      }
+    ],
+    "SORF|150#|38\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 249.0
+      }
+    ],
+    "SORF|150#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 5.9
+      }
+    ],
+    "SORF|150#|40\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 272.0
+      }
+    ],
+    "SORF|150#|42\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 313.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 313.0
+      }
+    ],
+    "SORF|150#|44\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 331.0
+      }
+    ],
+    "SORF|150#|46\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 349.0
+      }
+    ],
+    "SORF|150#|48\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 381.0
+      }
+    ],
+    "SORF|150#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 8.6
+      }
+    ],
+    "SORF|150#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 13.6
+      }
+    ],
+    "SORF|1500#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.2
+      }
+    ],
+    "SORF|1500#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.6
+      }
+    ],
+    "SORF|1500#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 4.1
+      }
+    ],
+    "SORF|1500#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 6.4
+      }
+    ],
+    "SORF|1500#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 198.0
+      }
+    ],
+    "SORF|1500#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 303.0
+      }
+    ],
+    "SORF|1500#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 11.3
+      }
+    ],
+    "SORF|1500#|2.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 16.3
+      }
+    ],
+    "SORF|1500#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 21.8
+      }
+    ],
+    "SORF|1500#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 33.0
+      }
+    ],
+    "SORF|1500#|5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 60.0
+      }
+    ],
+    "SORF|1500#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 74.0
+      }
+    ],
+    "SORF|1500#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 117.0
+      }
+    ],
+    "SORF|300#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.2
+      }
+    ],
+    "SORF|300#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.3
+      }
+    ],
+    "SORF|300#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.4
+      }
+    ],
+    "SORF|300#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 2.7
+      }
+    ],
+    "SORF|300#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 36.8
+      }
+    ],
+    "SORF|300#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 52.0
+      }
+    ],
+    "SORF|300#|14\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 74.0
+      }
+    ],
+    "SORF|300#|16\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 100.0
+      }
+    ],
+    "SORF|300#|18\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 127.0
+      }
+    ],
+    "SORF|300#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.2
+      }
+    ],
+    "SORF|300#|20\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 148.0
+      }
+    ],
+    "SORF|300#|22\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 197.0
+      }
+    ],
+    "SORF|300#|24\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 222.0
+      }
+    ],
+    "SORF|300#|26\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 251.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 251.0
+      }
+    ],
+    "SORF|300#|28\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 313.0
+      }
+    ],
+    "SORF|300#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 5.9
+      }
+    ],
+    "SORF|300#|30\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 354.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 354.0
+      }
+    ],
+    "SORF|300#|32\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 395.0
+      }
+    ],
+    "SORF|300#|34\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 460.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 460.0
+      }
+    ],
+    "SORF|300#|36\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 513.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 513.0
+      }
+    ],
+    "SORF|300#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 10.0
+      }
+    ],
+    "SORF|300#|42\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 731.0
+      }
+    ],
+    "SORF|300#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 17.7
+      }
+    ],
+    "SORF|300#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 26.3
+      }
+    ],
+    "SORF|600#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 0.74
+      }
+    ],
+    "SORF|600#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.27
+      }
+    ],
+    "SORF|600#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.52
+      }
+    ],
+    "SORF|600#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 2.96
+      }
+    ],
+    "SORF|600#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 70.3
+      }
+    ],
+    "SORF|600#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 84.2
+      }
+    ],
+    "SORF|600#|14\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 98.7
+      }
+    ],
+    "SORF|600#|16\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 142.0
+      }
+    ],
+    "SORF|600#|18\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 173.0
+      }
+    ],
+    "SORF|600#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.62
+      }
+    ],
+    "SORF|600#|20\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 220.0
+      }
+    ],
+    "SORF|600#|22\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 292.0
+      }
+    ],
+    "SORF|600#|24\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 398.0
+      }
+    ],
+    "SORF|600#|26\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 408.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 408.0
+      }
+    ],
+    "SORF|600#|28\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 472.0
+      }
+    ],
+    "SORF|600#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 7.0
+      }
+    ],
+    "SORF|600#|30\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 576.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 526.0
+      }
+    ],
+    "SORF|600#|32\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 605.0
+      }
+    ],
+    "SORF|600#|34\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 652.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 652.0
+      }
+    ],
+    "SORF|600#|36\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 744.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 744.0
+      }
+    ],
+    "SORF|600#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 14.5
+      }
+    ],
+    "SORF|600#|42\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1058.0
+      }
+    ],
+    "SORF|600#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 28.7
+      }
+    ],
+    "SORF|600#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 43.4
+      }
+    ],
+    "SORF|900#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.74
+      }
+    ],
+    "SORF|900#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 2.34
+      }
+    ],
+    "SORF|900#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.44
+      }
+    ],
+    "SORF|900#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 5.36
+      }
+    ],
+    "SORF|900#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 101.0
+      }
+    ],
+    "SORF|900#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 133.0
+      }
+    ],
+    "SORF|900#|14\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 153.0
+      }
+    ],
+    "SORF|900#|16\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 185.0
+      }
+    ],
+    "SORF|900#|18\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 258.0
+      }
+    ],
+    "SORF|900#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 9.85
+      }
+    ],
+    "SORF|900#|2.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 13.7
+      }
+    ],
+    "SORF|900#|20\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 317.0
+      }
+    ],
+    "SORF|900#|24\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 606.0
+      }
+    ],
+    "SORF|900#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 11.6
+      }
+    ],
+    "SORF|900#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 19.7
+      }
+    ],
+    "SORF|900#|5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 31.9
+      }
+    ],
+    "SORF|900#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 41.1
+      }
+    ],
+    "SORF|900#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 70.7
+      }
+    ],
+    "WNRF|150#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 0.48
+      }
+    ],
+    "WNRF|150#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 0.71
+      }
+    ],
+    "WNRF|150#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.01
+      }
+    ],
+    "WNRF|150#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.72
+      }
+    ],
+    "WNRF|150#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 24.0
+      }
+    ],
+    "WNRF|150#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 36.5
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 43.0
+      }
+    ],
+    "WNRF|150#|14\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 48.4
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 58.0
+      }
+    ],
+    "WNRF|150#|16\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 60.6
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 76.0
+      }
+    ],
+    "WNRF|150#|18\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 68.3
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 94.0
+      }
+    ],
+    "WNRF|150#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 2.58
+      }
+    ],
+    "WNRF|150#|20\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 84.5
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 122.0
+      }
+    ],
+    "WNRF|150#|22\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 102.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 154.0
+      }
+    ],
+    "WNRF|150#|24\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 115.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 185.0
+      }
+    ],
+    "WNRF|150#|26\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 118.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 118.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 63.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 306.0
+      }
+    ],
+    "WNRF|150#|28\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 134.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 74.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 363.0
+      }
+    ],
+    "WNRF|150#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 4.92
+      }
+    ],
+    "WNRF|150#|30\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 153.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 153.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 80.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 430.0
+      }
+    ],
+    "WNRF|150#|32\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 190.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 92.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 537.0
+      }
+    ],
+    "WNRF|150#|34\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 212.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 212.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 113.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 600.0
+      }
+    ],
+    "WNRF|150#|36\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 242.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 242.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 129.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 730.0
+      }
+    ],
+    "WNRF|150#|38\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 284.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 150.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 792.0
+      }
+    ],
+    "WNRF|150#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 6.84
+      }
+    ],
+    "WNRF|150#|40\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 311.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 162.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 893.0
+      }
+    ],
+    "WNRF|150#|42\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 358.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 358.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 184.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1044.0
+      }
+    ],
+    "WNRF|150#|44\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 376.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 192.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1190.0
+      }
+    ],
+    "WNRF|150#|46\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 399.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 224.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1299.0
+      }
+    ],
+    "WNRF|150#|48\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 440.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 231.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1470.0
+      }
+    ],
+    "WNRF|150#|50\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 263.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1615.0
+      }
+    ],
+    "WNRF|150#|52\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 285.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1817.0
+      }
+    ],
+    "WNRF|150#|54\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 287.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2031.0
+      }
+    ],
+    "WNRF|150#|56\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 323.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2244.0
+      }
+    ],
+    "WNRF|150#|58\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 384.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2491.0
+      }
+    ],
+    "WNRF|150#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 10.6
+      }
+    ],
+    "WNRF|150#|60\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 388.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2697.0
+      }
+    ],
+    "WNRF|150#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 17.6
+      }
+    ],
+    "WNRF|1500#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.87
+      }
+    ],
+    "WNRF|1500#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 2.56
+      }
+    ],
+    "WNRF|1500#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.74
+      }
+    ],
+    "WNRF|1500#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 5.94
+      }
+    ],
+    "WNRF|1500#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 194.0
+      }
+    ],
+    "WNRF|1500#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 288.0
+      }
+    ],
+    "WNRF|1500#|14\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 380.0
+      }
+    ],
+    "WNRF|1500#|16\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 485.0
+      }
+    ],
+    "WNRF|1500#|18\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 644.0
+      }
+    ],
+    "WNRF|1500#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 10.8
+      }
+    ],
+    "WNRF|1500#|20\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 775.0
+      }
+    ],
+    "WNRF|1500#|24\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1232.0
+      }
+    ],
+    "WNRF|1500#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 19.9
+      }
+    ],
+    "WNRF|1500#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 29.9
+      }
+    ],
+    "WNRF|1500#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 68.4
+      }
+    ],
+    "WNRF|1500#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 117.0
+      }
+    ],
+    "WNRF|2500#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.12
+      }
+    ],
+    "WNRF|2500#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.7
+      }
+    ],
+    "WNRF|2500#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 5.24
+      }
+    ],
+    "WNRF|2500#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 10.9
+      }
+    ],
+    "WNRF|2500#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 406.0
+      }
+    ],
+    "WNRF|2500#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 572.0
+      }
+    ],
+    "WNRF|2500#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 16.2
+      }
+    ],
+    "WNRF|2500#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 36.2
+      }
+    ],
+    "WNRF|2500#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 55.3
+      }
+    ],
+    "WNRF|2500#|5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 92.5
+      }
+    ],
+    "WNRF|2500#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 143.0
+      }
+    ],
+    "WNRF|2500#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 215.0
+      }
+    ],
+    "WNRF|300#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 0.75
+      }
+    ],
+    "WNRF|300#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.26
+      }
+    ],
+    "WNRF|300#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.52
+      }
+    ],
+    "WNRF|300#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 2.89
+      }
+    ],
+    "WNRF|300#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 42.7
+      }
+    ],
+    "WNRF|300#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 61.8
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 62.0
+      }
+    ],
+    "WNRF|300#|14\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 85.8
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 86.0
+      }
+    ],
+    "WNRF|300#|16\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 106.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 106.0
+      }
+    ],
+    "WNRF|300#|18\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 131.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 131.0
+      }
+    ],
+    "WNRF|300#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.4
+      }
+    ],
+    "WNRF|300#|20\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 158.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 158.0
+      }
+    ],
+    "WNRF|300#|22\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 195.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 194.0
+      }
+    ],
+    "WNRF|300#|24\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 230.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 230.0
+      }
+    ],
+    "WNRF|300#|26\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 279.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 279.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 181.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 275.0
+      }
+    ],
+    "WNRF|300#|28\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 340.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 203.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 340.0
+      }
+    ],
+    "WNRF|300#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 6.93
+      }
+    ],
+    "WNRF|300#|30\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 390.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 390.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 268.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 389.0
+      }
+    ],
+    "WNRF|300#|32\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 435.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 330.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 438.0
+      }
+    ],
+    "WNRF|300#|34\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 504.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 504.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 357.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 498.0
+      }
+    ],
+    "WNRF|300#|36\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 560.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 560.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 405.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 563.0
+      }
+    ],
+    "WNRF|300#|38\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 416.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 307.0
+      }
+    ],
+    "WNRF|300#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 11.2
+      }
+    ],
+    "WNRF|300#|40\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 450.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 372.0
+      }
+    ],
+    "WNRF|300#|42\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 790.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 502.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 409.0
+      }
+    ],
+    "WNRF|300#|44\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 552.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 464.0
+      }
+    ],
+    "WNRF|300#|46\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 650.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 544.0
+      }
+    ],
+    "WNRF|300#|48\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 731.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 567.0
+      }
+    ],
+    "WNRF|300#|50\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 760.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 643.0
+      }
+    ],
+    "WNRF|300#|52\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 800.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 694.0
+      }
+    ],
+    "WNRF|300#|54\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 898.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 832.0
+      }
+    ],
+    "WNRF|300#|56\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 1143.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 882.0
+      }
+    ],
+    "WNRF|300#|58\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 1217.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 928.0
+      }
+    ],
+    "WNRF|300#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 19.1
+      }
+    ],
+    "WNRF|300#|60\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 1311.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 989.0
+      }
+    ],
+    "WNRF|300#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 29.9
+      }
+    ],
+    "WNRF|400#|12\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 70.0
+      }
+    ],
+    "WNRF|400#|14\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 96.0
+      }
+    ],
+    "WNRF|400#|16\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 118.0
+      }
+    ],
+    "WNRF|400#|18\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 145.0
+      }
+    ],
+    "WNRF|400#|20\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 173.0
+      }
+    ],
+    "WNRF|400#|22\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 211.0
+      }
+    ],
+    "WNRF|400#|24\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 249.0
+      }
+    ],
+    "WNRF|400#|26\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 304.0
+      }
+    ],
+    "WNRF|400#|28\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 362.0
+      }
+    ],
+    "WNRF|400#|30\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 415.0
+      }
+    ],
+    "WNRF|400#|32\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 478.0
+      }
+    ],
+    "WNRF|400#|34\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 538.0
+      }
+    ],
+    "WNRF|400#|36\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 604.0
+      }
+    ],
+    "WNRF|400#|38\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 406.0
+      }
+    ],
+    "WNRF|400#|40\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 473.0
+      }
+    ],
+    "WNRF|400#|42\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 513.0
+      }
+    ],
+    "WNRF|400#|44\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 586.0
+      }
+    ],
+    "WNRF|400#|46\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 648.0
+      }
+    ],
+    "WNRF|400#|48\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 768.0
+      }
+    ],
+    "WNRF|400#|50\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 832.0
+      }
+    ],
+    "WNRF|400#|52\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 897.0
+      }
+    ],
+    "WNRF|400#|54\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1086.0
+      }
+    ],
+    "WNRF|400#|56\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1139.0
+      }
+    ],
+    "WNRF|400#|58\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1208.0
+      }
+    ],
+    "WNRF|400#|60\"": [
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1408.0
+      }
+    ],
+    "WNRF|600#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 0.87
+      }
+    ],
+    "WNRF|600#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.45
+      }
+    ],
+    "WNRF|600#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.76
+      }
+    ],
+    "WNRF|600#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.49
+      }
+    ],
+    "WNRF|600#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 86.5
+      }
+    ],
+    "WNRF|600#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 103.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 103.0
+      }
+    ],
+    "WNRF|600#|14\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 158.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 122.0
+      }
+    ],
+    "WNRF|600#|16\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 219.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 170.0
+      }
+    ],
+    "WNRF|600#|18\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 252.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 204.0
+      }
+    ],
+    "WNRF|600#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 4.36
+      }
+    ],
+    "WNRF|600#|20\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 313.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 254.0
+      }
+    ],
+    "WNRF|600#|22\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 380.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 306.0
+      }
+    ],
+    "WNRF|600#|24\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 444.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 358.0
+      }
+    ],
+    "WNRF|600#|26\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 487.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 437.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 267.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 427.0
+      }
+    ],
+    "WNRF|600#|28\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 508.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 326.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 479.0
+      }
+    ],
+    "WNRF|600#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 8.53
+      }
+    ],
+    "WNRF|600#|30\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 559.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 559.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 402.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 545.0
+      }
+    ],
+    "WNRF|600#|32\"": [
+      {
+        "standard": "BS 3293",
+        "weight": 680.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 462.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 610.0
+      }
+    ],
+    "WNRF|600#|34\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 689.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 717.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 582.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 666.0
+      }
+    ],
+    "WNRF|600#|36\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 780.0
+      },
+      {
+        "standard": "BS 3293",
+        "weight": 780.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 627.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 755.0
+      }
+    ],
+    "WNRF|600#|38\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 707.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 640.0
+      }
+    ],
+    "WNRF|600#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 17.4
+      }
+    ],
+    "WNRF|600#|40\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 762.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 683.0
+      }
+    ],
+    "WNRF|600#|42\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1096.0
+      },
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 928.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 754.0
+      }
+    ],
+    "WNRF|600#|44\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 992.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 903.0
+      }
+    ],
+    "WNRF|600#|46\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 1100.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1054.0
+      }
+    ],
+    "WNRF|600#|48\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 1299.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1200.0
+      }
+    ],
+    "WNRF|600#|50\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 1524.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1363.0
+      }
+    ],
+    "WNRF|600#|52\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 1585.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1466.0
+      }
+    ],
+    "WNRF|600#|54\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 1735.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1605.0
+      }
+    ],
+    "WNRF|600#|56\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 1952.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1709.0
+      }
+    ],
+    "WNRF|600#|58\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 2069.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1916.0
+      }
+    ],
+    "WNRF|600#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 34.9
+      }
+    ],
+    "WNRF|600#|60\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 2474.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2300.0
+      }
+    ],
+    "WNRF|600#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 53.9
+      }
+    ],
+    "WNRF|900#|0.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 1.87
+      }
+    ],
+    "WNRF|900#|0.75\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 2.56
+      }
+    ],
+    "WNRF|900#|1\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 3.74
+      }
+    ],
+    "WNRF|900#|1.5\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 5.94
+      }
+    ],
+    "WNRF|900#|10\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 119.0
+      }
+    ],
+    "WNRF|900#|12\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 157.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 157.0
+      }
+    ],
+    "WNRF|900#|14\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 180.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 180.0
+      }
+    ],
+    "WNRF|900#|16\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 217.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 217.0
+      }
+    ],
+    "WNRF|900#|18\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 292.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 292.0
+      }
+    ],
+    "WNRF|900#|2\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 10.8
+      }
+    ],
+    "WNRF|900#|20\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 362.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 362.0
+      }
+    ],
+    "WNRF|900#|24\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 665.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 665.0
+      }
+    ],
+    "WNRF|900#|26\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 564.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 692.0
+      }
+    ],
+    "WNRF|900#|28\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 706.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 822.0
+      }
+    ],
+    "WNRF|900#|3\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 13.7
+      }
+    ],
+    "WNRF|900#|30\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 833.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 962.0
+      }
+    ],
+    "WNRF|900#|32\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 919.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1155.0
+      }
+    ],
+    "WNRF|900#|34\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 1105.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1348.0
+      }
+    ],
+    "WNRF|900#|36\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 1124.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1541.0
+      }
+    ],
+    "WNRF|900#|38\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 1495.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1537.0
+      }
+    ],
+    "WNRF|900#|4\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 22.5
+      }
+    ],
+    "WNRF|900#|40\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 1584.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1643.0
+      }
+    ],
+    "WNRF|900#|42\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 1718.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1798.0
+      }
+    ],
+    "WNRF|900#|44\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 2006.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 1952.0
+      }
+    ],
+    "WNRF|900#|46\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 2337.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2107.0
+      }
+    ],
+    "WNRF|900#|48\"": [
+      {
+        "standard": "ANSI B16.47-API 605",
+        "weight": 2509.0
+      },
+      {
+        "standard": "ANSI B16.47-MSS SP-44",
+        "weight": 2260.0
+      }
+    ],
+    "WNRF|900#|6\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 47.7
+      }
+    ],
+    "WNRF|900#|8\"": [
+      {
+        "standard": "ANSI B16.5",
+        "weight": 81.3
+      }
+    ]
+  },
+  "standardCurves": {
+    "BLRF|150#|ANSI B16.47-MSS SP-44": [
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 61.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 81.5
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 106.5
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 134.5
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 171.5
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 217.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 262.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 306.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 363.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 430.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 537.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 600.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 730.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 792.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 893.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 1044.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 1190.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 1299.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 1470.0
+      },
+      {
+        "dn": 1250.0,
+        "nps": "50\"",
+        "weight": 1615.0
+      },
+      {
+        "dn": 1300.0,
+        "nps": "52\"",
+        "weight": 1817.0
+      },
+      {
+        "dn": 1350.0,
+        "nps": "54\"",
+        "weight": 2031.0
+      },
+      {
+        "dn": 1400.0,
+        "nps": "56\"",
+        "weight": 2244.0
+      },
+      {
+        "dn": 1450.0,
+        "nps": "58\"",
+        "weight": 2491.0
+      },
+      {
+        "dn": 1500.0,
+        "nps": "60\"",
+        "weight": 2697.0
+      }
+    ],
+    "BLRF|150#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 0.8
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 0.9
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 1.0
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 1.4
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 1.6
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 4.1
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 7.7
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 11.8
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 20.4
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 31.8
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 50.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 60.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 77.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 95.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 123.0
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 151.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 187.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 226.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 309.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 425.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 485.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 716.0
+      }
+    ],
+    "BLRF|1500#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 1.77
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 2.42
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 3.57
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 5.75
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 10.1
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 19.1
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 29.9
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 71.8
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 122.0
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 210.0
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 316.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 420.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 558.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 760.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 965.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 1558.0
+      }
+    ],
+    "BLRF|2500#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 2.99
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 3.5
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 4.96
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 10.4
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 15.6
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 34.8
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 53.9
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 141.0
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 214.0
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 411.0
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 592.0
+      }
+    ],
+    "BLRF|300#|ANSI B16.47-MSS SP-44": [
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 460.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 566.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 663.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 770.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 894.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 1040.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 872.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 1035.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 1173.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 1340.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 1600.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 1700.0
+      },
+      {
+        "dn": 1250.0,
+        "nps": "50\"",
+        "weight": 1936.0
+      },
+      {
+        "dn": 1300.0,
+        "nps": "52\"",
+        "weight": 2143.0
+      },
+      {
+        "dn": 1350.0,
+        "nps": "54\"",
+        "weight": 2486.0
+      },
+      {
+        "dn": 1400.0,
+        "nps": "56\"",
+        "weight": 2674.0
+      },
+      {
+        "dn": 1450.0,
+        "nps": "58\"",
+        "weight": 2913.0
+      },
+      {
+        "dn": 1500.0,
+        "nps": "60\"",
+        "weight": 3184.0
+      }
+    ],
+    "BLRF|300#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 1.0
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 1.4
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 1.8
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 3.2
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 3.6
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 7.3
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 12.2
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 22.7
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 37.0
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 50.0
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 84.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 107.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 139.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 177.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 223.0
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 270.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 342.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 431.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 637.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 862.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 977.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 1436.0
+      }
+    ],
+    "BLRF|400#|ANSI B16.47-MSS SP-44": [
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 94.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 124.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 162.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 205.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 254.0
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 320.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 386.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 534.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 645.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 760.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 885.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 1035.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 1205.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 1055.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 1229.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 1366.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 1569.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 1776.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 2043.0
+      },
+      {
+        "dn": 1250.0,
+        "nps": "50\"",
+        "weight": 2294.0
+      },
+      {
+        "dn": 1300.0,
+        "nps": "52\"",
+        "weight": 2500.0
+      },
+      {
+        "dn": 1350.0,
+        "nps": "54\"",
+        "weight": 2900.0
+      },
+      {
+        "dn": 1400.0,
+        "nps": "56\"",
+        "weight": 3174.0
+      },
+      {
+        "dn": 1450.0,
+        "nps": "58\"",
+        "weight": 3462.0
+      },
+      {
+        "dn": 1500.0,
+        "nps": "60\"",
+        "weight": 3940.0
+      }
+    ],
+    "BLRF|600#|ANSI B16.47-MSS SP-44": [
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 124.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 151.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 214.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 272.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 349.0
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 440.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 533.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 740.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 869.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 1030.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 1204.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 1371.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 1600.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 1447.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 1620.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 1948.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 2100.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 2450.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 2850.0
+      },
+      {
+        "dn": 1250.0,
+        "nps": "50\"",
+        "weight": 3233.0
+      },
+      {
+        "dn": 1300.0,
+        "nps": "52\"",
+        "weight": 3570.0
+      },
+      {
+        "dn": 1350.0,
+        "nps": "54\"",
+        "weight": 3968.0
+      },
+      {
+        "dn": 1400.0,
+        "nps": "56\"",
+        "weight": 4450.0
+      },
+      {
+        "dn": 1450.0,
+        "nps": "58\"",
+        "weight": 4850.0
+      },
+      {
+        "dn": 1500.0,
+        "nps": "60\"",
+        "weight": 5588.0
+      }
+    ],
+    "BLRF|600#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 0.76
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 1.28
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 1.6
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 3.25
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 1.15
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 8.44
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 17.3
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 36.1
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 58.9
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 97.5
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 124.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 151.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 214.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 272.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 349.0
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 437.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 533.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 676.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 895.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 1185.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 1368.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 2006.0
+      }
+    ],
+    "BLRF|900#|ANSI B16.47-MSS SP-44": [
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 173.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 206.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 259.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 367.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 463.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 876.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 1060.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 1306.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 1565.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 1885.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 2250.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 2595.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 2610.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 2870.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 3195.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 3720.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 4579.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 4730.0
+      }
+    ],
+    "BLRF|900#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 1.77
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 2.42
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 3.57
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 5.75
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 10.1
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 13.1
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 26.9
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 47.4
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 82.5
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 122.0
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 173.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 206.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 259.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 367.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 463.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 876.0
+      }
+    ],
+    "SORF|150#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 0.8
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 0.9
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 1.0
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 1.4
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 2.3
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 3.6
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 5.9
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 8.6
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 13.6
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 19.5
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 29.1
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 38.6
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 42.2
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 54.5
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 70.0
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 72.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 95.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 123.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 138.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 186.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 211.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 313.0
+      }
+    ],
+    "SORF|150#|BS 3293": [
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 107.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 122.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 138.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 170.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 184.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 211.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 249.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 272.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 313.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 331.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 349.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 381.0
+      }
+    ],
+    "SORF|1500#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 3.2
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 3.6
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 4.1
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 6.4
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 11.3
+      },
+      {
+        "dn": 65.0,
+        "nps": "2.5\"",
+        "weight": 16.3
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 21.8
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 33.0
+      },
+      {
+        "dn": 125.0,
+        "nps": "5\"",
+        "weight": 60.0
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 74.0
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 117.0
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 198.0
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 303.0
+      }
+    ],
+    "SORF|300#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 1.2
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 1.3
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 1.4
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 2.7
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 3.2
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 5.9
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 10.0
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 17.7
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 26.3
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 36.8
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 52.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 74.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 100.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 127.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 148.0
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 197.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 222.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 251.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 354.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 460.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 513.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 731.0
+      }
+    ],
+    "SORF|300#|BS 3293": [
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 251.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 313.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 354.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 395.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 460.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 513.0
+      }
+    ],
+    "SORF|600#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 0.74
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 1.27
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 1.52
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 2.96
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 3.62
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 7.0
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 14.5
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 28.7
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 43.4
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 70.3
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 84.2
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 98.7
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 142.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 173.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 220.0
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 292.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 398.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 408.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 576.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 652.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 744.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 1058.0
+      }
+    ],
+    "SORF|600#|BS 3293": [
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 408.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 472.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 526.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 605.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 652.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 744.0
+      }
+    ],
+    "SORF|900#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 1.74
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 2.34
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 3.44
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 5.36
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 9.85
+      },
+      {
+        "dn": 65.0,
+        "nps": "2.5\"",
+        "weight": 13.7
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 11.6
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 19.7
+      },
+      {
+        "dn": 125.0,
+        "nps": "5\"",
+        "weight": 31.9
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 41.1
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 70.7
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 101.0
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 133.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 153.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 185.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 258.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 317.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 606.0
+      }
+    ],
+    "WNRF|150#|ANSI B16.47-API 605": [
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 63.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 74.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 80.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 92.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 113.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 129.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 150.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 162.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 184.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 192.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 224.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 231.0
+      },
+      {
+        "dn": 1250.0,
+        "nps": "50\"",
+        "weight": 263.0
+      },
+      {
+        "dn": 1300.0,
+        "nps": "52\"",
+        "weight": 285.0
+      },
+      {
+        "dn": 1350.0,
+        "nps": "54\"",
+        "weight": 287.0
+      },
+      {
+        "dn": 1400.0,
+        "nps": "56\"",
+        "weight": 323.0
+      },
+      {
+        "dn": 1450.0,
+        "nps": "58\"",
+        "weight": 384.0
+      },
+      {
+        "dn": 1500.0,
+        "nps": "60\"",
+        "weight": 388.0
+      }
+    ],
+    "WNRF|150#|ANSI B16.47-MSS SP-44": [
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 43.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 58.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 76.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 94.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 122.0
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 154.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 185.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 306.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 363.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 430.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 537.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 600.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 730.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 792.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 893.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 1044.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 1190.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 1299.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 1470.0
+      },
+      {
+        "dn": 1250.0,
+        "nps": "50\"",
+        "weight": 1615.0
+      },
+      {
+        "dn": 1300.0,
+        "nps": "52\"",
+        "weight": 1817.0
+      },
+      {
+        "dn": 1350.0,
+        "nps": "54\"",
+        "weight": 2031.0
+      },
+      {
+        "dn": 1400.0,
+        "nps": "56\"",
+        "weight": 2244.0
+      },
+      {
+        "dn": 1450.0,
+        "nps": "58\"",
+        "weight": 2491.0
+      },
+      {
+        "dn": 1500.0,
+        "nps": "60\"",
+        "weight": 2697.0
+      }
+    ],
+    "WNRF|150#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 0.48
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 0.71
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 1.01
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 1.72
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 2.58
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 4.92
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 6.84
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 10.6
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 17.6
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 24.0
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 36.5
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 48.4
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 60.6
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 68.3
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 84.5
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 102.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 115.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 118.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 153.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 212.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 242.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 358.0
+      }
+    ],
+    "WNRF|150#|BS 3293": [
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 118.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 134.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 153.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 190.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 212.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 242.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 284.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 311.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 358.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 376.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 399.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 440.0
+      }
+    ],
+    "WNRF|1500#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 1.87
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 2.56
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 3.74
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 5.94
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 10.8
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 19.9
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 29.9
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 68.4
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 117.0
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 194.0
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 288.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 380.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 485.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 644.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 775.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 1232.0
+      }
+    ],
+    "WNRF|2500#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 3.12
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 3.7
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 5.24
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 10.9
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 16.2
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 36.2
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 55.3
+      },
+      {
+        "dn": 125.0,
+        "nps": "5\"",
+        "weight": 92.5
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 143.0
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 215.0
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 406.0
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 572.0
+      }
+    ],
+    "WNRF|300#|ANSI B16.47-API 605": [
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 181.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 203.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 268.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 330.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 357.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 405.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 416.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 450.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 502.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 552.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 650.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 731.0
+      },
+      {
+        "dn": 1250.0,
+        "nps": "50\"",
+        "weight": 760.0
+      },
+      {
+        "dn": 1300.0,
+        "nps": "52\"",
+        "weight": 800.0
+      },
+      {
+        "dn": 1350.0,
+        "nps": "54\"",
+        "weight": 898.0
+      },
+      {
+        "dn": 1400.0,
+        "nps": "56\"",
+        "weight": 1143.0
+      },
+      {
+        "dn": 1450.0,
+        "nps": "58\"",
+        "weight": 1217.0
+      },
+      {
+        "dn": 1500.0,
+        "nps": "60\"",
+        "weight": 1311.0
+      }
+    ],
+    "WNRF|300#|ANSI B16.47-MSS SP-44": [
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 62.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 86.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 106.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 131.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 158.0
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 194.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 230.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 275.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 340.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 389.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 438.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 498.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 563.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 307.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 372.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 409.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 464.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 544.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 567.0
+      },
+      {
+        "dn": 1250.0,
+        "nps": "50\"",
+        "weight": 643.0
+      },
+      {
+        "dn": 1300.0,
+        "nps": "52\"",
+        "weight": 694.0
+      },
+      {
+        "dn": 1350.0,
+        "nps": "54\"",
+        "weight": 832.0
+      },
+      {
+        "dn": 1400.0,
+        "nps": "56\"",
+        "weight": 882.0
+      },
+      {
+        "dn": 1450.0,
+        "nps": "58\"",
+        "weight": 928.0
+      },
+      {
+        "dn": 1500.0,
+        "nps": "60\"",
+        "weight": 989.0
+      }
+    ],
+    "WNRF|300#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 0.75
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 1.26
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 1.52
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 2.89
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 3.4
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 6.93
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 11.2
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 19.1
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 29.9
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 42.7
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 61.8
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 85.8
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 106.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 131.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 158.0
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 195.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 230.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 279.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 390.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 504.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 560.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 790.0
+      }
+    ],
+    "WNRF|300#|BS 3293": [
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 279.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 340.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 390.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 435.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 504.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 560.0
+      }
+    ],
+    "WNRF|400#|ANSI B16.47-MSS SP-44": [
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 70.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 96.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 118.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 145.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 173.0
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 211.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 249.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 304.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 362.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 415.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 478.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 538.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 604.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 406.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 473.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 513.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 586.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 648.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 768.0
+      },
+      {
+        "dn": 1250.0,
+        "nps": "50\"",
+        "weight": 832.0
+      },
+      {
+        "dn": 1300.0,
+        "nps": "52\"",
+        "weight": 897.0
+      },
+      {
+        "dn": 1350.0,
+        "nps": "54\"",
+        "weight": 1086.0
+      },
+      {
+        "dn": 1400.0,
+        "nps": "56\"",
+        "weight": 1139.0
+      },
+      {
+        "dn": 1450.0,
+        "nps": "58\"",
+        "weight": 1208.0
+      },
+      {
+        "dn": 1500.0,
+        "nps": "60\"",
+        "weight": 1408.0
+      }
+    ],
+    "WNRF|600#|ANSI B16.47-API 605": [
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 267.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 326.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 402.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 462.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 582.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 627.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 707.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 762.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 928.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 992.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 1100.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 1299.0
+      },
+      {
+        "dn": 1250.0,
+        "nps": "50\"",
+        "weight": 1524.0
+      },
+      {
+        "dn": 1300.0,
+        "nps": "52\"",
+        "weight": 1585.0
+      },
+      {
+        "dn": 1350.0,
+        "nps": "54\"",
+        "weight": 1735.0
+      },
+      {
+        "dn": 1400.0,
+        "nps": "56\"",
+        "weight": 1952.0
+      },
+      {
+        "dn": 1450.0,
+        "nps": "58\"",
+        "weight": 2069.0
+      },
+      {
+        "dn": 1500.0,
+        "nps": "60\"",
+        "weight": 2474.0
+      }
+    ],
+    "WNRF|600#|ANSI B16.47-MSS SP-44": [
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 103.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 122.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 170.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 204.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 254.0
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 306.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 358.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 427.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 479.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 545.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 610.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 666.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 755.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 640.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 683.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 754.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 903.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 1054.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 1200.0
+      },
+      {
+        "dn": 1250.0,
+        "nps": "50\"",
+        "weight": 1363.0
+      },
+      {
+        "dn": 1300.0,
+        "nps": "52\"",
+        "weight": 1466.0
+      },
+      {
+        "dn": 1350.0,
+        "nps": "54\"",
+        "weight": 1605.0
+      },
+      {
+        "dn": 1400.0,
+        "nps": "56\"",
+        "weight": 1709.0
+      },
+      {
+        "dn": 1450.0,
+        "nps": "58\"",
+        "weight": 1916.0
+      },
+      {
+        "dn": 1500.0,
+        "nps": "60\"",
+        "weight": 2300.0
+      }
+    ],
+    "WNRF|600#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 0.87
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 1.45
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 1.76
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 3.49
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 4.36
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 8.53
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 17.4
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 34.9
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 53.9
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 86.5
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 103.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 158.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 219.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 252.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 313.0
+      },
+      {
+        "dn": 550.0,
+        "nps": "22\"",
+        "weight": 380.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 444.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 487.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 559.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 689.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 780.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 1096.0
+      }
+    ],
+    "WNRF|600#|BS 3293": [
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 437.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 508.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 559.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 680.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 717.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 780.0
+      }
+    ],
+    "WNRF|900#|ANSI B16.47-API 605": [
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 564.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 706.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 833.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 919.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 1105.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 1124.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 1495.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 1584.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 1718.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 2006.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 2337.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 2509.0
+      }
+    ],
+    "WNRF|900#|ANSI B16.47-MSS SP-44": [
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 157.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 180.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 217.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 292.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 362.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 665.0
+      },
+      {
+        "dn": 650.0,
+        "nps": "26\"",
+        "weight": 692.0
+      },
+      {
+        "dn": 700.0,
+        "nps": "28\"",
+        "weight": 822.0
+      },
+      {
+        "dn": 750.0,
+        "nps": "30\"",
+        "weight": 962.0
+      },
+      {
+        "dn": 800.0,
+        "nps": "32\"",
+        "weight": 1155.0
+      },
+      {
+        "dn": 850.0,
+        "nps": "34\"",
+        "weight": 1348.0
+      },
+      {
+        "dn": 900.0,
+        "nps": "36\"",
+        "weight": 1541.0
+      },
+      {
+        "dn": 950.0,
+        "nps": "38\"",
+        "weight": 1537.0
+      },
+      {
+        "dn": 1000.0,
+        "nps": "40\"",
+        "weight": 1643.0
+      },
+      {
+        "dn": 1050.0,
+        "nps": "42\"",
+        "weight": 1798.0
+      },
+      {
+        "dn": 1100.0,
+        "nps": "44\"",
+        "weight": 1952.0
+      },
+      {
+        "dn": 1150.0,
+        "nps": "46\"",
+        "weight": 2107.0
+      },
+      {
+        "dn": 1200.0,
+        "nps": "48\"",
+        "weight": 2260.0
+      }
+    ],
+    "WNRF|900#|ANSI B16.5": [
+      {
+        "dn": 15.0,
+        "nps": "0.5\"",
+        "weight": 1.87
+      },
+      {
+        "dn": 20.0,
+        "nps": "0.75\"",
+        "weight": 2.56
+      },
+      {
+        "dn": 25.0,
+        "nps": "1\"",
+        "weight": 3.74
+      },
+      {
+        "dn": 40.0,
+        "nps": "1.5\"",
+        "weight": 5.94
+      },
+      {
+        "dn": 50.0,
+        "nps": "2\"",
+        "weight": 10.8
+      },
+      {
+        "dn": 80.0,
+        "nps": "3\"",
+        "weight": 13.7
+      },
+      {
+        "dn": 100.0,
+        "nps": "4\"",
+        "weight": 22.5
+      },
+      {
+        "dn": 150.0,
+        "nps": "6\"",
+        "weight": 47.7
+      },
+      {
+        "dn": 200.0,
+        "nps": "8\"",
+        "weight": 81.3
+      },
+      {
+        "dn": 250.0,
+        "nps": "10\"",
+        "weight": 119.0
+      },
+      {
+        "dn": 300.0,
+        "nps": "12\"",
+        "weight": 157.0
+      },
+      {
+        "dn": 350.0,
+        "nps": "14\"",
+        "weight": 180.0
+      },
+      {
+        "dn": 400.0,
+        "nps": "16\"",
+        "weight": 217.0
+      },
+      {
+        "dn": 450.0,
+        "nps": "18\"",
+        "weight": 292.0
+      },
+      {
+        "dn": 500.0,
+        "nps": "20\"",
+        "weight": 362.0
+      },
+      {
+        "dn": 600.0,
+        "nps": "24\"",
+        "weight": 665.0
+      }
+    ]
+  },
+  "usage": "Budgetary estimation based on the uploaded flange database",
+  "importantLimitation": "Flange type, size and rating do not always define a unique weight. Different standards can contain different weights for the same three inputs. The exactWeights table applies the embedded standard-priority rule, while alternativeWeights preserves other source values.",
+  "validationExamples": [
+    {
+      "input": {
+        "flangeType": "WNRF",
+        "size": "42\"",
+        "rating": "150#"
+      },
+      "expected": {
+        "weightKg": 358.0,
+        "basisStandard": "ANSI B16.5",
+        "resultMethod": "EXACT_DATABASE_LOOKUP"
+      }
+    },
+    {
+      "input": {
+        "flangeType": "WNRF",
+        "size": "42\"",
+        "rating": "600#"
+      },
+      "expected": {
+        "weightKg": 1096.0,
+        "basisStandard": "ANSI B16.5",
+        "resultMethod": "EXACT_DATABASE_LOOKUP"
+      }
+    }
+  ]
+}

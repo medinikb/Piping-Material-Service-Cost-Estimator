@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "version": "2026-10-22-budget-v9",
+  "status": "PROVISIONAL_BUDGET_ONLY",
+  "authorization": "Product owner approved defaults on 2026-10-22 to reduce routine gasket input. Numerical allowances below are initial estimating assumptions, not manufacturer prices or PO calibration.",
+  "scope": "Material budget only, excluding tax/freight. No design, stock-form, asbestos-substitution or procurement approval. Missing sizes use labelled geometry allowances; unsupported constructions and ambiguous specifications require confirmed inputs.",
+  "families": {
+    "SHEET_RING": {"yieldPercent": 80, "factor": 3, "thicknessMm": 3},
+    "FULL_FACE": {"yieldPercent": 75, "factor": 3, "thicknessMm": 3},
+    "SPIRAL_WOUND": {"yieldPercent": 85, "factor": 1.8, "thicknessMm": 4.5, "ringThicknessMm": 3, "metalVolumeFraction": 0.30, "fillerVolumeFraction": 0.50, "rings": "BOTH"},
+    "RTJ": {"yieldPercent": 70, "factor": 4, "flankAngleDegrees": 23}
+  },
+  "materials": {
+    "SS304": {"densityKgM3": 8000, "fallbackRawRsKg": 210},
+    "SS304L": {"densityKgM3": 8000, "fallbackRawRsKg": 210},
+    "SS304H": {"densityKgM3": 8000, "fallbackRawRsKg": 260},
+    "SS316": {"densityKgM3": 8000, "fallbackRawRsKg": 320},
+    "SS316L": {"densityKgM3": 8000, "fallbackRawRsKg": 370},
+    "SS321": {"densityKgM3": 8000, "fallbackRawRsKg": 350},
+    "SOFT_IRON": {"densityKgM3": 7850, "fallbackRawRsKg": 90},
+    "5CR": {"densityKgM3": 7850, "fallbackRawRsKg": 180},
+    "CARBON_STEEL": {"densityKgM3": 7850, "fallbackRawRsKg": 90},
+    "CAF": {"densityKgM3": 1800, "fallbackRawRsKg": 250},
+    "NON_ASBESTOS": {"densityKgM3": 1800, "fallbackRawRsKg": 250},
+    "BUTYL": {"densityKgM3": 1200, "fallbackRawRsKg": 180},
+    "PTFE": {"densityKgM3": 2200, "fallbackRawRsKg": 1250},
+    "GRAPHITE": {"densityKgM3": 1400, "fallbackRawRsKg": 350}
+  },
+  "defaultWithoutClass": {"stainlessConstruction": "SPIRAL_WOUND", "stainlessFiller": "GRAPHITE", "innerRingMaterial": "same-as-winding", "outerRingMaterial": "CARBON_STEEL", "pressureRating": 150, "pressureRatingByThicknessMm": {"5": 300}, "ungradedSpiralMaterial": "SS316L"},
+  "p90Ratio": 1.5,
+  "sizeFallback": {"enabled": true, "nominalMmPerInch": 25.4, "method": "CONSTANT_SECTION", "note": "Estimated dimensions: nearest same-construction, same-pressure table row retains radial widths and cross-section; diameters shift by nominal size difference x 25.4. Full-face hole count and hole diameter retain the reference values. This is a cost allowance, not standard dimensions, flange-series identification, fit or manufacturing approval."},
+  "calibrationNote": "All density values, yield percentages, metal/filler/void volume shares, unspecified thickness/ring choices, fallback raw allowances and conversion factors are estimating assumptions. They require validation against actual weights/quotes. Manufacturer dimension tables do not validate these commercial defaults. No live or selected-year price claim is made. Metal 30% + filler 50% leaves 20% void in the winding envelope. This is an approximate mass model, not a winding design calculation. RTJ corner fillets are neglected. Spiral-wound default factor 1.8 is retained by explicit product-owner budget-estimating choice. The 34-row SS316L comparison with PO 4500030816 dated 2025-07-08 (aggregate matching factor about 1.586) is historical reference only and does not set the default. PO includes packing/testing/freight, excludes GST; app raw references are not PO-date mill prices. Not a like-for-like current quotation or validation of all grades/sizes. See Validation/gasket-po4500030816-benchmark.json."
+}

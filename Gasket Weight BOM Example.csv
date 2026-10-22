@@ -1,0 +1,4 @@
+Item,Size,SCH/THK/Rating,Material,Quantity,UOM,Raw Steel Rs/kg Override,Estimate Factor Override,Gasket Type,Gasket Weight Method,Gasket Primary Weight kg/No,Gasket Filler Weight kg/No,Gasket Filler Raw Rs/kg,Gasket Ring Configuration,Gasket Inner Ring Weight kg/No,Gasket Inner Ring Raw Rs/kg,Gasket Outer Ring Weight kg/No,Gasket Outer Ring Raw Rs/kg,Gasket Yield %,Gasket P90 Ratio,Gasket Calculation Basis
+Gasket,4 IN,150#,SS304,2,NOS,210,3,SHEET_RING,MASS,0.1,,,,,,,,80,1.5,DEMONSTRATION ONLY - replace all weights rates yield and factors
+Gasket,4 IN,150#,SS316L SPR WND + GRAPHITE,2,NOS,370,3,SPIRAL_WOUND,MASS,0.1,0.02,350,BOTH,0.03,100,0.05,100,80,1.5,DEMONSTRATION ONLY - replace all constituent data and factor
+Gasket,4 IN,300#,SOFT IRON OCTAGONAL RTJ,2,NOS,100,3,RTJ,MASS,0.4,,,,,,,,80,1.5,DEMONSTRATION ONLY - use actual RTJ weight and confirmed raw stock price

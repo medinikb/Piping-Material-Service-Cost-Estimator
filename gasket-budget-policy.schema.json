@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Gasket budget policy",
+  "type": "object",
+  "required": ["schemaVersion", "version", "status", "authorization", "scope", "families", "materials", "defaultWithoutClass", "p90Ratio", "calibrationNote"],
+  "properties": {
+    "schemaVersion": {"const": 1},
+    "version": {"type": "string", "minLength": 1},
+    "status": {"const": "PROVISIONAL_BUDGET_ONLY"},
+    "authorization": {"type": "string", "minLength": 1},
+    "scope": {"type": "string", "minLength": 1},
+    "families": {
+      "type": "object",
+      "required": ["SHEET_RING", "FULL_FACE", "SPIRAL_WOUND", "RTJ"],
+      "additionalProperties": {
+        "type": "object", "required": ["yieldPercent", "factor"],
+        "properties": {
+          "yieldPercent": {"type": "number", "exclusiveMinimum": 0, "maximum": 100},
+          "factor": {"type": "number", "exclusiveMinimum": 0},
+          "thicknessMm": {"type": "number", "exclusiveMinimum": 0},
+          "ringThicknessMm": {"type": "number", "exclusiveMinimum": 0},
+          "metalVolumeFraction": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+          "fillerVolumeFraction": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+          "rings": {"enum": ["NONE", "INNER", "OUTER", "BOTH"]},
+          "flankAngleDegrees": {"type": "number", "exclusiveMinimum": 0, "exclusiveMaximum": 90}
+        },
+        "additionalProperties": false
+      }
+    },
+    "materials": {"type": "object", "minProperties": 1, "additionalProperties": {"type": "object", "required": ["densityKgM3", "fallbackRawRsKg"], "properties": {"densityKgM3": {"type": "number", "exclusiveMinimum": 0}, "fallbackRawRsKg": {"type": "number", "exclusiveMinimum": 0}}, "additionalProperties": false}},
+    "defaultWithoutClass": {"type": "object", "required": ["stainlessConstruction", "stainlessFiller", "innerRingMaterial", "outerRingMaterial"]},
+    "p90Ratio": {"type": "number", "minimum": 1},
+    "sizeFallback": {"type": "object", "required": ["enabled", "nominalMmPerInch", "method", "note"], "properties": {"enabled": {"type": "boolean"}, "nominalMmPerInch": {"type": "number", "exclusiveMinimum": 0}, "method": {"const": "CONSTANT_SECTION"}, "note": {"type": "string", "minLength": 1}}, "additionalProperties": false},
+    "calibrationNote": {"type": "string", "minLength": 1}
+  },
+  "additionalProperties": false
+}

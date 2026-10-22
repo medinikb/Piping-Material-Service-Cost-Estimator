@@ -1,0 +1,3708 @@
+{
+  "metadata": {
+    "title": "Raw Material Price Library for Piping Materials",
+    "currency": "INR",
+    "unit": "kg",
+    "price_type": "raw_material_only",
+    "note": "Rates are indicative raw material input prices only. They are not finished pipe prices. Finished pipe price shall include conversion, forming, welding or piercing, heat treatment, testing, inspection, certification, wastage, freight, taxes and supplier margin.",
+    "source_workbook": "raw_material_prices_revised_wrt_CS_SS304_SS316_SS316L.xlsx",
+    "year_range": "2021-2026",
+    "year_logic": "Use yearly_rate_inr_per_kg[PO Year].recommended for selected app year; 2026 is retained in rate_inr_per_kg for backward compatibility.",
+    "factor_note": "factor_wrt_cs_by_year compares raw material recommended Rs/kg with Carbon Steel recommended Rs/kg for the same year."
+  },
+  "component_price_reference_policy": {
+    "schema_version": 3,
+    "metadata": {
+      "title": "Bolt and gasket manufacturing input price references",
+      "currency": "INR",
+      "unit": "kg",
+      "source_type": "public_supplier_listing",
+      "source_checked_on": "2026-10-21",
+      "price_effective_date": null,
+      "price_valid_until": null,
+      "verification_status": "provisional_internet_reference",
+      "approved_for_procurement": false,
+      "automatic_budget_pricing_enabled": true,
+      "raw_to_finished_conversion_factors": null,
+      "tax_basis": "not_confirmed",
+      "freight_basis": "not_confirmed",
+      "note": "Observed supplier advertisements for manufacturing stock, not confirmed current quotations, certified finished component prices or market averages. The check date does not establish the effective date of a price. Stock form, size, condition, quantity, certification and commercial terms can change the price.",
+      "activation_note": "Bolting observations marked budget_pricing_enabled with exact budget_grade_mappings supply default raw-stock defaults for their budget_year only. Gasket observations retain candidate/reference status, not approved stock status. The separately owner-enabled AUTO gasket budget policy may use exact candidates as estimating references with limitations recorded; Manual mode still requires suitability acceptance. Existing pipe recommended/yearly prices are unchanged. No procurement approval, engineering substitution, live-market update or finished-factor calibration is implied. Source-review and unsupported-construction safeguards remain in force.",
+      "conversion_basis_note": "A bar, strip, foil or sheet already includes processing from primary feedstock. Future conversion factors must start from the listed stock condition to avoid counting that processing twice. Stud and nut stock costs may differ. Composite gaskets require constituent metal, filler and ring costs rather than one universal steel rate.",
+      "history_note": "No historical yearly rates, recommended market rates, low/high ranges or grade-equivalence approvals have been inferred from these single advertised observations.",
+      "storage_note": "Each observation is stored exactly once inside raw_material_price_library. Shared provenance, default status, currency, units, commercial unknowns and unset conversion factors apply to every component_stock_price_references record. SS304/304L observations attach to the existing 304/304L family; SS316 and SS316L observations attach to the existing shared 316/316L family while retaining distinct grade and stock details. AISI 4140 is category-level under High Strength Carbon / Low Alloy Steel, not equivalent to any existing pipe grade. Graphite and PTFE are in Non-Metallic Materials, whose empty children list intentionally supplies no active pipe-price mapping."
+    },
+    "entry_schema": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "title": "Default component manufacturing stock price observation",
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "material_family",
+        "material_grade",
+        "stock_form",
+        "listed_dimensions",
+        "observed_rate_inr_per_kg",
+        "minimum_order_kg",
+        "source_supplier",
+        "source_title",
+        "source_url",
+        "reference_role",
+        "intended_use",
+        "limitations"
+      ],
+      "properties": {
+        "budget_nut_allowance_grade_mappings": {"type": "array", "items": {"type": "string"}, "minItems": 1, "uniqueItems": true},
+        "budget_nut_allowance_note": {"type": "string", "minLength": 1},
+        "a320_l7_budget_note": {"type": "string", "minLength": 1},
+        "id": {
+          "type": "string",
+          "pattern": "^[a-z0-9-]+$"
+        },
+        "material_family": {
+          "type": "string",
+          "minLength": 1
+        },
+        "material_grade": {
+          "type": "string",
+          "minLength": 1
+        },
+        "stock_form": {
+          "type": "string",
+          "minLength": 1
+        },
+        "listed_dimensions": {
+          "type": "string",
+          "minLength": 1
+        },
+        "observed_rate_inr_per_kg": {
+          "type": "number",
+          "exclusiveMinimum": 0
+        },
+        "minimum_order_kg": {
+          "type": [
+            "number",
+            "null"
+          ],
+          "exclusiveMinimum": 0
+        },
+        "source_supplier": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_title": {
+          "type": "string",
+          "minLength": 1
+        },
+        "source_url": {
+          "type": "string",
+          "pattern": "^https://"
+        },
+        "reference_role": {
+          "type": "string",
+          "enum": [
+            "candidate_bolt_stock_basis",
+            "candidate_gasket_constituent_basis"
+          ]
+        },
+        "intended_use": {
+          "type": "string",
+          "minLength": 1
+        },
+        "limitations": {
+          "type": "string",
+          "minLength": 1
+        },
+        "budget_pricing_enabled": { "type": "boolean" },
+        "budget_year": { "type": "integer", "minimum": 2000 },
+        "source_checked_on": { "type": "string", "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "budget_part": { "enum": ["stud", "nut", "bolt"] },
+        "budget_grade_mappings": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string" } },
+        "technical_source_urls": { "type": "array", "minItems": 1, "items": { "type": "string", "pattern": "^https://" } },
+        "observed_low_inr_per_kg": { "type": "number", "exclusiveMinimum": 0 },
+        "observed_high_inr_per_kg": { "type": "number", "exclusiveMinimum": 0 },
+        "rate_selection_note": { "type": "string" },
+        "reference_material_keys": { "type": "array", "minItems": 1, "uniqueItems": true, "items": { "type": "string" } }
+      }
+    }
+  },
+  "raw_material_price_library": [
+    {
+      "basic_mat_of_const": "Carbon Steel",
+      "component_stock_price_references": [
+        {
+          "id": "sae1020-round-bar-parag",
+          "material_family": "Carbon Steel",
+          "material_grade": "SAE 1020",
+          "stock_form": "Plain round bar",
+          "listed_dimensions": "Listed diameter range 10-300 mm; lengths 3 m, 6 m or cut; condition varies",
+          "observed_rate_inr_per_kg": 65,
+          "minimum_order_kg": 150,
+          "source_supplier": "Parag Steel & Alloys Private Limited",
+          "source_title": "Carbon Steel Round Bar SAE 1020",
+          "source_url": "https://www.paragsteelroundbar.com/carbon-steel-round-bar-sae-1020-7047305.html",
+          "reference_role": "candidate_bolt_stock_basis",
+          "intended_use": "Default low-carbon round-stock budget allowance for A307 A/B bolt or stud material only.",
+          "limitations": "SAE 1020 is a commercial carbon-stock allowance, not certification of ASTM A307 A/B chemistry/mechanical compliance. No nut grade is inferred from an A307 bolt designation. Finished headed bolts, coatings and grade-specific conversion factors remain unsupported.",
+          "budget_pricing_enabled": true,
+          "budget_year": 2026,
+          "source_checked_on": "2026-10-21",
+          "budget_part": "bolt",
+          "budget_grade_mappings": ["A307 A", "A307 B"],
+          "budget_nut_allowance_grade_mappings": ["A307 B"],
+          "budget_nut_allowance_note": "Owner-requested budget allowance for the explicit A307 B / A307 B BOM pair only: reuse this carbon-stock rate for the nut constituent, without certifying A307 as a nut standard or replacing it with an inferred nut grade. Confirm actual nut specification, heavy-hex dimensions and testing before procurement. Not a new supplier quotation.",
+          "technical_source_urls": ["https://www.portlandbolt.com/technical/faqs/grade-8-and-astm-a325-bolts-compared/"],
+          "rate_selection_note": "Supplier's advertised INR/kg rate; not a finished fastener price or historical-year rate. Tax and freight not confirmed."
+        }
+      ],
+      "children": [
+        {
+          "ch_comp": "C",
+          "pipe_mat_std": [
+            "A53 Gr.A/B",
+            "A106 Gr.A/B/C",
+            "A671/A672",
+            "API 5L Gr.A25/P/A/B"
+          ],
+          "raw_material_basis": "CS billet / bloom / HR coil / plate / skelp",
+          "rate_inr_per_kg": {
+            "low": 50.0,
+            "recommended": 56.5,
+            "high": 60.0
+          },
+          "source_material_name": "Carbon Steel, C",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 55.0,
+              "recommended": 64.75,
+              "high": 70.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.0,
+              "factor_wrt_ss304": 0.268817,
+              "factor_wrt_ss316_ss316l": 0.22961,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 54.0,
+              "recommended": 70.9,
+              "high": 80.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.0,
+              "factor_wrt_ss304": 0.268815,
+              "factor_wrt_ss316_ss316l": 0.182732,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 47.0,
+              "recommended": 57.4,
+              "high": 63.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.0,
+              "factor_wrt_ss304": 0.268815,
+              "factor_wrt_ss316_ss316l": 0.154509,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 47.0,
+              "recommended": 52.2,
+              "high": 55.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.0,
+              "factor_wrt_ss304": 0.268823,
+              "factor_wrt_ss316_ss316l": 0.158904,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 44.0,
+              "recommended": 55.05,
+              "high": 61.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.0,
+              "factor_wrt_ss304": 0.268812,
+              "factor_wrt_ss316_ss316l": 0.167452,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 50.0,
+              "recommended": 56.5,
+              "high": 60.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.0,
+              "factor_wrt_ss304": 0.268817,
+              "factor_wrt_ss316_ss316l": 0.173579,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 1.0,
+            "2022": 1.0,
+            "2023": 1.0,
+            "2024": 1.0,
+            "2025": 1.0,
+            "2026": 1.0
+          },
+          "percentile_used": 0.65
+        }
+      ]
+    },
+    {
+      "basic_mat_of_const": "Low Temp.CS",
+      "children": [
+        {
+          "ch_comp": "C,Si",
+          "pipe_mat_std": [
+            "A333 Gr.1",
+            "A333 Gr.6"
+          ],
+          "raw_material_basis": "Killed fine grain CS billet / LTCS plate",
+          "rate_inr_per_kg": {
+            "low": 60.0,
+            "recommended": 67.8,
+            "high": 72.0
+          },
+          "source_material_name": "Low Temp CS, C-Si",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 66.0,
+              "recommended": 77.7,
+              "high": 84.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.2,
+              "factor_wrt_ss304": 0.322581,
+              "factor_wrt_ss316_ss316l": 0.275532,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 64.8,
+              "recommended": 85.08,
+              "high": 96.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.2,
+              "factor_wrt_ss304": 0.322578,
+              "factor_wrt_ss316_ss316l": 0.219278,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 56.4,
+              "recommended": 68.88,
+              "high": 75.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.2,
+              "factor_wrt_ss304": 0.322578,
+              "factor_wrt_ss316_ss316l": 0.18541,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 56.4,
+              "recommended": 62.64,
+              "high": 66.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.2,
+              "factor_wrt_ss304": 0.322587,
+              "factor_wrt_ss316_ss316l": 0.190685,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 52.8,
+              "recommended": 66.06,
+              "high": 73.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.2,
+              "factor_wrt_ss304": 0.322574,
+              "factor_wrt_ss316_ss316l": 0.200943,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 60.0,
+              "recommended": 67.8,
+              "high": 72.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.2,
+              "factor_wrt_ss304": 0.322581,
+              "factor_wrt_ss316_ss316l": 0.208295,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 1.2,
+            "2022": 1.2,
+            "2023": 1.2,
+            "2024": 1.2,
+            "2025": 1.2,
+            "2026": 1.2
+          },
+          "percentile_used": 0.65
+        }
+      ]
+    },
+    {
+      "basic_mat_of_const": "Low & Int.Alloy Steel for Low temp.Service",
+      "children": [
+        {
+          "ch_comp": "3½Ni",
+          "pipe_mat_std": [
+            "A333 Gr.3"
+          ],
+          "raw_material_basis": "3.5% nickel alloy steel billet / plate",
+          "rate_inr_per_kg": {
+            "low": 110.5,
+            "recommended": 124.865,
+            "high": 132.6
+          },
+          "source_material_name": "Low temp alloy steel, 3.5Ni",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 121.55,
+              "recommended": 143.0975,
+              "high": 154.7,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594086,
+              "factor_wrt_ss316_ss316l": 0.507438,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 119.34,
+              "recommended": 156.689,
+              "high": 176.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594082,
+              "factor_wrt_ss316_ss316l": 0.403838,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 103.87,
+              "recommended": 126.854,
+              "high": 139.23,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.59408,
+              "factor_wrt_ss316_ss316l": 0.341464,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 103.87,
+              "recommended": 115.362,
+              "high": 121.55,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594098,
+              "factor_wrt_ss316_ss316l": 0.351178,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 97.24,
+              "recommended": 121.6605,
+              "high": 134.81,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594074,
+              "factor_wrt_ss316_ss316l": 0.37007,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 110.5,
+              "recommended": 124.865,
+              "high": 132.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594086,
+              "factor_wrt_ss316_ss316l": 0.38361,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 2.21,
+            "2022": 2.21,
+            "2023": 2.21,
+            "2024": 2.21,
+            "2025": 2.21,
+            "2026": 2.21
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "¾Cr, ¾Ni",
+          "pipe_mat_std": [
+            "A333 Gr.4"
+          ],
+          "raw_material_basis": "Cr-Ni low temperature alloy steel billet",
+          "rate_inr_per_kg": {
+            "low": 78.0,
+            "recommended": 88.14,
+            "high": 93.6
+          },
+          "source_material_name": "Low temp alloy steel, 0.75Cr-0.75Ni",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 85.8,
+              "recommended": 101.01,
+              "high": 109.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.56,
+              "factor_wrt_ss304": 0.419355,
+              "factor_wrt_ss316_ss316l": 0.358191,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 84.24,
+              "recommended": 110.604,
+              "high": 124.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.56,
+              "factor_wrt_ss304": 0.419352,
+              "factor_wrt_ss316_ss316l": 0.285062,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 73.32,
+              "recommended": 89.544,
+              "high": 98.28,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.56,
+              "factor_wrt_ss304": 0.419351,
+              "factor_wrt_ss316_ss316l": 0.241034,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 73.32,
+              "recommended": 81.432,
+              "high": 85.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.56,
+              "factor_wrt_ss304": 0.419363,
+              "factor_wrt_ss316_ss316l": 0.24789,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 68.64,
+              "recommended": 85.878,
+              "high": 95.16,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.56,
+              "factor_wrt_ss304": 0.419347,
+              "factor_wrt_ss316_ss316l": 0.261226,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 78.0,
+              "recommended": 88.14,
+              "high": 93.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.56,
+              "factor_wrt_ss304": 0.419355,
+              "factor_wrt_ss316_ss316l": 0.270783,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 1.56,
+            "2022": 1.56,
+            "2023": 1.56,
+            "2024": 1.56,
+            "2025": 1.56,
+            "2026": 1.56
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "2½Ni",
+          "pipe_mat_std": [
+            "A333 Gr.7"
+          ],
+          "raw_material_basis": "2.5% nickel alloy steel billet / plate",
+          "rate_inr_per_kg": {
+            "low": 93.0,
+            "recommended": 105.09,
+            "high": 111.6
+          },
+          "source_material_name": "Low temp alloy steel, 2.5Ni",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 102.3,
+              "recommended": 120.435,
+              "high": 130.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.86,
+              "factor_wrt_ss304": 0.5,
+              "factor_wrt_ss316_ss316l": 0.427074,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 100.44,
+              "recommended": 131.874,
+              "high": 148.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.86,
+              "factor_wrt_ss304": 0.499996,
+              "factor_wrt_ss316_ss316l": 0.339881,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 87.42,
+              "recommended": 106.764,
+              "high": 117.18,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.86,
+              "factor_wrt_ss304": 0.499995,
+              "factor_wrt_ss316_ss316l": 0.287386,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 87.42,
+              "recommended": 97.092,
+              "high": 102.3,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.86,
+              "factor_wrt_ss304": 0.50001,
+              "factor_wrt_ss316_ss316l": 0.295562,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 81.84,
+              "recommended": 102.393,
+              "high": 113.46,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.86,
+              "factor_wrt_ss304": 0.49999,
+              "factor_wrt_ss316_ss316l": 0.311462,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 93.0,
+              "recommended": 105.09,
+              "high": 111.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.86,
+              "factor_wrt_ss304": 0.5,
+              "factor_wrt_ss316_ss316l": 0.322857,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 1.86,
+            "2022": 1.86,
+            "2023": 1.86,
+            "2024": 1.86,
+            "2025": 1.86,
+            "2026": 1.86
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "9Ni",
+          "pipe_mat_std": [
+            "A333 Gr.8"
+          ],
+          "raw_material_basis": "9% nickel steel plate / billet",
+          "rate_inr_per_kg": {
+            "low": 199.0,
+            "recommended": 224.87,
+            "high": 238.8
+          },
+          "source_material_name": "Low temp alloy steel, 9Ni",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 218.9,
+              "recommended": 257.705,
+              "high": 278.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.98,
+              "factor_wrt_ss304": 1.069892,
+              "factor_wrt_ss316_ss316l": 0.913848,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 214.92,
+              "recommended": 282.182,
+              "high": 318.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.98,
+              "factor_wrt_ss304": 1.069884,
+              "factor_wrt_ss316_ss316l": 0.727273,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 187.06,
+              "recommended": 228.452,
+              "high": 250.74,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.98,
+              "factor_wrt_ss304": 1.069882,
+              "factor_wrt_ss316_ss316l": 0.614945,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 187.06,
+              "recommended": 207.756,
+              "high": 218.9,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.98,
+              "factor_wrt_ss304": 1.069915,
+              "factor_wrt_ss316_ss316l": 0.632438,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 175.12,
+              "recommended": 219.099,
+              "high": 242.78,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.98,
+              "factor_wrt_ss304": 1.069872,
+              "factor_wrt_ss316_ss316l": 0.666461,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 199.0,
+              "recommended": 224.87,
+              "high": 238.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.98,
+              "factor_wrt_ss304": 1.069892,
+              "factor_wrt_ss316_ss316l": 0.690845,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 3.98,
+            "2022": 3.98,
+            "2023": 3.98,
+            "2024": 3.98,
+            "2025": 3.98,
+            "2026": 3.98
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "2Ni, 1Cu",
+          "pipe_mat_std": [
+            "A333 Gr.9"
+          ],
+          "raw_material_basis": "Ni-Cu low temperature alloy steel billet",
+          "rate_inr_per_kg": {
+            "low": 110.5,
+            "recommended": 124.865,
+            "high": 132.6
+          },
+          "source_material_name": "Low temp alloy steel, 2Ni-1Cu",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 121.55,
+              "recommended": 143.0975,
+              "high": 154.7,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594086,
+              "factor_wrt_ss316_ss316l": 0.507438,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 119.34,
+              "recommended": 156.689,
+              "high": 176.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594082,
+              "factor_wrt_ss316_ss316l": 0.403838,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 103.87,
+              "recommended": 126.854,
+              "high": 139.23,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.59408,
+              "factor_wrt_ss316_ss316l": 0.341464,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 103.87,
+              "recommended": 115.362,
+              "high": 121.55,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594098,
+              "factor_wrt_ss316_ss316l": 0.351178,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 97.24,
+              "recommended": 121.6605,
+              "high": 134.81,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594074,
+              "factor_wrt_ss316_ss316l": 0.37007,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 110.5,
+              "recommended": 124.865,
+              "high": 132.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594086,
+              "factor_wrt_ss316_ss316l": 0.38361,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 2.21,
+            "2022": 2.21,
+            "2023": 2.21,
+            "2024": 2.21,
+            "2025": 2.21,
+            "2026": 2.21
+          },
+          "percentile_used": 0.65
+        }
+      ]
+    },
+    {
+      "basic_mat_of_const": "High Strength Carbon / Low Alloy Steel",
+      "component_stock_price_references": [
+        {
+          "id": "aisi4140-black-round-bar-bhagwati",
+          "material_family": "Alloy Steel",
+          "material_grade": "AISI 4140",
+          "stock_form": "Black round bar",
+          "listed_dimensions": "Listed diameter 120 mm; length 6 m; supplier also advertises a wider size range",
+          "observed_rate_inr_per_kg": 90,
+          "minimum_order_kg": 100,
+          "source_supplier": "Bhagwati Enterprise",
+          "source_title": "SAE 4140 Alloy Steel Round Bars",
+          "source_url": "https://www.bhagwatienterprise.co.in/alloy-steel-bars.html",
+          "reference_role": "candidate_bolt_stock_basis",
+          "intended_use": "Automatic default 4140 raw-stock budget basis for A193 B7 and B7M studs, following the manufacturer's base-material table.",
+          "limitations": "Not a certified finished B7/B7M price, a nut-stock price or a complete-set price. Sharing raw 4140 stock does not establish the same heat treatment, testing or conversion factor for B7 and B7M. The advertised 120 mm stock price may differ from actual fastener-stock size/condition.",
+          "budget_pricing_enabled": true,
+          "budget_year": 2026,
+          "source_checked_on": "2026-10-21",
+          "budget_part": "stud",
+          "budget_grade_mappings": ["A193 B7", "A193 B7M", "A320 L7"],
+          "a320_l7_budget_note": "Budget raw-stock family allowance only, using the existing advertised 4140 rate; not a finished L7 stud price, low-temperature qualification or grade substitution. Material-family reference: https://www.a320bolts.com/grades/ (reviewed 2026-10-22). Impact testing, heat treatment, certification and generic conversion factor require confirmation for procurement; no new market rate was collected.",
+          "technical_source_urls": ["https://lsfh.com/materials-and-stock/"],
+          "rate_selection_note": "Existing Rs 90/kg observation rechecked; amount unchanged. Advertised input-stock price, not a firm quote."
+        },
+        {
+          "id": "c45-bright-round-bar-kr-steel",
+          "material_family": "Carbon Steel",
+          "material_grade": "C45",
+          "stock_form": "Bright / polished round bar",
+          "listed_dimensions": "Listed diameter 12 mm; length 6 m; thickness range 12.7 mm as displayed by supplier",
+          "observed_rate_inr_per_kg": 70,
+          "minimum_order_kg": 1000,
+          "source_supplier": "K.R. Steel Udyog",
+          "source_title": "C45 Carbon Steel Bright Bars",
+          "source_url": "https://www.krsteeludyog.in/carbon-steel.html",
+          "reference_role": "candidate_bolt_stock_basis",
+          "intended_use": "Automatic default C45 raw-stock budget basis for A194 2H and 2HM nuts, following the manufacturer's base-material table.",
+          "limitations": "Raw bar allowance only. Does not certify a finished 2H/2HM nut, heat treatment, hardness, proof load, sour-service requirements or dimensional suitability. Advertised size/MOQ may differ from the actual order. Do not apply a stud's commercial factor as an approved 2HM factor.",
+          "budget_pricing_enabled": true,
+          "budget_year": 2026,
+          "source_checked_on": "2026-10-21",
+          "budget_part": "nut",
+          "budget_grade_mappings": ["A194 2H", "A194 2HM"],
+          "technical_source_urls": ["https://lsfh.com/materials-and-stock/"],
+          "rate_selection_note": "Use the explicitly C45 bright-bar listing at Rs 70/kg, not the page's EN8D/flat-bar prices. Tax/freight not confirmed."
+        },
+        {
+          "id": "a193-b16-black-round-bar-cp-steel",
+          "material_family": "Alloy Steel",
+          "material_grade": "ASTM A193 B16 stock",
+          "stock_form": "Black round bar",
+          "listed_dimensions": "Supplier lists Size 16 mm and Dia 120 mm; confirm required bar size before procurement",
+          "observed_rate_inr_per_kg": 80,
+          "observed_low_inr_per_kg": 75,
+          "observed_high_inr_per_kg": 80,
+          "minimum_order_kg": 50,
+          "source_supplier": "C P Steel Suppliers",
+          "source_title": "ASTM A193 GR B16 Black Steel Round Bar",
+          "source_url": "https://www.cpsteelsuppliers.in/astm-a193-gr-b16-black-steel-round-bar.htm",
+          "reference_role": "candidate_bolt_stock_basis",
+          "intended_use": "Automatic default raw-bar budget reference for A193 B16; not a finished B16 stud rate.",
+          "limitations": "Single advertised supplier range, not a market range. Size fields are inconsistent and must be confirmed. Material certification, final heat treatment/testing and finished B16 conversion factor are not established by this listing.",
+          "budget_pricing_enabled": true,
+          "budget_year": 2026,
+          "source_checked_on": "2026-10-21",
+          "budget_part": "stud",
+          "budget_grade_mappings": ["A193 B16"],
+          "technical_source_urls": ["https://lsfh.com/materials-and-stock/"],
+          "rate_selection_note": "Select the displayed upper endpoint Rs 80/kg from the supplier's Rs 75-80/kg range; no invented midpoint, escalation or finish allowance. Other B16 listings with conflicting D3/EN8D/stainless/nickel-alloy fields were rejected."
+        },
+        {
+          "id": "sae4042-black-round-bar-tk-steel",
+          "material_family": "Carbon Molybdenum Steel",
+          "material_grade": "SAE 4042",
+          "stock_form": "Black round bar",
+          "listed_dimensions": "Diameter and length not stated in the selected SAE4042 listing; confirm actual requirements",
+          "observed_rate_inr_per_kg": 65,
+          "minimum_order_kg": 2000,
+          "source_supplier": "TK Steel Rolling Mills Private Limited",
+          "source_title": "SAE4042 Round Bar",
+          "source_url": "https://www.tksteels.in/round-steel-bar.html",
+          "reference_role": "candidate_bolt_stock_basis",
+          "intended_use": "Automatic default SAE 4042 raw-stock budget basis for A194 Grade 4 nuts; Delta Fastener identifies 4042 for Grade 4.",
+          "limitations": "Raw stock only; does not certify finished A194 Grade 4 nuts or suitability for a project specification. MOQ 2000 kg is not a retail small-order quote. Do not substitute 4140 Grade 7 nut stock or a B16 finished-factor rule.",
+          "budget_pricing_enabled": true,
+          "budget_year": 2026,
+          "source_checked_on": "2026-10-21",
+          "budget_part": "nut",
+          "budget_grade_mappings": ["A194 4"],
+          "technical_source_urls": ["https://www.deltafastener.com/nuts-heavy-hex.php"],
+          "rate_selection_note": "Supplier's explicit SAE4042 listing at Rs 65/kg; tax/freight not confirmed."
+        }
+      ],
+      "children": [
+        {
+          "ch_comp": "C,Mn,Co,V,Ti",
+          "grade_family": "API 5L PSL 2, X42 to X52",
+          "pipe_mat_std": [
+            "API 5L X42",
+            "API 5L X46",
+            "API 5L X52"
+          ],
+          "raw_material_basis": "HSLA plate / TMCP skelp / coil",
+          "rate_inr_per_kg": {
+            "low": 62.0,
+            "recommended": 70.06,
+            "high": 74.4
+          },
+          "source_material_name": "API 5L high strength, X42 to X52",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 68.2,
+              "recommended": 80.29,
+              "high": 86.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.24,
+              "factor_wrt_ss304": 0.333333,
+              "factor_wrt_ss316_ss316l": 0.284716,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 66.96,
+              "recommended": 87.916,
+              "high": 99.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.24,
+              "factor_wrt_ss304": 0.333331,
+              "factor_wrt_ss316_ss316l": 0.226588,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 58.28,
+              "recommended": 71.176,
+              "high": 78.12,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.24,
+              "factor_wrt_ss304": 0.33333,
+              "factor_wrt_ss316_ss316l": 0.191591,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 58.28,
+              "recommended": 64.728,
+              "high": 68.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.24,
+              "factor_wrt_ss304": 0.33334,
+              "factor_wrt_ss316_ss316l": 0.197041,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 54.56,
+              "recommended": 68.262,
+              "high": 75.64,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.24,
+              "factor_wrt_ss304": 0.333327,
+              "factor_wrt_ss316_ss316l": 0.207641,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 62.0,
+              "recommended": 70.06,
+              "high": 74.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.24,
+              "factor_wrt_ss304": 0.333333,
+              "factor_wrt_ss316_ss316l": 0.215238,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 1.24,
+            "2022": 1.24,
+            "2023": 1.24,
+            "2024": 1.24,
+            "2025": 1.24,
+            "2026": 1.24
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "C,Mn,Co,V,Ti",
+          "grade_family": "API 5L PSL 2, X56 to X70",
+          "pipe_mat_std": [
+            "API 5L X56",
+            "API 5L X60",
+            "API 5L X65",
+            "API 5L X70"
+          ],
+          "raw_material_basis": "Higher strength HSLA plate / TMCP skelp",
+          "rate_inr_per_kg": {
+            "low": 71.0,
+            "recommended": 80.23,
+            "high": 85.2
+          },
+          "source_material_name": "API 5L high strength, X56 to X70",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 78.1,
+              "recommended": 91.945,
+              "high": 99.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.42,
+              "factor_wrt_ss304": 0.38172,
+              "factor_wrt_ss316_ss316l": 0.326046,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 76.68,
+              "recommended": 100.678,
+              "high": 113.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.42,
+              "factor_wrt_ss304": 0.381718,
+              "factor_wrt_ss316_ss316l": 0.259479,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 66.74,
+              "recommended": 81.508,
+              "high": 89.46,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.42,
+              "factor_wrt_ss304": 0.381717,
+              "factor_wrt_ss316_ss316l": 0.219402,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 66.74,
+              "recommended": 74.124,
+              "high": 78.1,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.42,
+              "factor_wrt_ss304": 0.381728,
+              "factor_wrt_ss316_ss316l": 0.225644,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 62.48,
+              "recommended": 78.171,
+              "high": 86.62,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.42,
+              "factor_wrt_ss304": 0.381713,
+              "factor_wrt_ss316_ss316l": 0.237783,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 71.0,
+              "recommended": 80.23,
+              "high": 85.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.42,
+              "factor_wrt_ss304": 0.38172,
+              "factor_wrt_ss316_ss316l": 0.246482,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 1.42,
+            "2022": 1.42,
+            "2023": 1.42,
+            "2024": 1.42,
+            "2025": 1.42,
+            "2026": 1.42
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "C,Mn,Co,V,Ti",
+          "grade_family": "API 5L PSL 2, X80 to X120",
+          "pipe_mat_std": [
+            "API 5L X80",
+            "API 5L X90",
+            "API 5L X100",
+            "API 5L X120"
+          ],
+          "raw_material_basis": "Premium HSLA / TMCP plate / skelp",
+          "rate_inr_per_kg": {
+            "low": 93.0,
+            "recommended": 105.09,
+            "high": 111.6
+          },
+          "source_material_name": "API 5L high strength, X80 to X120",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 102.3,
+              "recommended": 120.435,
+              "high": 130.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.86,
+              "factor_wrt_ss304": 0.5,
+              "factor_wrt_ss316_ss316l": 0.427074,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 100.44,
+              "recommended": 131.874,
+              "high": 148.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.86,
+              "factor_wrt_ss304": 0.499996,
+              "factor_wrt_ss316_ss316l": 0.339881,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 87.42,
+              "recommended": 106.764,
+              "high": 117.18,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.86,
+              "factor_wrt_ss304": 0.499995,
+              "factor_wrt_ss316_ss316l": 0.287386,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 87.42,
+              "recommended": 97.092,
+              "high": 102.3,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.86,
+              "factor_wrt_ss304": 0.50001,
+              "factor_wrt_ss316_ss316l": 0.295562,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 81.84,
+              "recommended": 102.393,
+              "high": 113.46,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.86,
+              "factor_wrt_ss304": 0.49999,
+              "factor_wrt_ss316_ss316l": 0.311462,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 93.0,
+              "recommended": 105.09,
+              "high": 111.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.86,
+              "factor_wrt_ss304": 0.5,
+              "factor_wrt_ss316_ss316l": 0.322857,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 1.86,
+            "2022": 1.86,
+            "2023": 1.86,
+            "2024": 1.86,
+            "2025": 1.86,
+            "2026": 1.86
+          },
+          "percentile_used": 0.65
+        }
+      ]
+    },
+    {
+      "basic_mat_of_const": "Low & Int. Alloy Steel for High temp Service",
+      "children": [
+        {
+          "ch_comp": "C, ½Mo",
+          "pipe_mat_std": [
+            "A335 Gr.P1",
+            "A691 CM65"
+          ],
+          "raw_material_basis": "C-Mo alloy steel billet",
+          "rate_inr_per_kg": {
+            "low": 97.5,
+            "recommended": 110.175,
+            "high": 117.0
+          },
+          "source_material_name": "C-0.5Mo alloy steel",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 107.25,
+              "recommended": 126.2625,
+              "high": 136.5,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.95,
+              "factor_wrt_ss304": 0.524194,
+              "factor_wrt_ss316_ss316l": 0.447739,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 105.3,
+              "recommended": 138.255,
+              "high": 156.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.95,
+              "factor_wrt_ss304": 0.52419,
+              "factor_wrt_ss316_ss316l": 0.356327,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 91.65,
+              "recommended": 111.93,
+              "high": 122.85,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.95,
+              "factor_wrt_ss304": 0.524189,
+              "factor_wrt_ss316_ss316l": 0.301292,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 91.65,
+              "recommended": 101.79,
+              "high": 107.25,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.95,
+              "factor_wrt_ss304": 0.524204,
+              "factor_wrt_ss316_ss316l": 0.309863,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 85.8,
+              "recommended": 107.3475,
+              "high": 118.95,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.95,
+              "factor_wrt_ss304": 0.524183,
+              "factor_wrt_ss316_ss316l": 0.326532,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 97.5,
+              "recommended": 110.175,
+              "high": 117.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 1.95,
+              "factor_wrt_ss304": 0.524194,
+              "factor_wrt_ss316_ss316l": 0.338479,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 1.95,
+            "2022": 1.95,
+            "2023": 1.95,
+            "2024": 1.95,
+            "2025": 1.95,
+            "2026": 1.95
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "½Cr, ½Mo",
+          "pipe_mat_std": [
+            "A335 Gr.P2",
+            "A335 Gr.P36",
+            "A691 ½CR"
+          ],
+          "raw_material_basis": "Cr-Mo alloy steel billet",
+          "rate_inr_per_kg": {
+            "low": 110.5,
+            "recommended": 124.865,
+            "high": 132.6
+          },
+          "source_material_name": "0.5Cr-0.5Mo alloy steel",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 121.55,
+              "recommended": 143.0975,
+              "high": 154.7,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594086,
+              "factor_wrt_ss316_ss316l": 0.507438,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 119.34,
+              "recommended": 156.689,
+              "high": 176.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594082,
+              "factor_wrt_ss316_ss316l": 0.403838,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 103.87,
+              "recommended": 126.854,
+              "high": 139.23,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.59408,
+              "factor_wrt_ss316_ss316l": 0.341464,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 103.87,
+              "recommended": 115.362,
+              "high": 121.55,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594098,
+              "factor_wrt_ss316_ss316l": 0.351178,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 97.24,
+              "recommended": 121.6605,
+              "high": 134.81,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594074,
+              "factor_wrt_ss316_ss316l": 0.37007,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 110.5,
+              "recommended": 124.865,
+              "high": 132.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.21,
+              "factor_wrt_ss304": 0.594086,
+              "factor_wrt_ss316_ss316l": 0.38361,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 2.21,
+            "2022": 2.21,
+            "2023": 2.21,
+            "2024": 2.21,
+            "2025": 2.21,
+            "2026": 2.21
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "1Cr, ½Mo / 1¼Cr, ½Mo",
+          "pipe_mat_std": [
+            "A335 Gr.P12",
+            "A335 Gr.P11"
+          ],
+          "raw_material_basis": "Cr-Mo alloy steel billet",
+          "rate_inr_per_kg": {
+            "low": 119.5,
+            "recommended": 135.035,
+            "high": 143.4
+          },
+          "source_material_name": "1Cr-0.5Mo / 1.25Cr-0.5Mo",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 131.45,
+              "recommended": 154.7525,
+              "high": 167.3,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.39,
+              "factor_wrt_ss304": 0.642473,
+              "factor_wrt_ss316_ss316l": 0.548768,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 129.06,
+              "recommended": 169.451,
+              "high": 191.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.39,
+              "factor_wrt_ss304": 0.642468,
+              "factor_wrt_ss316_ss316l": 0.436729,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 112.33,
+              "recommended": 137.186,
+              "high": 150.57,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.39,
+              "factor_wrt_ss304": 0.642467,
+              "factor_wrt_ss316_ss316l": 0.369276,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 112.33,
+              "recommended": 124.758,
+              "high": 131.45,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.39,
+              "factor_wrt_ss304": 0.642486,
+              "factor_wrt_ss316_ss316l": 0.379781,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 105.16,
+              "recommended": 131.5695,
+              "high": 145.79,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.39,
+              "factor_wrt_ss304": 0.642461,
+              "factor_wrt_ss316_ss316l": 0.400211,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 119.5,
+              "recommended": 135.035,
+              "high": 143.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 2.39,
+              "factor_wrt_ss304": 0.642473,
+              "factor_wrt_ss316_ss316l": 0.414854,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 2.39,
+            "2022": 2.39,
+            "2023": 2.39,
+            "2024": 2.39,
+            "2025": 2.39,
+            "2026": 2.39
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "2¼Cr, 1Mo",
+          "pipe_mat_std": [
+            "A335 Gr.P22",
+            "A335 Gr.P23"
+          ],
+          "raw_material_basis": "2.25Cr-1Mo alloy steel billet",
+          "rate_inr_per_kg": {
+            "low": 155.0,
+            "recommended": 175.15,
+            "high": 186.0
+          },
+          "source_material_name": "2.25Cr-1Mo",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 170.5,
+              "recommended": 200.725,
+              "high": 217.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.1,
+              "factor_wrt_ss304": 0.833333,
+              "factor_wrt_ss316_ss316l": 0.711791,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 167.4,
+              "recommended": 219.79,
+              "high": 248.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.1,
+              "factor_wrt_ss304": 0.833327,
+              "factor_wrt_ss316_ss316l": 0.566469,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 145.7,
+              "recommended": 177.94,
+              "high": 195.3,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.1,
+              "factor_wrt_ss304": 0.833326,
+              "factor_wrt_ss316_ss316l": 0.478977,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 145.7,
+              "recommended": 161.82,
+              "high": 170.5,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.1,
+              "factor_wrt_ss304": 0.83335,
+              "factor_wrt_ss316_ss316l": 0.492603,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 136.4,
+              "recommended": 170.655,
+              "high": 189.1,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.1,
+              "factor_wrt_ss304": 0.833317,
+              "factor_wrt_ss316_ss316l": 0.519103,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 155.0,
+              "recommended": 175.15,
+              "high": 186.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.1,
+              "factor_wrt_ss304": 0.833333,
+              "factor_wrt_ss316_ss316l": 0.538095,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 3.1,
+            "2022": 3.1,
+            "2023": 3.1,
+            "2024": 3.1,
+            "2025": 3.1,
+            "2026": 3.1
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "5Cr, ½Mo",
+          "pipe_mat_std": [
+            "A335 Gr.P5"
+          ],
+          "raw_material_basis": "5Cr alloy steel billet",
+          "rate_inr_per_kg": {
+            "low": 155.0,
+            "recommended": 175.15,
+            "high": 186.0
+          },
+          "source_material_name": "5Cr-0.5Mo",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 170.5,
+              "recommended": 200.725,
+              "high": 217.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.1,
+              "factor_wrt_ss304": 0.833333,
+              "factor_wrt_ss316_ss316l": 0.711791,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 167.4,
+              "recommended": 219.79,
+              "high": 248.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.1,
+              "factor_wrt_ss304": 0.833327,
+              "factor_wrt_ss316_ss316l": 0.566469,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 145.7,
+              "recommended": 177.94,
+              "high": 195.3,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.1,
+              "factor_wrt_ss304": 0.833326,
+              "factor_wrt_ss316_ss316l": 0.478977,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 145.7,
+              "recommended": 161.82,
+              "high": 170.5,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.1,
+              "factor_wrt_ss304": 0.83335,
+              "factor_wrt_ss316_ss316l": 0.492603,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 136.4,
+              "recommended": 170.655,
+              "high": 189.1,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.1,
+              "factor_wrt_ss304": 0.833317,
+              "factor_wrt_ss316_ss316l": 0.519103,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 155.0,
+              "recommended": 175.15,
+              "high": 186.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.1,
+              "factor_wrt_ss304": 0.833333,
+              "factor_wrt_ss316_ss316l": 0.538095,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 3.1,
+            "2022": 3.1,
+            "2023": 3.1,
+            "2024": 3.1,
+            "2025": 3.1,
+            "2026": 3.1
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "9Cr, 1Mo",
+          "pipe_mat_std": [
+            "A335 Gr.P9"
+          ],
+          "raw_material_basis": "9Cr-1Mo alloy steel billet",
+          "rate_inr_per_kg": {
+            "low": 194.5,
+            "recommended": 219.785,
+            "high": 233.4
+          },
+          "source_material_name": "9Cr-1Mo",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 213.95,
+              "recommended": 251.8775,
+              "high": 272.3,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.89,
+              "factor_wrt_ss304": 1.045699,
+              "factor_wrt_ss316_ss316l": 0.893183,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 210.06,
+              "recommended": 275.801,
+              "high": 311.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.89,
+              "factor_wrt_ss304": 1.045691,
+              "factor_wrt_ss316_ss316l": 0.710827,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 182.83,
+              "recommended": 223.286,
+              "high": 245.07,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.89,
+              "factor_wrt_ss304": 1.045689,
+              "factor_wrt_ss316_ss316l": 0.601039,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 182.83,
+              "recommended": 203.058,
+              "high": 213.95,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.89,
+              "factor_wrt_ss304": 1.04572,
+              "factor_wrt_ss316_ss316l": 0.618137,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 171.16,
+              "recommended": 214.1445,
+              "high": 237.29,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.89,
+              "factor_wrt_ss304": 1.045678,
+              "factor_wrt_ss316_ss316l": 0.65139,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 194.5,
+              "recommended": 219.785,
+              "high": 233.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.89,
+              "factor_wrt_ss304": 1.045699,
+              "factor_wrt_ss316_ss316l": 0.675223,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 3.89,
+            "2022": 3.89,
+            "2023": 3.89,
+            "2024": 3.89,
+            "2025": 3.89,
+            "2026": 3.89
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "9Cr, 1Mo, V / W modified grades",
+          "pipe_mat_std": [
+            "A335 Gr.P91",
+            "A335 Gr.P92",
+            "A335 Gr.P911",
+            "A335 Gr.P122"
+          ],
+          "raw_material_basis": "High alloy creep strength billet",
+          "rate_inr_per_kg": {
+            "low": 265.5,
+            "recommended": 300.015,
+            "high": 318.6
+          },
+          "source_material_name": "9Cr-1Mo-V / P91 family",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 292.05,
+              "recommended": 343.8225,
+              "high": 371.7,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.31,
+              "factor_wrt_ss304": 1.427419,
+              "factor_wrt_ss316_ss316l": 1.219229,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 286.74,
+              "recommended": 376.479,
+              "high": 424.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.31,
+              "factor_wrt_ss304": 1.427409,
+              "factor_wrt_ss316_ss316l": 0.970307,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 249.57,
+              "recommended": 304.794,
+              "high": 334.53,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.31,
+              "factor_wrt_ss304": 1.427406,
+              "factor_wrt_ss316_ss316l": 0.820441,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 249.57,
+              "recommended": 277.182,
+              "high": 292.05,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.31,
+              "factor_wrt_ss304": 1.427449,
+              "factor_wrt_ss316_ss316l": 0.843781,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 233.64,
+              "recommended": 292.3155,
+              "high": 323.91,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.31,
+              "factor_wrt_ss304": 1.427391,
+              "factor_wrt_ss316_ss316l": 0.889173,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 265.5,
+              "recommended": 300.015,
+              "high": 318.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.31,
+              "factor_wrt_ss304": 1.427419,
+              "factor_wrt_ss316_ss316l": 0.921705,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 5.31,
+            "2022": 5.31,
+            "2023": 5.31,
+            "2024": 5.31,
+            "2025": 5.31,
+            "2026": 5.31
+          },
+          "percentile_used": 0.65
+        }
+      ]
+    },
+    {
+      "basic_mat_of_const": "Austenitic Stainless Steel",
+      "children": [
+        {
+          "ch_comp": "18Cr, 8Ni",
+          "pipe_mat_std": [
+            "A312 TP304",
+            "A312 TP304L"
+          ],
+          "raw_material_basis": "SS 304/304L coil / strip / billet",
+          "component_stock_price_references": [
+            {
+              "id": "ss304-304l-strip-0p25mm-nevio",
+              "reference_material_keys": ["SS304", "SS304L"],
+              "material_family": "Stainless Steel",
+              "material_grade": "SS304/304L as jointly described in supplier listing",
+              "stock_form": "Slit strip, coil cut",
+              "listed_dimensions": "Thickness 0.25 mm; width 3.2 mm",
+              "observed_rate_inr_per_kg": 210,
+              "minimum_order_kg": 100,
+              "source_supplier": "Nevio Steelage Private Limited",
+              "source_title": "Stainless Steel 304l Strip",
+              "source_url": "https://www.neviosteelage.in/stainless-steel-strip.html",
+              "reference_role": "candidate_gasket_constituent_basis",
+              "intended_use": "Candidate thin stainless-strip price input for a future gasket constituent model.",
+              "limitations": "The listing combines SS304 and SS304L wording; this observation does not approve substitution between grades. Confirm the required grade, strip dimensions, temper and gasket-manufacturing suitability. Excludes filler, rings and finished gasket manufacture."
+            }
+          ],
+          "rate_inr_per_kg": {
+            "low": 186.0,
+            "recommended": 210.18,
+            "high": 223.2
+          },
+          "source_material_name": "Austenitic SS 304 / 304L",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 204.6,
+              "recommended": 240.87,
+              "high": 260.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.72,
+              "factor_wrt_ss304": 1.0,
+              "factor_wrt_ss316_ss316l": 0.854149,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 200.88,
+              "recommended": 263.748,
+              "high": 297.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.72,
+              "factor_wrt_ss304": 0.999992,
+              "factor_wrt_ss316_ss316l": 0.679763,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 174.84,
+              "recommended": 213.528,
+              "high": 234.36,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.72,
+              "factor_wrt_ss304": 0.999991,
+              "factor_wrt_ss316_ss316l": 0.574773,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 174.84,
+              "recommended": 194.184,
+              "high": 204.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.72,
+              "factor_wrt_ss304": 1.000021,
+              "factor_wrt_ss316_ss316l": 0.591123,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 163.68,
+              "recommended": 204.786,
+              "high": 226.92,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.72,
+              "factor_wrt_ss304": 0.99998,
+              "factor_wrt_ss316_ss316l": 0.622923,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 186.0,
+              "recommended": 210.18,
+              "high": 223.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.72,
+              "factor_wrt_ss304": 1.0,
+              "factor_wrt_ss316_ss316l": 0.645714,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 3.72,
+            "2022": 3.72,
+            "2023": 3.72,
+            "2024": 3.72,
+            "2025": 3.72,
+            "2026": 3.72
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "16/18Cr, Ni, Mo",
+          "pipe_mat_std": [
+            "A312 TP316",
+            "A312 TP316L"
+          ],
+          "raw_material_basis": "Mo-bearing SS 316/316L coil / billet",
+          "component_stock_price_references": [
+            {
+              "id": "ss316-strip-1p5mm-nevio",
+              "reference_material_keys": ["SS316"],
+              "material_family": "Stainless Steel",
+              "material_grade": "SS316",
+              "stock_form": "Flat strip, cut length, 2B finish",
+              "listed_dimensions": "Thickness 1.50 mm; width 25 mm",
+              "observed_rate_inr_per_kg": 320,
+              "minimum_order_kg": 100,
+              "source_supplier": "Nevio Steelage Private Limited",
+              "source_title": "316 Stainless Steel Strip",
+              "source_url": "https://www.neviosteelage.in/stainless-steel-strip.html",
+              "reference_role": "candidate_gasket_constituent_basis",
+              "intended_use": "Stainless stock reference for a future gasket constituent model where the required stock form is compatible.",
+              "limitations": "This 1.50 mm strip is not a verified spiral-winding strip input. Thinner winding strip, ring or jacket stock may require different dimensions, condition, processing and price. Excludes filler, other rings and finished gasket manufacture."
+            },
+            {
+              "id": "ss316l-strip-1mm-nevio",
+              "reference_material_keys": ["SS316L"],
+              "material_family": "Stainless Steel",
+              "material_grade": "SS316L",
+              "stock_form": "Strip",
+              "listed_dimensions": "Thickness 1 mm; listed width range 4.5-1500 mm",
+              "observed_rate_inr_per_kg": 370,
+              "minimum_order_kg": 100,
+              "source_supplier": "Nevio Steelage Private Limited",
+              "source_title": "Stainless Steel 316l Strips",
+              "source_url": "https://www.neviosteelage.in/stainless-steel-strip.html",
+              "reference_role": "candidate_gasket_constituent_basis",
+              "intended_use": "Separate SS316L stock reference for a future gasket constituent model.",
+              "limitations": "This 1 mm stock is not a verified thin spiral-winding strip price. Confirm required dimensions, condition and grade certification. Do not merge SS316L with SS316 automatically. Excludes filler, other rings and finished gasket manufacture."
+            }
+          ],
+          "rate_inr_per_kg": {
+            "low": 280.0,
+            "recommended": 325.5,
+            "high": 350.0
+          },
+          "source_material_name": "SS316L",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 230.0,
+              "recommended": 282.0,
+              "high": 310.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 4.355212,
+              "factor_wrt_ss304": 1.170756,
+              "factor_wrt_ss316_ss316l": 1.0,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 310.0,
+              "recommended": 388.0,
+              "high": 430.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.472496,
+              "factor_wrt_ss304": 1.47109,
+              "factor_wrt_ss316_ss316l": 1.0,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 300.0,
+              "recommended": 371.5,
+              "high": 410.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 6.472125,
+              "factor_wrt_ss304": 1.739802,
+              "factor_wrt_ss316_ss316l": 1.0,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 270.0,
+              "recommended": 328.5,
+              "high": 360.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 6.293103,
+              "factor_wrt_ss304": 1.691729,
+              "factor_wrt_ss316_ss316l": 1.0,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 280.0,
+              "recommended": 328.75,
+              "high": 355.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.971844,
+              "factor_wrt_ss304": 1.605303,
+              "factor_wrt_ss316_ss316l": 1.0,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 280.0,
+              "recommended": 325.5,
+              "high": 350.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.761062,
+              "factor_wrt_ss304": 1.548673,
+              "factor_wrt_ss316_ss316l": 1.0,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 4.355212,
+            "2022": 5.472496,
+            "2023": 6.472125,
+            "2024": 6.293103,
+            "2025": 5.971844,
+            "2026": 5.761062
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "Ti / Cb stabilized SS",
+          "pipe_mat_std": [
+            "A312 TP321",
+            "A312 TP347"
+          ],
+          "raw_material_basis": "Stabilized stainless steel coil / billet",
+          "rate_inr_per_kg": {
+            "low": 252.0,
+            "recommended": 284.76,
+            "high": 302.4
+          },
+          "source_material_name": "SS 321 / 347",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 277.2,
+              "recommended": 326.34,
+              "high": 352.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.04,
+              "factor_wrt_ss304": 1.354839,
+              "factor_wrt_ss316_ss316l": 1.157234,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 272.16,
+              "recommended": 357.336,
+              "high": 403.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.04,
+              "factor_wrt_ss304": 1.354828,
+              "factor_wrt_ss316_ss316l": 0.920969,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 236.88,
+              "recommended": 289.296,
+              "high": 317.52,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.04,
+              "factor_wrt_ss304": 1.354826,
+              "factor_wrt_ss316_ss316l": 0.778724,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 236.88,
+              "recommended": 263.088,
+              "high": 277.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.04,
+              "factor_wrt_ss304": 1.354867,
+              "factor_wrt_ss316_ss316l": 0.800877,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 221.76,
+              "recommended": 277.452,
+              "high": 307.44,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.04,
+              "factor_wrt_ss304": 1.354812,
+              "factor_wrt_ss316_ss316l": 0.84396,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 252.0,
+              "recommended": 284.76,
+              "high": 302.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.04,
+              "factor_wrt_ss304": 1.354839,
+              "factor_wrt_ss316_ss316l": 0.874839,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 5.04,
+            "2022": 5.04,
+            "2023": 5.04,
+            "2024": 5.04,
+            "2025": 5.04,
+            "2026": 5.04
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "SS316Ti",
+          "pipe_mat_std": [
+            "A312 TP316Ti"
+          ],
+          "raw_material_basis": "SS316Ti stabilized stainless stock",
+          "rate_inr_per_kg": {
+            "low": 425.0,
+            "recommended": 480.25,
+            "high": 510.0
+          },
+          "source_material_name": "SS 316Ti",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 467.5,
+              "recommended": 550.375,
+              "high": 595.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 8.5,
+              "factor_wrt_ss304": 2.284946,
+              "factor_wrt_ss316_ss316l": 1.951684,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 459.0,
+              "recommended": 602.65,
+              "high": 680.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 8.5,
+              "factor_wrt_ss304": 2.284929,
+              "factor_wrt_ss316_ss316l": 1.553222,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 399.5,
+              "recommended": 487.9,
+              "high": 535.5,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 8.5,
+              "factor_wrt_ss304": 2.284925,
+              "factor_wrt_ss316_ss316l": 1.313324,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 399.5,
+              "recommended": 443.7,
+              "high": 467.5,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 8.5,
+              "factor_wrt_ss304": 2.284993,
+              "factor_wrt_ss316_ss316l": 1.350685,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 374.0,
+              "recommended": 467.925,
+              "high": 518.5,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 8.5,
+              "factor_wrt_ss304": 2.284902,
+              "factor_wrt_ss316_ss316l": 1.423346,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 425.0,
+              "recommended": 480.25,
+              "high": 510.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 8.5,
+              "factor_wrt_ss304": 2.284946,
+              "factor_wrt_ss316_ss316l": 1.475422,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 8.5,
+            "2022": 8.5,
+            "2023": 8.5,
+            "2024": 8.5,
+            "2025": 8.5,
+            "2026": 8.5
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "25Cr, 20Ni",
+          "pipe_mat_std": [
+            "A312 TP310"
+          ],
+          "raw_material_basis": "High nickel, high chromium stainless stock",
+          "rate_inr_per_kg": {
+            "low": 460.0,
+            "recommended": 519.8,
+            "high": 552.0
+          },
+          "source_material_name": "SS 310",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 506.0,
+              "recommended": 595.7,
+              "high": 644.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 9.2,
+              "factor_wrt_ss304": 2.473118,
+              "factor_wrt_ss316_ss316l": 2.112411,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 496.8,
+              "recommended": 652.28,
+              "high": 736.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 9.2,
+              "factor_wrt_ss304": 2.4731,
+              "factor_wrt_ss316_ss316l": 1.681134,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 432.4,
+              "recommended": 528.08,
+              "high": 579.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 9.2,
+              "factor_wrt_ss304": 2.473095,
+              "factor_wrt_ss316_ss316l": 1.42148,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 432.4,
+              "recommended": 480.24,
+              "high": 506.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 9.2,
+              "factor_wrt_ss304": 2.473169,
+              "factor_wrt_ss316_ss316l": 1.461918,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 404.8,
+              "recommended": 506.46,
+              "high": 561.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 9.2,
+              "factor_wrt_ss304": 2.47307,
+              "factor_wrt_ss316_ss316l": 1.540563,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 460.0,
+              "recommended": 519.8,
+              "high": 552.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 9.2,
+              "factor_wrt_ss304": 2.473118,
+              "factor_wrt_ss316_ss316l": 1.596928,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 9.2,
+            "2022": 9.2,
+            "2023": 9.2,
+            "2024": 9.2,
+            "2025": 9.2,
+            "2026": 9.2
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "High Mo Austenitic SS - SS317",
+          "pipe_mat_std": [
+            "A312 TP317"
+          ],
+          "raw_material_basis": "SS317 high Mo stainless stock",
+          "rate_inr_per_kg": {
+            "low": 299.6,
+            "recommended": 377.86,
+            "high": 420.0
+          },
+          "source_material_name": "SS 317",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 246.1,
+              "recommended": 327.935,
+              "high": 372.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 5.064633,
+              "factor_wrt_ss304": 1.361461,
+              "factor_wrt_ss316_ss316l": 1.16289,
+              "revision_note": "Revised: anchored to SS316/316L. Min = 1.07×SS316L min; Max = 1.20×SS316L max."
+            },
+            "2022": {
+              "low": 331.7,
+              "recommended": 451.495,
+              "high": 516.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 6.368054,
+              "factor_wrt_ss304": 1.711829,
+              "factor_wrt_ss316_ss316l": 1.163647,
+              "revision_note": "Revised: anchored to SS316/316L. Min = 1.07×SS316L min; Max = 1.20×SS316L max."
+            },
+            "2023": {
+              "low": 321.0,
+              "recommended": 432.15,
+              "high": 492.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 7.528746,
+              "factor_wrt_ss304": 2.023837,
+              "factor_wrt_ss316_ss316l": 1.163257,
+              "revision_note": "Revised: anchored to SS316/316L. Min = 1.07×SS316L min; Max = 1.20×SS316L max."
+            },
+            "2024": {
+              "low": 288.9,
+              "recommended": 381.915,
+              "high": 432.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 7.316379,
+              "factor_wrt_ss304": 1.966809,
+              "factor_wrt_ss316_ss316l": 1.162603,
+              "revision_note": "Revised: anchored to SS316/316L. Min = 1.07×SS316L min; Max = 1.20×SS316L max."
+            },
+            "2025": {
+              "low": 299.6,
+              "recommended": 381.76,
+              "high": 426.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 6.934787,
+              "factor_wrt_ss304": 1.864154,
+              "factor_wrt_ss316_ss316l": 1.161247,
+              "revision_note": "Revised: anchored to SS316/316L. Min = 1.07×SS316L min; Max = 1.20×SS316L max."
+            },
+            "2026": {
+              "low": 299.6,
+              "recommended": 377.86,
+              "high": 420.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 6.687788,
+              "factor_wrt_ss304": 1.797792,
+              "factor_wrt_ss316_ss316l": 1.16086,
+              "revision_note": "Revised: anchored to SS316/316L. Min = 1.07×SS316L min; Max = 1.20×SS316L max."
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 5.064633,
+            "2022": 6.368054,
+            "2023": 7.528746,
+            "2024": 7.316379,
+            "2025": 6.934787,
+            "2026": 6.687788
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "6Mo Austenitic SS",
+          "pipe_mat_std": [
+            "A312 N08367"
+          ],
+          "raw_material_basis": "6Mo / super austenitic stainless stock",
+          "rate_inr_per_kg": {
+            "low": 929.0,
+            "recommended": 1049.77,
+            "high": 1114.8
+          },
+          "source_material_name": "6Mo austenitic SS",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 1021.9,
+              "recommended": 1203.055,
+              "high": 1300.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 18.58,
+              "factor_wrt_ss304": 4.994624,
+              "factor_wrt_ss316_ss316l": 4.266152,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 1003.32,
+              "recommended": 1317.322,
+              "high": 1486.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 18.58,
+              "factor_wrt_ss304": 4.994586,
+              "factor_wrt_ss316_ss316l": 3.39516,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 873.26,
+              "recommended": 1066.492,
+              "high": 1170.54,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 18.58,
+              "factor_wrt_ss304": 4.994577,
+              "factor_wrt_ss316_ss316l": 2.870773,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 873.26,
+              "recommended": 969.876,
+              "high": 1021.9,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 18.58,
+              "factor_wrt_ss304": 4.994727,
+              "factor_wrt_ss316_ss316l": 2.952438,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 817.52,
+              "recommended": 1022.829,
+              "high": 1133.38,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 18.58,
+              "factor_wrt_ss304": 4.994526,
+              "factor_wrt_ss316_ss316l": 3.111267,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 929.0,
+              "recommended": 1049.77,
+              "high": 1114.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 18.58,
+              "factor_wrt_ss304": 4.994624,
+              "factor_wrt_ss316_ss316l": 3.2251,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 18.58,
+            "2022": 18.58,
+            "2023": 18.58,
+            "2024": 18.58,
+            "2025": 18.58,
+            "2026": 18.58
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "904L Austenitic SS",
+          "pipe_mat_std": [
+            "A312 N08904"
+          ],
+          "raw_material_basis": "904L super austenitic stainless stock",
+          "rate_inr_per_kg": {
+            "low": 885.0,
+            "recommended": 1000.05,
+            "high": 1062.0
+          },
+          "source_material_name": "904L",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 973.5,
+              "recommended": 1146.075,
+              "high": 1239.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 17.7,
+              "factor_wrt_ss304": 4.758065,
+              "factor_wrt_ss316_ss316l": 4.064096,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 955.8,
+              "recommended": 1254.93,
+              "high": 1416.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 17.7,
+              "factor_wrt_ss304": 4.758028,
+              "factor_wrt_ss316_ss316l": 3.234356,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 831.9,
+              "recommended": 1015.98,
+              "high": 1115.1,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 17.7,
+              "factor_wrt_ss304": 4.75802,
+              "factor_wrt_ss316_ss316l": 2.734805,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 831.9,
+              "recommended": 923.94,
+              "high": 973.5,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 17.7,
+              "factor_wrt_ss304": 4.758163,
+              "factor_wrt_ss316_ss316l": 2.812603,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 778.8,
+              "recommended": 974.385,
+              "high": 1079.7,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 17.7,
+              "factor_wrt_ss304": 4.757972,
+              "factor_wrt_ss316_ss316l": 2.963909,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 885.0,
+              "recommended": 1000.05,
+              "high": 1062.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 17.7,
+              "factor_wrt_ss304": 4.758065,
+              "factor_wrt_ss316_ss316l": 3.07235,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 17.7,
+            "2022": 17.7,
+            "2023": 17.7,
+            "2024": 17.7,
+            "2025": 17.7,
+            "2026": 17.7
+          },
+          "percentile_used": 0.65
+        }
+      ]
+    },
+    {
+      "basic_mat_of_const": "Ferritic/Austenitic Duplex Stainless Steel",
+      "children": [
+        {
+          "ch_comp": "Lean Duplex",
+          "pipe_mat_std": [
+            "A790 S32304"
+          ],
+          "raw_material_basis": "Lean duplex coil / billet",
+          "rate_inr_per_kg": {
+            "low": 177.0,
+            "recommended": 200.01,
+            "high": 212.4
+          },
+          "source_material_name": "Duplex 2304",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 194.7,
+              "recommended": 229.215,
+              "high": 247.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.54,
+              "factor_wrt_ss304": 0.951613,
+              "factor_wrt_ss316_ss316l": 0.812819,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 191.16,
+              "recommended": 250.986,
+              "high": 283.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.54,
+              "factor_wrt_ss304": 0.951606,
+              "factor_wrt_ss316_ss316l": 0.646871,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 166.38,
+              "recommended": 203.196,
+              "high": 223.02,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.54,
+              "factor_wrt_ss304": 0.951604,
+              "factor_wrt_ss316_ss316l": 0.546961,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 166.38,
+              "recommended": 184.788,
+              "high": 194.7,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.54,
+              "factor_wrt_ss304": 0.951633,
+              "factor_wrt_ss316_ss316l": 0.562521,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 155.76,
+              "recommended": 194.877,
+              "high": 215.94,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.54,
+              "factor_wrt_ss304": 0.951594,
+              "factor_wrt_ss316_ss316l": 0.592782,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 177.0,
+              "recommended": 200.01,
+              "high": 212.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 3.54,
+              "factor_wrt_ss304": 0.951613,
+              "factor_wrt_ss316_ss316l": 0.61447,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 3.54,
+            "2022": 3.54,
+            "2023": 3.54,
+            "2024": 3.54,
+            "2025": 3.54,
+            "2026": 3.54
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "22Cr, 5½Ni, 3Mo",
+          "pipe_mat_std": [
+            "A790 S31803",
+            "A790 S32205"
+          ],
+          "raw_material_basis": "Duplex 2205 coil / billet",
+          "rate_inr_per_kg": {
+            "low": 442.5,
+            "recommended": 500.025,
+            "high": 531.0
+          },
+          "source_material_name": "Duplex 2205",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 486.75,
+              "recommended": 573.0375,
+              "high": 619.5,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 8.85,
+              "factor_wrt_ss304": 2.379032,
+              "factor_wrt_ss316_ss316l": 2.032048,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 477.9,
+              "recommended": 627.465,
+              "high": 708.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 8.85,
+              "factor_wrt_ss304": 2.379014,
+              "factor_wrt_ss316_ss316l": 1.617178,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 415.95,
+              "recommended": 507.99,
+              "high": 557.55,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 8.85,
+              "factor_wrt_ss304": 2.37901,
+              "factor_wrt_ss316_ss316l": 1.367402,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 415.95,
+              "recommended": 461.97,
+              "high": 486.75,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 8.85,
+              "factor_wrt_ss304": 2.379081,
+              "factor_wrt_ss316_ss316l": 1.406301,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 389.4,
+              "recommended": 487.1925,
+              "high": 539.85,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 8.85,
+              "factor_wrt_ss304": 2.378986,
+              "factor_wrt_ss316_ss316l": 1.481954,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 442.5,
+              "recommended": 500.025,
+              "high": 531.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 8.85,
+              "factor_wrt_ss304": 2.379032,
+              "factor_wrt_ss316_ss316l": 1.536175,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 8.85,
+            "2022": 8.85,
+            "2023": 8.85,
+            "2024": 8.85,
+            "2025": 8.85,
+            "2026": 8.85
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "High alloy duplex",
+          "pipe_mat_std": [
+            "A790 S32900",
+            "A790 S32950",
+            "A790 S32550",
+            "A790 S32906"
+          ],
+          "raw_material_basis": "Higher alloy duplex stainless stock",
+          "rate_inr_per_kg": {
+            "low": 486.5,
+            "recommended": 549.745,
+            "high": 583.8
+          },
+          "source_material_name": "Other duplex grades",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 535.15,
+              "recommended": 630.0175,
+              "high": 681.1,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 9.73,
+              "factor_wrt_ss304": 2.615591,
+              "factor_wrt_ss316_ss316l": 2.234105,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 525.42,
+              "recommended": 689.857,
+              "high": 778.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 9.73,
+              "factor_wrt_ss304": 2.615572,
+              "factor_wrt_ss316_ss316l": 1.777982,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 457.31,
+              "recommended": 558.502,
+              "high": 612.99,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 9.73,
+              "factor_wrt_ss304": 2.615567,
+              "factor_wrt_ss316_ss316l": 1.50337,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 457.31,
+              "recommended": 507.906,
+              "high": 535.15,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 9.73,
+              "factor_wrt_ss304": 2.615645,
+              "factor_wrt_ss316_ss316l": 1.546137,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 428.12,
+              "recommended": 535.6365,
+              "high": 593.53,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 9.73,
+              "factor_wrt_ss304": 2.61554,
+              "factor_wrt_ss316_ss316l": 1.629313,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 486.5,
+              "recommended": 549.745,
+              "high": 583.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 9.73,
+              "factor_wrt_ss304": 2.615591,
+              "factor_wrt_ss316_ss316l": 1.688925,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 9.73,
+            "2022": 9.73,
+            "2023": 9.73,
+            "2024": 9.73,
+            "2025": 9.73,
+            "2026": 9.73
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "Super Duplex",
+          "pipe_mat_std": [
+            "A790 S32750",
+            "A790 S32760",
+            "A790 S39274"
+          ],
+          "raw_material_basis": "Super duplex stainless stock",
+          "rate_inr_per_kg": {
+            "low": 641.5,
+            "recommended": 724.895,
+            "high": 769.8
+          },
+          "source_material_name": "Super Duplex",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 705.65,
+              "recommended": 830.7425,
+              "high": 898.1,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 12.83,
+              "factor_wrt_ss304": 3.448925,
+              "factor_wrt_ss316_ss316l": 2.945895,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 692.82,
+              "recommended": 909.647,
+              "high": 1026.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 12.83,
+              "factor_wrt_ss304": 3.448899,
+              "factor_wrt_ss316_ss316l": 2.344451,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 603.01,
+              "recommended": 736.442,
+              "high": 808.29,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 12.83,
+              "factor_wrt_ss304": 3.448892,
+              "factor_wrt_ss316_ss316l": 1.982347,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 603.01,
+              "recommended": 669.726,
+              "high": 705.65,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 12.83,
+              "factor_wrt_ss304": 3.448996,
+              "factor_wrt_ss316_ss316l": 2.03874,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 564.52,
+              "recommended": 706.2915,
+              "high": 782.63,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 12.83,
+              "factor_wrt_ss304": 3.448857,
+              "factor_wrt_ss316_ss316l": 2.148415,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 641.5,
+              "recommended": 724.895,
+              "high": 769.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 12.83,
+              "factor_wrt_ss304": 3.448925,
+              "factor_wrt_ss316_ss316l": 2.22702,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 12.83,
+            "2022": 12.83,
+            "2023": 12.83,
+            "2024": 12.83,
+            "2025": 12.83,
+            "2026": 12.83
+          },
+          "percentile_used": 0.65
+        }
+      ]
+    },
+    {
+      "basic_mat_of_const": "Non-Ferrous Materials",
+      "children": [
+        {
+          "ch_comp": "Titanium",
+          "pipe_mat_std": [
+            "B861",
+            "B862"
+          ],
+          "raw_material_basis": "Titanium sponge / slab / billet / strip",
+          "rate_inr_per_kg": {
+            "low": 796.5,
+            "recommended": 900.045,
+            "high": 955.8
+          },
+          "source_material_name": "Titanium",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 876.15,
+              "recommended": 1031.4675,
+              "high": 1115.1,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 15.93,
+              "factor_wrt_ss304": 4.282258,
+              "factor_wrt_ss316_ss316l": 3.657686,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 860.22,
+              "recommended": 1129.437,
+              "high": 1274.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 15.93,
+              "factor_wrt_ss304": 4.282226,
+              "factor_wrt_ss316_ss316l": 2.91092,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 748.71,
+              "recommended": 914.382,
+              "high": 1003.59,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 15.93,
+              "factor_wrt_ss304": 4.282218,
+              "factor_wrt_ss316_ss316l": 2.461324,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 748.71,
+              "recommended": 831.546,
+              "high": 876.15,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 15.93,
+              "factor_wrt_ss304": 4.282346,
+              "factor_wrt_ss316_ss316l": 2.531342,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 700.92,
+              "recommended": 876.9465,
+              "high": 971.73,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 15.93,
+              "factor_wrt_ss304": 4.282174,
+              "factor_wrt_ss316_ss316l": 2.667518,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 796.5,
+              "recommended": 900.045,
+              "high": 955.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 15.93,
+              "factor_wrt_ss304": 4.282258,
+              "factor_wrt_ss316_ss316l": 2.765115,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 15.93,
+            "2022": 15.93,
+            "2023": 15.93,
+            "2024": 15.93,
+            "2025": 15.93,
+            "2026": 15.93
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "Inconel / Incoloy 825",
+          "pipe_mat_std": [
+            "B423",
+            "B705",
+            "UNS N08825"
+          ],
+          "raw_material_basis": "Ni-Fe-Cr-Mo alloy stock",
+          "rate_inr_per_kg": {
+            "low": 1150.5,
+            "recommended": 1300.065,
+            "high": 1380.6
+          },
+          "source_material_name": "Incoloy / Inconel 825",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 1265.55,
+              "recommended": 1489.8975,
+              "high": 1610.7,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 23.01,
+              "factor_wrt_ss304": 6.185484,
+              "factor_wrt_ss316_ss316l": 5.283324,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 1242.54,
+              "recommended": 1631.409,
+              "high": 1840.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 23.01,
+              "factor_wrt_ss304": 6.185437,
+              "factor_wrt_ss316_ss316l": 4.204662,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 1081.47,
+              "recommended": 1320.774,
+              "high": 1449.63,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 23.01,
+              "factor_wrt_ss304": 6.185426,
+              "factor_wrt_ss316_ss316l": 3.555246,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 1081.47,
+              "recommended": 1201.122,
+              "high": 1265.55,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 23.01,
+              "factor_wrt_ss304": 6.185611,
+              "factor_wrt_ss316_ss316l": 3.656384,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 1012.44,
+              "recommended": 1266.7005,
+              "high": 1403.61,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 23.01,
+              "factor_wrt_ss304": 6.185363,
+              "factor_wrt_ss316_ss316l": 3.853081,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 1150.5,
+              "recommended": 1300.065,
+              "high": 1380.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 23.01,
+              "factor_wrt_ss304": 6.185484,
+              "factor_wrt_ss316_ss316l": 3.994055,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 23.01,
+            "2022": 23.01,
+            "2023": 23.01,
+            "2024": 23.01,
+            "2025": 23.01,
+            "2026": 23.01
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "Inconel / Incoloy 800",
+          "pipe_mat_std": [
+            "B407",
+            "UNS N08800"
+          ],
+          "raw_material_basis": "Ni-Fe-Cr alloy stock",
+          "rate_inr_per_kg": {
+            "low": 730.0,
+            "recommended": 824.9,
+            "high": 876.0
+          },
+          "source_material_name": "Incoloy 800",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 803.0,
+              "recommended": 945.35,
+              "high": 1022.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 14.6,
+              "factor_wrt_ss304": 3.924731,
+              "factor_wrt_ss316_ss316l": 3.352305,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 788.4,
+              "recommended": 1035.14,
+              "high": 1168.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 14.6,
+              "factor_wrt_ss304": 3.924701,
+              "factor_wrt_ss316_ss316l": 2.667887,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 686.2,
+              "recommended": 838.04,
+              "high": 919.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 14.6,
+              "factor_wrt_ss304": 3.924694,
+              "factor_wrt_ss316_ss316l": 2.255828,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 686.2,
+              "recommended": 762.12,
+              "high": 803.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 14.6,
+              "factor_wrt_ss304": 3.924812,
+              "factor_wrt_ss316_ss316l": 2.32,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 642.4,
+              "recommended": 803.73,
+              "high": 890.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 14.6,
+              "factor_wrt_ss304": 3.924655,
+              "factor_wrt_ss316_ss316l": 2.444806,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 730.0,
+              "recommended": 824.9,
+              "high": 876.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 14.6,
+              "factor_wrt_ss304": 3.924731,
+              "factor_wrt_ss316_ss316l": 2.534255,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 14.6,
+            "2022": 14.6,
+            "2023": 14.6,
+            "2024": 14.6,
+            "2025": 14.6,
+            "2026": 14.6
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "Inconel 625",
+          "pipe_mat_std": [
+            "B444",
+            "B705",
+            "UNS N06625"
+          ],
+          "raw_material_basis": "Ni-Cr-Mo-Nb alloy stock",
+          "rate_inr_per_kg": {
+            "low": 2124.0,
+            "recommended": 2400.12,
+            "high": 2548.8
+          },
+          "source_material_name": "Inconel 625",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 2336.4,
+              "recommended": 2750.58,
+              "high": 2973.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 42.48,
+              "factor_wrt_ss304": 11.419355,
+              "factor_wrt_ss316_ss316l": 9.75383,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 2293.92,
+              "recommended": 3011.832,
+              "high": 3398.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 42.48,
+              "factor_wrt_ss304": 11.419268,
+              "factor_wrt_ss316_ss316l": 7.762454,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 1996.56,
+              "recommended": 2438.352,
+              "high": 2676.24,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 42.48,
+              "factor_wrt_ss304": 11.419248,
+              "factor_wrt_ss316_ss316l": 6.563532,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 1996.56,
+              "recommended": 2217.456,
+              "high": 2336.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 42.48,
+              "factor_wrt_ss304": 11.41959,
+              "factor_wrt_ss316_ss316l": 6.750247,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 1869.12,
+              "recommended": 2338.524,
+              "high": 2591.28,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 42.48,
+              "factor_wrt_ss304": 11.419132,
+              "factor_wrt_ss316_ss316l": 7.113381,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 2124.0,
+              "recommended": 2400.12,
+              "high": 2548.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 42.48,
+              "factor_wrt_ss304": 11.419355,
+              "factor_wrt_ss316_ss316l": 7.373641,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 42.48,
+            "2022": 42.48,
+            "2023": 42.48,
+            "2024": 42.48,
+            "2025": 42.48,
+            "2026": 42.48
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "Inconel 600",
+          "pipe_mat_std": [
+            "B167",
+            "B517",
+            "UNS N06600"
+          ],
+          "raw_material_basis": "High nickel chromium alloy stock",
+          "rate_inr_per_kg": {
+            "low": 1327.5,
+            "recommended": 1500.075,
+            "high": 1593.0
+          },
+          "source_material_name": "Inconel 600",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 1460.25,
+              "recommended": 1719.1125,
+              "high": 1858.5,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 26.55,
+              "factor_wrt_ss304": 7.137097,
+              "factor_wrt_ss316_ss316l": 6.096144,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 1433.7,
+              "recommended": 1882.395,
+              "high": 2124.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 26.55,
+              "factor_wrt_ss304": 7.137043,
+              "factor_wrt_ss316_ss316l": 4.851534,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 1247.85,
+              "recommended": 1523.97,
+              "high": 1672.65,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 26.55,
+              "factor_wrt_ss304": 7.13703,
+              "factor_wrt_ss316_ss316l": 4.102207,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 1247.85,
+              "recommended": 1385.91,
+              "high": 1460.25,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 26.55,
+              "factor_wrt_ss304": 7.137244,
+              "factor_wrt_ss316_ss316l": 4.218904,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 1168.2,
+              "recommended": 1461.5775,
+              "high": 1619.55,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 26.55,
+              "factor_wrt_ss304": 7.136957,
+              "factor_wrt_ss316_ss316l": 4.445863,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 1327.5,
+              "recommended": 1500.075,
+              "high": 1593.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 26.55,
+              "factor_wrt_ss304": 7.137097,
+              "factor_wrt_ss316_ss316l": 4.608525,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 26.55,
+            "2022": 26.55,
+            "2023": 26.55,
+            "2024": 26.55,
+            "2025": 26.55,
+            "2026": 26.55
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "Hastelloy C / B family",
+          "pipe_mat_std": [
+            "B622",
+            "B619",
+            "UNS N10276",
+            "UNS N10665"
+          ],
+          "raw_material_basis": "Ni-Mo-Cr corrosion resistant alloy stock",
+          "rate_inr_per_kg": {
+            "low": 2655.0,
+            "recommended": 3000.15,
+            "high": 3186.0
+          },
+          "source_material_name": "Hastelloy C / B family",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 2920.5,
+              "recommended": 3438.225,
+              "high": 3717.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 53.1,
+              "factor_wrt_ss304": 14.274194,
+              "factor_wrt_ss316_ss316l": 12.192287,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 2867.4,
+              "recommended": 3764.79,
+              "high": 4248.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 53.1,
+              "factor_wrt_ss304": 14.274085,
+              "factor_wrt_ss316_ss316l": 9.703067,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 2495.7,
+              "recommended": 3047.94,
+              "high": 3345.3,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 53.1,
+              "factor_wrt_ss304": 14.27406,
+              "factor_wrt_ss316_ss316l": 8.204415,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 2495.7,
+              "recommended": 2771.82,
+              "high": 2920.5,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 53.1,
+              "factor_wrt_ss304": 14.274488,
+              "factor_wrt_ss316_ss316l": 8.437808,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 2336.4,
+              "recommended": 2923.155,
+              "high": 3239.1,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 53.1,
+              "factor_wrt_ss304": 14.273915,
+              "factor_wrt_ss316_ss316l": 8.891726,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 2655.0,
+              "recommended": 3000.15,
+              "high": 3186.0,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 53.1,
+              "factor_wrt_ss304": 14.274194,
+              "factor_wrt_ss316_ss316l": 9.217051,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 53.1,
+            "2022": 53.1,
+            "2023": 53.1,
+            "2024": 53.1,
+            "2025": 53.1,
+            "2026": 53.1
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "Alloy 20",
+          "pipe_mat_std": [
+            "B729",
+            "B464",
+            "UNS N08020"
+          ],
+          "raw_material_basis": "Ni-Cr-Fe alloy stock",
+          "rate_inr_per_kg": {
+            "low": 796.5,
+            "recommended": 900.045,
+            "high": 955.8
+          },
+          "source_material_name": "Alloy 20",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 876.15,
+              "recommended": 1031.4675,
+              "high": 1115.1,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 15.93,
+              "factor_wrt_ss304": 4.282258,
+              "factor_wrt_ss316_ss316l": 3.657686,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 860.22,
+              "recommended": 1129.437,
+              "high": 1274.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 15.93,
+              "factor_wrt_ss304": 4.282226,
+              "factor_wrt_ss316_ss316l": 2.91092,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 748.71,
+              "recommended": 914.382,
+              "high": 1003.59,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 15.93,
+              "factor_wrt_ss304": 4.282218,
+              "factor_wrt_ss316_ss316l": 2.461324,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 748.71,
+              "recommended": 831.546,
+              "high": 876.15,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 15.93,
+              "factor_wrt_ss304": 4.282346,
+              "factor_wrt_ss316_ss316l": 2.531342,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 700.92,
+              "recommended": 876.9465,
+              "high": 971.73,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 15.93,
+              "factor_wrt_ss304": 4.282174,
+              "factor_wrt_ss316_ss316l": 2.667518,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 796.5,
+              "recommended": 900.045,
+              "high": 955.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 15.93,
+              "factor_wrt_ss304": 4.282258,
+              "factor_wrt_ss316_ss316l": 2.765115,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 15.93,
+            "2022": 15.93,
+            "2023": 15.93,
+            "2024": 15.93,
+            "2025": 15.93,
+            "2026": 15.93
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "Nickel 200 / 201",
+          "pipe_mat_std": [
+            "B161",
+            "B725",
+            "UNS N02200",
+            "UNS N02201"
+          ],
+          "raw_material_basis": "Commercial pure nickel stock",
+          "rate_inr_per_kg": {
+            "low": 1725.5,
+            "recommended": 1949.815,
+            "high": 2070.6
+          },
+          "source_material_name": "Nickel 200 / 201",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 1898.05,
+              "recommended": 2234.5225,
+              "high": 2415.7,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 34.51,
+              "factor_wrt_ss304": 9.276882,
+              "factor_wrt_ss316_ss316l": 7.923839,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 1863.54,
+              "recommended": 2446.759,
+              "high": 2760.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 34.51,
+              "factor_wrt_ss304": 9.276811,
+              "factor_wrt_ss316_ss316l": 6.30608,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 1621.97,
+              "recommended": 1980.874,
+              "high": 2174.13,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 34.51,
+              "factor_wrt_ss304": 9.276795,
+              "factor_wrt_ss316_ss316l": 5.332097,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 1621.97,
+              "recommended": 1801.422,
+              "high": 1898.05,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 34.51,
+              "factor_wrt_ss304": 9.277073,
+              "factor_wrt_ss316_ss316l": 5.483781,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 1518.44,
+              "recommended": 1899.7755,
+              "high": 2105.11,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 34.51,
+              "factor_wrt_ss304": 9.276701,
+              "factor_wrt_ss316_ss316l": 5.778785,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 1725.5,
+              "recommended": 1949.815,
+              "high": 2070.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 34.51,
+              "factor_wrt_ss304": 9.276882,
+              "factor_wrt_ss316_ss316l": 5.990215,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 34.51,
+            "2022": 34.51,
+            "2023": 34.51,
+            "2024": 34.51,
+            "2025": 34.51,
+            "2026": 34.51
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "Monel 400",
+          "pipe_mat_std": [
+            "B165",
+            "B725",
+            "UNS N04400"
+          ],
+          "raw_material_basis": "Ni-Cu alloy stock",
+          "rate_inr_per_kg": {
+            "low": 1593.0,
+            "recommended": 1800.09,
+            "high": 1911.6
+          },
+          "source_material_name": "Monel 400",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 1752.3,
+              "recommended": 2062.935,
+              "high": 2230.2,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 31.86,
+              "factor_wrt_ss304": 8.564516,
+              "factor_wrt_ss316_ss316l": 7.315372,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 1720.44,
+              "recommended": 2258.874,
+              "high": 2548.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 31.86,
+              "factor_wrt_ss304": 8.564451,
+              "factor_wrt_ss316_ss316l": 5.82184,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 1497.42,
+              "recommended": 1828.764,
+              "high": 2007.18,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 31.86,
+              "factor_wrt_ss304": 8.564436,
+              "factor_wrt_ss316_ss316l": 4.922649,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 1497.42,
+              "recommended": 1663.092,
+              "high": 1752.3,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 31.86,
+              "factor_wrt_ss304": 8.564693,
+              "factor_wrt_ss316_ss316l": 5.062685,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 1401.84,
+              "recommended": 1753.893,
+              "high": 1943.46,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 31.86,
+              "factor_wrt_ss304": 8.564349,
+              "factor_wrt_ss316_ss316l": 5.335036,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 1593.0,
+              "recommended": 1800.09,
+              "high": 1911.6,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 31.86,
+              "factor_wrt_ss304": 8.564516,
+              "factor_wrt_ss316_ss316l": 5.53023,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 31.86,
+            "2022": 31.86,
+            "2023": 31.86,
+            "2024": 31.86,
+            "2025": 31.86,
+            "2026": 31.86
+          },
+          "percentile_used": 0.65
+        },
+        {
+          "ch_comp": "Aluminium",
+          "pipe_mat_std": [
+            "B241",
+            "B345"
+          ],
+          "raw_material_basis": "Aluminium billet / extrusion stock / strip",
+          "rate_inr_per_kg": {
+            "low": 336.5,
+            "recommended": 380.245,
+            "high": 403.8
+          },
+          "source_material_name": "Aluminium",
+          "yearly_rate_inr_per_kg": {
+            "2021": {
+              "low": 370.15,
+              "recommended": 435.7675,
+              "high": 471.1,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 6.73,
+              "factor_wrt_ss304": 1.80914,
+              "factor_wrt_ss316_ss316l": 1.545275,
+              "revision_note": "No change"
+            },
+            "2022": {
+              "low": 363.42,
+              "recommended": 477.157,
+              "high": 538.4,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 6.73,
+              "factor_wrt_ss304": 1.809126,
+              "factor_wrt_ss316_ss316l": 1.229786,
+              "revision_note": "No change"
+            },
+            "2023": {
+              "low": 316.31,
+              "recommended": 386.302,
+              "high": 423.99,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 6.73,
+              "factor_wrt_ss304": 1.809123,
+              "factor_wrt_ss316_ss316l": 1.039844,
+              "revision_note": "No change"
+            },
+            "2024": {
+              "low": 316.31,
+              "recommended": 351.306,
+              "high": 370.15,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 6.73,
+              "factor_wrt_ss304": 1.809177,
+              "factor_wrt_ss316_ss316l": 1.069425,
+              "revision_note": "No change"
+            },
+            "2025": {
+              "low": 296.12,
+              "recommended": 370.4865,
+              "high": 410.53,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 6.73,
+              "factor_wrt_ss304": 1.809104,
+              "factor_wrt_ss316_ss316l": 1.126955,
+              "revision_note": "No change"
+            },
+            "2026": {
+              "low": 336.5,
+              "recommended": 380.245,
+              "high": 403.8,
+              "percentile_used": 0.65,
+              "factor_wrt_cs": 6.73,
+              "factor_wrt_ss304": 1.80914,
+              "factor_wrt_ss316_ss316l": 1.168187,
+              "revision_note": "No change"
+            }
+          },
+          "factor_wrt_cs_by_year": {
+            "2021": 6.73,
+            "2022": 6.73,
+            "2023": 6.73,
+            "2024": 6.73,
+            "2025": 6.73,
+            "2026": 6.73
+          },
+          "percentile_used": 0.65
+        }
+      ]
+    },
+    {
+      "basic_mat_of_const": "Non-Metallic Materials",
+      "component_stock_price_references": [
+        {
+          "id": "flexible-graphite-foil-wingraph",
+          "reference_material_keys": ["GRAPHITE"],
+          "material_family": "Graphite",
+          "material_grade": "Flexible graphite; purity and gasket-specific grade not confirmed",
+          "stock_form": "Foil",
+          "listed_dimensions": "Supplier lists thickness up to 5 mm; required filler thickness not established",
+          "observed_rate_inr_per_kg": 350,
+          "minimum_order_kg": 50,
+          "source_supplier": "Win Graph Seals",
+          "source_title": "Flexible Graphite Foil",
+          "source_url": "https://www.wingraphseals.net/graphite-foil.html",
+          "reference_role": "candidate_gasket_constituent_basis",
+          "intended_use": "Candidate graphite constituent price reference for a future gasket raw-material model.",
+          "limitations": "Graphite is not steel. Purity, oxidation resistance, additives, density and required filler-tape dimensions are not confirmed. This is not approval for a particular gasket service and is not the price of a complete graphite or spiral-wound gasket."
+        },
+        {
+          "id": "ptfe-sheet-1mm-wingraph",
+          "reference_material_keys": ["PTFE"],
+          "material_family": "PTFE",
+          "material_grade": "PTFE; supplier describes virgin PTFE products",
+          "stock_form": "Sheet, roll packaging",
+          "listed_dimensions": "Thickness 1 mm; sheet area not confirmed",
+          "observed_rate_inr_per_kg": 1250,
+          "minimum_order_kg": null,
+          "source_supplier": "Win Graph Seals",
+          "source_title": "PTFE Sheet",
+          "source_url": "https://www.wingraphseals.net/ceramic-fabric.html",
+          "reference_role": "candidate_gasket_constituent_basis",
+          "intended_use": "Candidate sheet-stock input for a future cut-sheet PTFE gasket estimate.",
+          "limitations": "PTFE is not steel. Confirm grade, density, dimensions and certification. Do not use this sheet price automatically for spiral-wound filler tape, expanded PTFE or a finished gasket. Cutting yield and conversion factor remain undefined."
+        }
+      ],
+      "children": []
+    }
+  ]
+}
